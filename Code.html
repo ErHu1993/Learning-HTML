@@ -1,0 +1,201 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+            <title>Html的学习</title>
+            <!-- 风格设置 -->
+            <style>
+                span{
+                    font-size:32px;
+                    color:#900;
+                    text-align:center;
+                }
+           </style>
+            
+            <style type="text/css">
+                table tr td,th{border:1px solid #000;}
+            </style>
+    </head>
+    
+    <body>
+        <h1>h(x)标题</h>
+        <p>正文("p")</p>
+        <p>这是<span>李清照(单独格式"span")</span><strong>《咏桂》(加粗"strong")</strong>中的词句，在<em>李清照(斜体"em")</em>看来，<q>桂花暗淡青黄，性情温柔，淡泊自适，远比那些大红大紫争奇斗艳花值得称道。(引用"q")</q>
+        </p>
+        <blockquote>“暗淡轻黄体性柔，情疏迹远只香留。何须浅碧深红色，自是花中第一流。(缩进引用"blockquote")”</blockquote>
+        <p>
+        &nbsp;&nbsp;&nbsp;&nbsp;《咏桂》 <!-- &nbsp; 空格 <hr /> 分割线 <br /> 换行 -->
+        <hr />
+        暗淡轻黄体性柔，<br />
+        情疏迹远只香留。<br />
+        何须浅碧深红色，<br />
+        自是花中第一流。
+        </p>
+        <address>
+            本文的作者地址：<a href="mailto:199301055@qq">lilian</a>
+        </address>
+        <p>
+        一行代码块:<code> var i=i+300;</code>
+        <br />多行代码块:
+        <pre>
+            var message="欢迎";
+            for(var i=1;i<=10;i++)
+            {
+            alert(message);
+            }
+        </pre>
+        <!-- <pre> 标签不只是为显示计算机的源代码时用的，在你需要在网页中预显示格式时都可以使用它，只是<pre>标签的一个常见应用就是用来展示计算机的源代码。 -->
+        </p>
+        
+        <p>
+        <div id = "one">
+        <h3>有循序的list ordered:</h3>
+        <ol>
+            <li>精彩少年</li>
+            <li>美丽突然出现</li>
+            <li>触动心灵的旋律</li>
+        </ol>
+        </div>
+        <div id = "two">
+        <h3>无循序的list unordered</h3>
+        <ul>
+            <li>精彩少年</li>
+            <li>美丽突然出现</li>
+            <li>触动心灵的旋律</li>
+        </ul>
+        </div>
+        </p>
+        <!-- 如网页中的独立的栏目版块，就是一个典型的逻辑部分。就可以使用<div>标签作为容器。 -->
+        
+        <!-- 
+         创建表格的四个元素：
+         
+         table、tbody、tr、th、td
+         
+         1、<table>…</table>：整个表格以<table>标记开始、</table>标记结束。
+         
+         2、<tbody>…</tbody>：如果不加<thead><tbody><tfooter> , table表格加载完后才显示。加上这些表格结构， tbody包含行的内容下载完优先显示，不必等待表格结束后在显示，同时如果表格很长，用tbody分段，可以一部分一部分地显示。（通俗理解table 可以按结构一块块的显示，不在等整个表格加载完后显示。）
+         
+         3、<tr>…</tr>：表格的一行，所以有几对tr 表格就有几行。
+         
+         4、<td>…</td>：表格的一个单元格，一行中包含几对<td>...</td>，说明一行中就有几列。
+         
+         5、<th>…</th>：表格的头部的一个单元格，表格表头。
+         -->
+        <table summary = "摘要的内容是不会在浏览器中显示出来的。它的作用是增加表格的可读性(语义化)，使搜索引擎更好的读懂表格内容，还可以使屏幕阅读器更好的帮助特殊用户读取表格内容。">
+            <caption>2012年到2013年记录</caption>
+            <tr>
+                <th>班级</th>
+                <th>学生数</th>
+                <th>平均成绩</th>
+            </tr>
+            <tr>
+                <td>一班</td>
+                <td>30</td>
+                <td>89</td>
+            </tr>
+            <tr>
+                <td>二班</td>
+                <td>35</td>
+                <td>85</td>
+            </tr>
+            <tr>
+                <td>三班</td>
+                <td>32</td> 
+                <td>80</td>
+            </tr>
+        </table>
+        
+        
+        <!-- title属性的作用，鼠标滑过链接文字时会显示这个属性的文本内容。这个属性在实际网页开发中作用很大，主要方便搜索引擎了解链接地址的内容（语义化更友好），如右侧案例代码（8-12行）
+         target = "_blank" 会在新的浏览器窗口中打开
+         -->
+        <ul>
+            <li><a href="#" title="前端开发面试心法">前端开发面试心法</a> </li>
+            <li><a href="#" title="零基础学习html">零基础学习html</a></li>
+            <li><a href="#" title="JavaScript全攻略">JavaScript全攻略</a></li>
+        </ul>
+        <p>1922年的春天，一个想要成名名叫尼克•卡拉威（<a href="http://www.m1905.com/mdb/star/3316/" title = "托比•马奎尔Tobey Maguire 饰" target = "_blank">托比•马奎尔Tobey Maguire 饰</a>）的作家，离开了美国中西部，来到了纽约。那是一个道德感渐失，爵士乐流行，走私为王，股票飞涨的时代。为了追寻他的美国梦，他搬入纽约附近一海湾居住。</p>
+        <p>菲茨杰拉德，二十世纪美国文学巨擘之一，兼具作家和编剧双重身份。他以诗人的敏感和戏剧家的想象为"爵士乐时代"吟唱华丽挽歌，其诗人和梦想家的气质亦为那个奢靡年代的不二注解。</p>
+        
+        <!--
+         如果mailto后面同时有多个参数的话，第一个参数必须以“?”开头，后面的参数每一个都以“&”分隔。
+         cc=抄送地址
+         bcc=密件抄送地址
+         ;用分号隔开多个收件人地址,可实现多收件人
+         subject=邮件主题
+         body=邮件内容
+         -->
+        <a href="mailto:yy@imooc.com:199301055@qq.com?subject=主题&body=你好，对此评论有些想法。">对此有何感想，发送邮件给我</a>
+        
+        
+        <!--
+         1、src：标识图像的位置；
+         
+         2、alt：指定图像的描述性文本，当图像不可见时（下载不成功时），可看到该属性指定的文本；
+         
+         3、title：提供在图像可见时对图像的描述(鼠标滑过图片时显示的文本)；
+         
+         4、图像可以是GIF，PNG，JPEG格式的图像文件。
+         -->
+        <img src="http://img.mukewang.com/52da54ed0001ecfa04120172.jpg" alt="myimage" title="title啊">
+            
+            
+            <!--
+             1.<form> ：<form>标签是成对出现的，以<form>开始，以</form>结束。
+             
+             2.action ：浏览者输入的数据被传送到的地方,比如一个PHP页面(save.php)。
+             
+             3.method ： 数据传送的方式（get/post）。
+             
+             注意:
+             1、所有表单控件（文本框、文本域、按钮、单选框、复选框等）都必须放在 <form></form> 标签之间（否则用户输入的信息可提交不到服务器上哦！）。
+             
+             2、method : post/get 的区别这一部分内容属于后端程序员考虑的问题。感兴趣的小伙伴可以查看本小节的 wiki，里面有详细介绍。
+             
+             
+             type：
+             
+             当type="text"时，输入框为文本输入框;
+             
+             当type="password"时, 输入框为密码输入框。
+             
+             name：为文本框命名，以备后台程序ASP 、PHP使用。
+             
+             value：为文本输入框设置默认值。(一般起到提示作用)
+             
+             
+             
+             -->
+            <form method="GET" actio"save.php">
+                <label for="username">用户名:</label>
+                <input type="text"  name="username" id="username" value="" />
+                <label for="pass">密码:</label>
+                <input type="password"  name="pass" id="pass" value="" />
+                <input type="submit" value="确定"  name="submit" />
+                <input type="reset" value="重置" name="reset" />
+            </form>
+    </body>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</html>
