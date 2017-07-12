@@ -12,6 +12,45 @@
                 color:#900;
                 text-align:center;
             }
+            
+            propoty{
+                  text-indent:2em; /* 缩进 */
+                  text-decoration:line-through;/* 删除线 */
+                  text-decoration:underline;/* 下划线 */
+                  font-style:italic;/* 斜体 */
+                  font-weight:bold;/* 粗体 */
+                  font-family:"Microsoft Yahei";
+                  line-height:3em;/* 行高 */
+                  word-spacing:50px;/* 一个空格的距离 */
+                  letter-spacing:12px;/* 字符之间的距离 */
+                  text-align:center;
+            }
+            
+            /*
+             常用的块状元素有：
+             
+             <div>、<p>、<h1>...<h6>、<ol>、<ul>、<dl>、<table>、<address>、<blockquote> 、<form>
+             
+             块级元素特点：
+             
+             1、每个块级元素都从新的一行开始，并且其后的元素也另起一行。（真霸道，一个块级元素独占一行）
+             
+             2、元素的高度、宽度、行高以及顶和底边距都可设置。
+             
+             3、元素宽度在不设置的情况下，是它本身父容器的100%（和父元素的宽度一致），除非设定一个宽度。
+             
+             4. 设置a{display:block;padding-right:20px;padding-top:20px;padding-bottom:20px;padding-left:20px}就是将元素显示为块级元素。代码就是将内联元素a转换为块状元素，从而使a元素具有块状元素特点。
+             
+             常用的内联元素有：
+             
+             1.<a>、<span>、<br>、<i>、<em>、<strong>、<label>、<q>、<var>、<cite>、<code>
+             块状元素也可以通过代码display:inline将元素设置为内联元素。如下代码就是将块状元素div转换为内联元素，从而使 div 元素具有内联元素特点。
+             
+             
+             常用的内联块状元素有：
+             
+             <img>、<input>
+             */
         
             .green{
                 color:green;
@@ -30,6 +69,33 @@
             #green{
                 color:green;
             }
+            
+            /* 这行代码会使class名为food下的子元素li（水果、蔬菜）(第一代后代)加入红色实线边框。*/
+            
+            .food>li{border:1px solid red;}/*添加边框样式（粗细为1px， 颜色为红色的实线）*/
+            
+            .foodAll li{border:1px solid red;}/*后代选择器 , > 作用于元素的第一代后代，空格作用于元素的所有后代*/
+            
+            .first>span{border:1px solid red;}
+            
+            /* {color:red;font-size:20px;} 这个是通配符, 修改所有标签 */
+            
+            /* 伪类选择符 a 标签鼠标滑过的状态设置字体颜色变红 有兼容问题 */
+            a:hover{
+                color:red;
+                font-size:40px;
+            }
+            
+            /*
+            p{color:red;} 权值为1
+            p span{color:green;} 权值为1+1=2
+            .warning{color:white;} 权值为10
+            p span.warning{color:purple;} 权值为1+1+10=12
+            #footer .note p{color:yellow;} 权值为100+10+1=111
+             
+             p{color:red!important;}最高权值 !important要写在分号的前面
+             
+            */
             
            </style>
             
@@ -291,6 +357,28 @@
             <p>三年级时，我还是一个<span class="green bigsize">胆小如鼠</span>的小女孩，上课从来不敢回答老师提出的问题，生怕回答错了老师会批评我。就一直没有这个<span class="lineWidth">勇气</span>来回答老师提出的问题。学校举办的活动我也没勇气参加。</p>
             <p>到了三年级下学期时，我们班上了一节<span id="green">公开课</span>，老师提出了一个很简单的问题，班里很多同学都举手了，甚至成绩比我差很多的，也举手了，还说着："我来，我来。"我环顾了四周，就我没有举手。</p>
             
+            
+            <!-- 子选择器 -->
+            <p class="first">三年级时，<span>我还是一个<span>胆小如鼠</span>的小女孩</span>，上课从来不敢回答老师提出的问题，生怕回答错了老师会批评我。就一直没有这个勇气来<a>回答老师提出的问题 </a>。学校举办的活动我也没勇气参加。</p>
+            <h1>食物</h1>
+            <ul class="foodAll">
+                <li>水果
+                    <ul>
+                        <li>香蕉</li>
+                        <li>苹果</li>
+                        <li>梨</li>
+                    </ul>
+                </li>
+                <li>蔬菜
+                    <ul>
+                        <li>白菜</li>
+                        <li>油菜</li>
+                        <li>卷心菜</li>
+                    </ul>
+                </li>
+            </ul>
+            
+            <!-- 包含(后代)选择器 -->
             
     </body>
     
