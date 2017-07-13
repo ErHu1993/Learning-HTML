@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>JavaScript</title>
+        <script type="text/javascript">
+            function contxt() //定义函数
+            {
+                alert("哈哈，调用函数了!");
+            }
+        
+            function confirm_f(){
+                var mymessage=confirm("YOU ARE WOMAN ?") ;
+                
+                if(mymessage==true)
+                {
+                    document.write("你是女士!");
+                }
+                else
+                {
+                    document.write("你是男士!");
+                }
+            }
+        
+            function prompt_f(){
+                var score; //score变量，用来存储用户输入的成绩值。
+                score = prompt("Your Score","100");             ;
+                if(score>=90)
+                {
+                    document.write("你很棒!");
+                }
+                else if(score>=75)
+                {
+                    document.write("不错吆!");
+                }
+                else if(score>=60)
+                { 
+                    document.write("要加油!");
+                }
+                else
+                {
+                    document.write("要努力了!");
+                }
+            }
+        
+            function Wopen(){
+                //打开http://www.imooc.com网站，大小为300px * 200px，无菜单，无工具栏，无状态栏，有滚动条窗口：
+             var win = window.open("https://www.baidu.com","_blank","width=600,height=500,left=100,to=100,menubar=no,toolbar=no, status=no,scrollbars=yes");
+             win.close();
+            }
+        
+            document.write("I love JavaScript！<br>"); //内容用""括起来，""里的内容直接输出。
+            
+            var mystr="hello world! <br>";
+            
+            document.write(mystr);  //直接写变量名，输出变量存储的内容。
+            
+            var mystr="hello";
+            document.write(mystr+"I love JavaScript <br>"); //多项内容之间用+号连接
+        
+            var mystr="hello";
+            document.write(mystr+"<br>");//输出hello后，输出一个换行符
+            
+            document.write("JavaScript <br>");
+            
+            document.write("&nbsp;&nbsp;"+"1"+"&nbsp;&nbsp;&nbsp;&nbsp;"+"23"+"<br>");//使用输出html标签&nbsp;来解决
+            
+             document.write("<span style='white-space:pre;'>"+"  1        2    3    "+"</span>");//使用CSS样式来解决 在输出时添加“white-space:pre;”样式属性。这个样式表示"空白会被浏览器保留"
+            
+            //var mychar=document.getElementById("con") ;
+            //document.write("结果:"+mychar); //输出获取的P标签。innerHTML可以获取内容
+            //mychar.style.color="red";
+            //mychar.style.backgroundColor='#ccc';
+            //mychar.style.width='300px';
+            //mychar.style.fontSize="20px"
+            //mychar.style.display="none";
+            //mychar.style.display="block";
+            //mychar.removeAttribute("style");
+        </script>
+    </head>
+    <body>
+        <form>
+            <input type="submit"  value="点击我:contxt方法" onclick="contxt()" />
+            <input type="submit"  value="点击我:confirm方法" onclick="confirm_f()" />
+            <input type="submit"  value="点击我:prompt方法" onclick="prompt_f()" />
+            <input name="button" type="button" onClick="Wopen()" value="点击我，打开新窗口!" />
+        </form>
+    </body>
+</html>
