@@ -4,6 +4,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>JavaScript</title>
         <script type="text/javascript">
+            
+            //BOM:Browser Object Model，浏览器对象模型。
+            //DOM:Document Object Mode，文档对象模型。
+            
             function contxt() //定义函数
             {
                 alert("哈哈，调用函数了!");
@@ -76,6 +80,222 @@
             //mychar.style.display="none";
             //mychar.style.display="block";
             //mychar.removeAttribute("style");
+            
+            
+            
+            //数组的定义
+            //var myarray= new Array(8);
+            //var myarr=new Array();
+            //var myarray = new Array(66,80,90,77,59)
+            //var myarray = [66,80,90,77,59];
+            //myarray.length
+            //myarray.concat(元素,数组)//都可以连接
+            //myarray.join("-")//连接数组中的元素返回string
+            //myarray.reverse//倒叙
+            //myarray.slice(1,3)//截取第几个到第几个
+            
+            //sort(sortMethod);
+            //如果不指定<方法函数>，则按unicode码顺序排列。
+            //return m>n 升序  return m<n 降序
+            
+            
+            /*
+             //二维数组
+             var myarr = [[0,0,0,0,0,0],[0,1,2,3,4,5],[0,2,4,6,8,10]]
+             
+             var myarr = new Array();
+             for(int i=0;i<2;i++){
+             myarr[i]= new Array();
+             for(int j=0;j<6;j++){
+             myarr[i][j]=i*j;
+             document.write(myarr[i][j]);
+             }
+             }
+             
+             
+             //JS可监听事件
+             onclick 鼠标单击事件 onmouseover 鼠标经过事件 onmouseout 鼠标移开事件 onchange 文本框内容改变事件
+             onselect 文本框被选中事件 onfocus 光标聚集 onblur 光标离开 onload 网页导入 onunload 关闭网页
+             
+             1.像平常我们关闭网页，也就是离开网页了；2.在当前网页点击加载其他网页，跳转到其他网页，也是离开当前网页的一种；
+             
+             onunload属于第2种，只有当你要跳转到另一个页面时，也就是要离开当前网页了，要跳转到另一个网页了，onunload才会被触发；
+             
+             那平常时关闭网页就直接跳出一个对话框是怎么办到的？原来还有一个onbeforeunload,顾名思义，就是在onunload被执行之前，就被调用，无论是以上2种跳转方法中的哪种，onbeforeunload都会被触发。
+             
+             
+             parseInt("333")=333;
+             
+             
+             //对象
+             objectName.methodName()
+             objectName.propertyName
+             
+             //时间对象
+             var Udate=new Date();
+             
+             var d = new Date('Oct 1, 2012'); //2012年10月1日
+             
+             getDay() 返回星期，返回的是0-6的数字，0 表示星期天。如果要返回相对应“星期”，通过数组完成，代码如下:
+             
+             get/setData() 返回，设置日期
+             
+             get/setFullYear() 返回，设置年份，用四位数表示
+             
+             get/setYear() 返回，设置年份
+             
+             get/setHours 返回，设置小时 24小时
+             
+             get/setMouth ()返回，设置月份 0-11月 所以加一
+             
+             get/setMinutes ()返回，设置分钟
+             
+             get/setTime() 返回，设置时间，毫秒为单位
+             
+             
+             //字符串对象
+             mystr.length;
+             mystr.toUpperCase();
+             message.toLowerCase();
+             mystr.charAt(2)
+             substring(1,2)/substring(1)//起点终点
+             substring.substr(1,3)//起始,长度
+             substring.substr(-2)//倒数第二个
+             mystr.indexOf("subString")
+             mystr.indexOf('o',mystr.indexOf('o')+1)//查到第二个'o'的位置
+             mystr.split("-");//以'-'分割
+             mystr.split("",3);//以字符分割,最多3组
+            
+             
+             //Math函数
+             Math.abs();//绝对值
+             Math.random(),生成0~1的随机数
+             Math.round(),四舍五入
+             Math.ceil()向上取整
+             Math.floor(),向下取整
+             .....等等
+             
+             
+             //定时器
+             setInterval(clock, 1000);//毫秒
+             clearInterval()//取消
+             setTimeout(代码,延迟时间);
+             clearTimeout(id_of_setTimeout)
+             
+             //history
+             window.history.back();返回前一个浏览的页面
+             window.history.go(-1);//back()相当于go(-1)
+             window.history.forward();
+             forward()相当于go(1),
+             //go()方法，根据当前所处的页面，加载 history 列表中的某个具体的页面。
+             window.history.go(number);
+             
+             
+             //location 对象属性 window.location
+             href		设置或返回完整的URL
+             protocol	设置或返回当前URL的协议
+             host		设置或返回主机名　和　当前URL的端口号
+             hostname	设置或返回当前URL的主机名
+             port		设置或返回当前URL的端口号
+             pathname	当前URL的路径部分
+             search		设置或返回从？开始的URL（查询部分）
+             hash		设置或返回从#开始的URL(锚)
+             location 对象方法
+             assign()	加载新的文档
+             reload()	重新加载当前文档
+             replace()	用新的文档替换当前文档
+             
+             
+             //Navigator对象属性:
+             appCodeName:浏览器代码名的字符串表示；
+             appName:返回浏览器的名称；
+             appVersion:返回浏览器的平台和版本信息；
+             platform:返回运行浏览器的操作系统平台；
+             userAgent:返回由客户机发送服务器的user-agent头部的值。
+             
+             //screen对象
+             availHeight：窗口可以使用的屏幕高度，单位像素；
+             availWidth：窗口可以使用的屏幕宽度，单位像素；
+             colorDepth：用户浏览器表示的颜色位数，通常为32位（每像素的位数）；
+             pixelDepth：用户浏览器表示的颜色位数，通常为32位（每像素的位数）（IE不支持此属性）；
+             height：屏幕的高度，单位像素；
+             width：屏幕的宽度，单位像素；
+             
+             */
+        
+        
+        /*
+         
+         getElementByID
+         getElementsByName
+         getElementsByTagName
+         
+         1. ID 是一个人的身份证号码，是唯一的。所以通过getElementById获取的是指定的一个人。
+         
+         2. Name 是他的名字，可以重复。所以通过getElementsByName获取名字相同的人集合。
+         
+         3. TagName可看似某类，getElementsByTagName获取相同类的人集合。如获取小孩这类人，getElementsByTagName("小孩")。
+         
+         
+         var hobby = document.getElementById("hobby"+j);这句代码的意思是获取id是(hobby+j)的J节点的值
+         
+         getAttribute()方法
+         通过元素节点的属性名称获取属性的值。
+         .getAttribute("id");
+         .setAttribute()方法
+         .setAttribute("title","name") 方法增加一个指定名称和值的新属性，或者把一个现有的属性设定为指定的值。
+         
+         
+         节点属性
+         在文档对象模型 (DOM) 中，每个节点都是一个对象。DOM 节点有三个重要的属性 ：
+         
+         1. nodeName : 节点的名称
+         
+         2. nodeValue ：节点的值
+         
+         3. nodeType ：节点的类型
+         
+         一、nodeName 属性: 节点的名称，是只读的。
+         
+         1. 元素节点的 nodeName 与标签名相同
+         2. 属性节点的 nodeName 是属性的名称
+         3. 文本节点的 nodeName 永远是 #text
+         4. 文档节点的 nodeName 永远是 #document
+         
+         二、nodeValue 属性：节点的值
+         
+         1. 元素节点的 nodeValue 是 undefined 或 null
+         2. 文本节点的 nodeValue 是文本自身
+         3. 属性节点的 nodeValue 是属性的值
+         
+         三、nodeType 属性: 节点的类型，是只读的。以下常用的几种结点类型:
+         
+         元素类型    节点类型
+         元素          1
+         属性          2
+         文本          3
+         注释          8
+         文档          9
+         
+         
+         .childNodes
+         .lastChild
+         .firstChild
+         .parentNode
+         nodeValue
+         innerHTML
+         
+         访问兄弟节点
+         1. nextSibling 属性可返回某个节点之后紧跟的节点（处于同一树层级中）。
+         2. previousSibling 属性可返回某个节点之前紧跟的节点（处于同一树层级中）。
+         
+         插入节点appendChild()
+         var newli = document.createElement("li");    //创建
+         newli.innerHTML = "PHP";    //赋值
+         otest.appendChild(newli);    //插入
+         
+         insertBefore() 方法可在已有的子节点前插入一个新的子节点。
+         */
         </script>
     </head>
     <body>
