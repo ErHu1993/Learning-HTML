@@ -25,6 +25,7 @@
             font-size:12px;
             text-align:center;
             border:solid 1px #888;
+            
         }
     </style>
     <script src="/Users/witgo/node_modules/jquery/dist/jquery.js"></script>
@@ -108,7 +109,9 @@
             <p>:odd</p>
         </div>
     </div>
+
    <script type="text/javascript">
+
     //找到第一个div
     $(".div:first").css("color", "#CD00CD");
     </script>
@@ -155,6 +158,30 @@
             <p>其他</p>
         </div>
     </div>
+
+    <div class="left">
+        <div class="aaron">
+            <p>点击看结果</p>
+            <p>jQuery.data</p>
+        </div>
+        <div><span></span></div>
+    </div> 
+
+
+    <script type="text/javascript">
+    $('.left').click(function() {
+        var ele = $(this);
+        //通过$.data方式设置数据
+        $.data(ele, "a", "data test")
+        $.data(ele, "b", {
+            name : "慕课网"
+        })
+        //通过$.data方式取出数据
+        var reset = $.data(ele, "a") + "</br>" + $.data(ele, "b").name
+        ele.find('span').append(reset)
+    })
+    </script>
+
     <script type="text/javascript">
         //:not 选择所有元素去除不匹配给定的选择器的元素
         //选中所有紧接着没有checked属性的input元素后的p元素，赋予颜色
@@ -182,7 +209,161 @@
     <script type="text/javascript">
        //找到a元素下面的所有空节点(没有子元素)
        //增加一段文本与边框
-       $("a:empty").text(":empty").css("color", "red");  
+       $("a:empty").text(":empty").css("color", "red"); 
+       
+       //$('#div2:hidden')  display：none，width：0/height：0被认为是不可见的，所以hidden是1
+       //$('#div3:visible') visibility:hidden,opacity:0被认为是可见的，所以visible是返回1；
+    </script>
+
+    <script type="text/javascript">
+         //查找所有div中，属性name的值是用imooc开头的
+         $('.div[name^="imooc"]').css("border", "3px groove red"); 
+    </script>
+
+    <script type="text/javascript">
+         //查找所有div中，属性name的值是用imooc结尾的
+         $('.div[name$="imooc"]').css("border", "3px groove blue"); 
+    </script>
+
+    <script type="text/javascript">
+        //查找所有div中，有属性name中的值包含一个test字符串的div元素
+        $('.div[name*="test"]').css("border", "3px groove #00FF00"); 
+    </script>
+
+    <script type="text/javascript">
+        //查找所有div中，有属性testattr中的值没有包含"true"的div
+        $('.div[testattr*="true"]').css("border", "3px groove #668B8B"); 
+    </script>
+
+    <script type="text/javascript">
+        //查找class="first-div"下的第一个a元素
+        //针对所有父级下的第一个
+        $('.first-div a:first-child').css("color", "#CD00CD"); 
+    </script>
+
+    <script type="text/javascript">
+        //查找class="first-div"下的最后一个a元素
+        //针对所有父级下的最后一个
+        //如果只有一个元素的话，last也是第一个元素
+        $('.first-div a:last-child').css("color", "red");
+    </script>
+
+    <script type="text/javascript">
+        //查找class="first-div"下的只有一个子元素的a元素
+        $('.first-div a:only-child').css("color", "blue");
+    </script>
+
+    <script type="text/javascript">
+        //查找class="last-div"下的第二个a元素
+        $('.last-div a:nth-child(2)').css("color", "#CD00CD");
+    </script>
+
+    <script type="text/javascript">
+        //查找class="last-div"下的倒数第二个a元素
+        $('.last-div a:nth-last-child(2)').css("color", "red");
+    </script>
+
+    <script type="text/javascript">
+        //查找所有 input, textarea, select 和 button 元素
+        //:input 选择器基本上选择所有表单控件
+        $(':input').css("border", "1px groove red"); 
+    </script>
+
+    <script type="text/javascript">
+        //匹配所有input元素中类型为text的input元素
+        $('input:text').css("background", "#A2CD5A");
+    </script>
+
+    <script type="text/javascript">
+        //匹配所有input元素中类型为password的input元素
+        $('input:password').css("background", "yellow");
+    </script>
+
+    <script type="text/javascript">
+        //匹配所有input元素中的单选按钮,并选中
+        $('input:radio').attr('checked','true');
+    </script>
+
+    <script type="text/javascript">
+        //匹配所有input元素中的复选按钮,并选中
+        $('input:checkbox').attr('checked','true'); 
+    </script>
+
+    <script type="text/javascript">
+        //匹配所有input元素中的提交的按钮,修改背景颜色
+        $('input:submit').css("background", "#C6E2FF");
+    </script>
+
+    <script type="text/javascript">
+        //匹配所有input元素中的图像类型的元素,修改背景颜色
+        $('input:image').css("background", "#F4A460");
+    </script>
+
+    <script type="text/javascript">
+        //匹配所有input元素中类型为按钮的元素
+        $('input:button').css("background", "red");
+    </script>
+
+    <script type="text/javascript">
+        //匹配所有input元素中类型为file的元素
+        $('input:file').css("background", "#CD1076");
+    </script>
+
+    <script type="text/javascript">
+        //查找所有input所有可用的（未被禁用的元素）input元素。
+        $('input:enabled').css("border", "2px groove red");
+    </script>
+
+    <script type="text/javascript">
+        //查找所有input所有不可用的（被禁用的元素）input元素。
+        $('input:disabled').css("border", "2px groove blue");
+        $('input:disabled').css({
+            'font-size'        :"15px",
+            "background-color" :"#40E0D0",
+            "border"           :"1px solid red"
+        })
+        // 通过.css方法设置的样式属性优先级要高于.addClass方法
+    </script>
+
+    <script type="text/javascript">
+         //查找所有input所有勾选的元素(单选框,复选框)
+         //移除input的checked属性
+        $('input:checked').removeAttr('checked')
+    </script>
+
+    <script type="text/javascript">
+         //查找所有option元素中,有selected属性被选中的选项
+         //移除option的selected属性
+        $('option:selected').removeAttr('selected') 
+    </script>
+
+
+    <script type="text/javascript">
+        $('input:eq(1)').attr("value",'新值');
+        $('input:eq(2)').attr('value',function(i, val){
+    		return  val + "dddd"
+    	})
+        $('input:nth-child(2)').attr("value",'新值');
+        //找到第二个input，通过attr获取属性value的值
+    	$('input:nth-child(2)').attr('value');
+        $('input:eq(1)').removeAttr('value');
+
+        $(".left a:first").text('替换第一个a元素的内容')
+        $(".left div:first").html('个div的子节点都被替换了')
+        $(".left a:first").text(function(iddex,text){
+            return '增加新的文本内容' + text
+        })
+
+        //选择一个表单，修改value的值
+        $("input[type='text']").val('修改表单的字段') ;
+        $("p").text( $("#single").val() );
+        /* 
+        .html(),.text(),.val()三种方法都是用来读取选定元素的内容；只不过.html()是用来读取元素的html内容（包括html标签），.text()用来读取元素的纯文本内容，包括其后代元素，.val()是用来读取表单元素的"value"值。其中.html()和.text()方法不能使用在表单元素上,而.val()只能使用在表单元素上；另外.html()方法使用在多个元素上时，只读取第一个元素；.val()方法和.html()相同，如果其应用在多个元素上时，只能读取第一个表单元素的"value"值，但是.text()和他们不一样，如果.text()应用在多个元素上时，将会读取所有选中元素的文本内容。
+        .html(htmlString),.text(textString)和.val(value)三种方法都是用来替换选中元素的内容，如果三个方法同时运用在多个元素上时，那么将会替换所有选中元素的内容。
+        .html(),.text(),.val()都可以使用回调函数的返回值来动态的改变多个元素的内容。
+        */
+
+        
     </script>
 
 <progress max="100" value="85">
