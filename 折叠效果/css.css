@@ -1,0 +1,33 @@
+*{
+    margin: 0px;
+    padding: 0px;
+    font-size: 13px;
+    list-style: none;
+}
+
+.menu{
+    border: 1px solid #aaa;
+    width: 300px;
+    margin: 20px auto;
+}
+
+
+.menu div {
+    /* background:#aaa; */
+    border: 1px solid gray;
+    background: #fff;
+    font-weight: bolder;
+    font-size: 17px;
+}
+
+.menu div ul li{
+    margin: 5px 5px;
+}
+
+
+.menu p{
+    background: #aaa;
+    padding-left: 5px;
+    height: 30px;
+    padding-top: 5px;
+}
