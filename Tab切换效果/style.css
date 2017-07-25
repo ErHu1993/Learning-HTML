@@ -1,0 +1,67 @@
+*{
+    margin:0;
+    padding:0;
+    list-style:none;
+    font-size:12px;
+}
+
+.notice{
+    width:298px;
+    height:98px;
+    margin: 10px;
+    border: 1px solid #aaa;
+    overflow: hidden;
+}
+
+.notice-tit{
+    height: 27px;
+    position: relative;
+    background: #f7f7f7;
+}
+
+.notice-tit ul{
+    position: absolute;
+    margin-left: -1px;
+    width: 300px;
+}
+
+.notice-tit li{
+    float: left;
+    width: 58px;
+    height: 26px;
+    line-height: 26px;
+    text-align: center;
+    overflow: hidden;
+    background: #f7f7f7;
+    border-bottom: 1px solid #eee;
+}
+
+ .notice-tit li.select{
+    background: #fff;
+    border-bottom-color: #fff;
+    border-left:1px solid #eee;
+    border-right:1px solid #eee;
+    padding: 0 1.5px;
+    font-weight: bolder;
+}
+
+ .notice li a:link, .notice li a:visited{
+    text-decoration: none;
+    color: #000;
+} 
+
+.notice li a:hover{
+    color: #f90;
+}
+
+.notice-con{
+    margin: 5px  6px;
+}
+
+.notice-con .mod ul li{
+    float: left;
+    width: 143px;
+    height: 25px;
+    overflow: hidden;
+}
+
