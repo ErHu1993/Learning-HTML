@@ -14,11 +14,13 @@ $(document).ready(function () {
         }
     }
 
-    // $(".menu p").on('click', function () {
-    //     if($(this).siblings().css("display")=='none'){
-    //         $(this).siblings().show();
-    //     }else{
-    //         $(this).siblings().hide();
-    //     }
-    // });
+
+
+    $(".menu p").on('click', function () {
+        if($(this).siblings().css("display")=='none'){
+            $(this).siblings().show();
+        }else{
+            $(this).siblings().hide();
+        }
+    });
 });
