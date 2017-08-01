@@ -1,16 +1,15 @@
-*{
+* {
     margin: 0px;
     padding: 0px;
     font-size: 13px;
     list-style: none;
 }
 
-.menu{
+.menu {
     border: 1px solid #aaa;
     width: 300px;
     margin: 20px auto;
 }
-
 
 .menu div {
     /* background:#aaa; */
@@ -20,12 +19,11 @@
     font-size: 17px;
 }
 
-.menu div ul li{
+.menu div ul li {
     margin: 5px 5px;
 }
 
-
-.menu p{
+.menu p {
     background: #aaa;
     padding-left: 5px;
     height: 30px;
