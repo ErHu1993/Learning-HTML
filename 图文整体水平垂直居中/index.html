@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>水平垂直居中</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .div1 {
+            background: lightgray;
+            height: 200px;
+            text-align: center;
+        }
+        /* 
+            第一步  加入<i></i>标签
+            第二部  inline-block 化
+            第三部  text-align: center; vertical-align: middle;
+        */
+        
+        p {
+            background: green;
+            height: 200px;
+            text-align: center;
+        }
+        
+        img {
+            vertical-align: middle;
+        }
+        
+        i {
+            display: inline-block;
+            vertical-align: middle;
+            height: 100%;
+        }
+        
+        span {
+            display: inline-block;
+            vertical-align: middle;
+        }
+        
+        .div2 {
+            background: lightgray;
+            height: 200px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="div1">
+        <p><img src="http://img.mukewang.com/57318075000127bc06000338-240-135.jpg"><i></i></p>
+    </div>
+
+    <br>
+
+    <div class="div2">
+        <p><span>第一行</span><i></i></p>
+    </div>
+</body>
+
+</html>
