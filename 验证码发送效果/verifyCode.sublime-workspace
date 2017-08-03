@@ -1,0 +1,282 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"div",
+				"div\tTag"
+			],
+			[
+				"scr",
+				"script\tTag"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"di",
+				"div\tTag"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 354.0,
+		"last_filter": "li",
+		"selected_items":
+		[
+			[
+				"li",
+				"Package Control: List Packages"
+			],
+			[
+				"rem",
+				"Package Control: Remove Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"list",
+				"Package Control: List Packages"
+			],
+			[
+				"mat",
+				"Material Theme: Activate theme"
+			],
+			[
+				"ma",
+				"Material Theme: Activate theme"
+			],
+			[
+				"Theme",
+				"Material Theme: Configuration"
+			],
+			[
+				"meta",
+				"Material Theme: Activate theme"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"re",
+				"Package Control: Remove Package"
+			],
+			[
+				"remov",
+				"Package Control: Remove Package"
+			],
+			[
+				"lis",
+				"Package Control: List Packages"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"i",
+				"Package Control: Install Package"
+			],
+			[
+				"",
+				"Bookmarks: Select All"
+			],
+			[
+				"in",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 467.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"ls"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/witgo/Library/Application Support/Sublime Text 3/Packages/User/Default (OSX).sublime-keymap",
+		"/Users/witgo/Library/Application Support/Sublime Text 3/Packages/Default/Default (OSX).sublime-keymap",
+		"/untitled",
+		"/Users/witgo/Desktop/我的开源项目/Learning-HTML/Tab切换效果/Tab.html",
+		"/Users/witgo/Desktop/我的开源项目/Learning-HTML/HTML&CSS.html",
+		"/Users/witgo/Library/Application Support/Sublime Text 3/Packages/User/trailing_spaces.sublime-settings",
+		"/Users/witgo/Library/Application Support/Sublime Text 3/Packages/TrailingSpaces/README.md",
+		"/Users/witgo/Library/Application Support/Sublime Text 3/Packages/TrailingSpaces/trailing_spaces.sublime-settings",
+		"/Users/witgo/Library/Application Support/Sublime Text 3/Packages/User/Base File.sublime-settings",
+		"/Users/witgo/Library/Application Support/Sublime Text 3/Packages/User/JSON.sublime-settings",
+		"/Users/witgo/Library/Application Support/Sublime Text 3/Packages/Alignment/Default (OSX).sublime-keymap",
+		"/Users/witgo/Library/Application Support/Sublime Text 3/Packages/User/Localization.sublime-settings",
+		"/Users/witgo/Desktop/VUE/myDemo/index.html",
+		"/Users/witgo/Desktop/我的开源项目/Learning-HTML/JQuery.html"
+	],
+	"find":
+	{
+		"height": 11408.0
+	},
+	"find_in_files":
+	{
+		"height": 158.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"<!DOCTYPE HTML>\n<html>\n\n<head>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n    <title>Html的学习</title>\n    <!-- 风格设置 -->\n    <!-- .green : 类选择器 -->\n    <!-- #green : ID选择器 -->\n    <style>\n        span {\n            font-size: 32px;\n            color: #900;\n            text-align: center;\n        }\n        \n        propoty {\n            text-indent: 2em;\n            /* 缩进 π*/\n            text-decoration: line-through;\n            /* 删除线 */\n            text-decoration: underline;\n            /* 下划线 */\n            font-style: italic;\n            /* 斜体 */\n            font-weight: bold;\n            /π* 粗体 */\n            font-family: \"Microsoft Yahei\";\n            line-height: 3em;\n            /* 行高 */\n            word-spacing: 50px;\n            /* 一个空格的距离 */\n            letter-spacing: 12px;\n            /* 字符之间的距离 */\n            text-align: center;\n        }\n        \n        .checkbox {\n            width: 20px;\n            height: 20px;\n            border: 3px solid transparent;\n            box-shadow: inset 0 1px, inset 1px 0, inset -1px 0, inset 0 -1px;\n            background-color: #fff;\n            background-clip: content-box;\n            color: #d0d0d5;\n        }\n        /*\n        常用的块状元素有：\n             \n             <div>、<p>、<h1>...<h6>、<ol>、<ul>、<dl>、<table>、<address>、<blockquote> 、<form>\n             \n             块级元素特点：\n             \n             1、每个块级元素都从新的一行开始，并且其后的元素也另起一行。（真霸道，一个块级元素独占一行）\n             \n             2、元素的高度、宽度、行高以及顶和底边距都可设置。\n             \n             3、元素宽度在不设置的情况下，是它本身父容器的100%（和父元素的宽度一致），除非设定一个宽度。\n             \n             4. 设置a{display:block;padding-right:20px;padding-top:20px;padding-bottom:20px;padding-left:20px}就是将元素显示为块级元素。代码就是将内联元素a转换为块状元素，从而使a元素具有块状元素特点。\n             \n             \n        常用的内联元素有：\n             \n             <a>、<span>、<br>、<i>、<em>、<strong>、<label>、<q>、<var>、<cite>、<code>\n             块状元素也可以通过代码{display:inline}将元素设置为内联元素。代码就是将块状元素div转换为内联元素，从而使 div 元素具有内联元素特点。\n             1、和其他元素都在一行上；\n             \n             2、元素的高度、宽度及顶部和底部边距不可设置；\n             \n             3、元素的宽度就是它包含的文字或图片的宽度，不可改变。\n             \n        常用的内联块状元素有：\n             \n             <img>、<input>\n             \n             display:inline-block就是将元素设置为内联块状元素。(css2.1新增)，<img>、<input>标签就是这种内联块状标签,\n             \n             inline-block 元素特点：\n             \n             1、和其他元素都在一行上；\n             \n             2、元素的高度、宽度、行高以及顶和底边距都可设置。\n             */\n        \n        .green {\n            color: green;\n        }\n        \n        .bigsize {\n            font-size: 55px;\n        }\n        \n        .lineWidth>span {\n            border-width: 1px;\n            border-style: solid;\n            border-color: red;\n            /*\n                 可缩写成: border:2px  solid  red;\n                 \n                 1、border-style（边框样式）常见样式有：\n                 \n                 dashed（虚线）| dotted（点线）| solid（实线）。\n                 \n                 \n                 2、border-color（边框颜色）中的颜色可设置为十六进制颜色，如:\n                 \n                 border-color:#888;//前面的井号不要忘掉。\n                 \n                 3、border-width（边框宽度）中的宽度也可以设置为：\n                 \n                 thin | medium | thick（但不是很常用），最常还是用象素（px）。\n                 \n                 为 p 标签单独设置下边框，而其它三边都不设置边框\n                 border-bottom:1px solid blue;\n                 border-top:1px solid red;\n                 border-right:1px solid red;\n                 border-left:1px solid red;\n                 */\n            padding: 10px;\n            margin-bottom: 30px;\n            /*\n                 \n                 元素内容与边框之间是可以设置距离的，称之为“填充”。填充也可分为上、右、下、左(顺时针)。如下代码：\n                 \n                 div{padding:20px 10px 15px 30px;}\n                 顺序一定不要搞混。可以分开写上面代码：\n                 \n                 div{\n                 padding-top:20px;\n                 padding-right:10px;\n                 padding-bottom:15px;\n                 padding-left:30px;\n                 }\n                 如果上、右、下、左的填充都为10px;可以这么写\n                 \n                 div{padding:10px;}\n                 如果上下填充一样为10px，左右一样为20px，可以这么写：\n                 \n                 div{padding:10px 20px;}\n                 \n                 */\n        }\n        \n        #green {\n            color: green;\n        }\n        /* 这行代码会使class名为food下的子元素li（水果、蔬菜）(第一代后代)加入红色实线边框。*/\n        \n        .food>li {\n            border: 1px solid red;\n        }\n        /*添加边框样式（粗细为1px， 颜色为红色的实线）*/\n        \n        .foodAll li {\n            border: 1px solid red;\n        }\n        /*后代选择器 , > 作用于元素的第一代后代，空格作用于元素的所有后代*/\n        \n        .first>span {\n            border: 1px solid red;\n        }\n        /* {color:red;font-size:20px;} 这个是通配符, 修改所有标签 */\n        /* 伪类选择符 a 标签鼠标滑过的状态设置字体颜色变红 有兼容问题 */\n        \n        a:hover {\n            color: red;\n            font-size: 40px;\n        }\n        /*\n            p{color:red;} 权值为1\n            p span{color:green;} 权值为1+1=2\n            .warning{color:white;} 权值为10\n            p span.warning{color:purple;} 权值为1+1+10=12\n            #footer .note p{color:yellow;} 权值为100+10+1=111\n             \n             p{color:red!important;}最高权值 !important要写在分号的前面\n             \n             关于颜色的css样式也是可以缩写的，当你设置的颜色是16进制的色彩值时，如果每两位的值相同，可以缩写一半。\n             \n             例子\n             1：p{color:#000000;}\n             可以缩写为：\n             \n             p{color: #000;}\n             例子2：\n             \n             p{color: #336699;}\n             可以缩写为：\n             \n             p{color: #369;}\n             \n             p{color:red;}\n             \n             2、RGB颜色\n             \n             这个与 photoshop 中的 RGB 颜色是一致的，由 R(red)、G(green)、B(blue) 三种颜色的比例来配色。\n             \n             p{color:rgb(133,45,200);}\n             每一项的值可以是 0~255 之间的整数，也可以是 0%~100% 的百分数。如：\n             \n             p{color:rgb(20%,33%,25%);}\n             3、十六进制颜色\n             \n             这种颜色设置方法是现在比较普遍使用的方法，其原理其实也是 RGB 设置，但是其每一项的值由 0-255 变成了十六进制 00-ff。\n             \n             p{color:#00ffff;}\n             \n             \n             body{\n             font-style:italic;\n             font-variant:small-caps;\n             font-weight:bold;\n             font-size:12px;\n             line-height:1.5em;\n             font-family:\"宋体\",sans-serif;\n             }\n             这么多行的代码其实可以缩写为一句：\n             \n             使用这一简写方式你至少要指定 font-size 和 font-family 属性，其他的属性(如 font-weight、font-style、font-variant、line-height)如未指定将自动使用默认值。\n             \n             在缩写时 font-size 与 line-height 中间要加入“/”斜扛。\n             \n             body{\n             font:italic  small-caps  bold  12px/1.5em  \"宋体\",sans-serif;\n             }\n             \n             \n             长度单位总结一下，目前比较常用到px（像素）、em、% 百分比，要注意其实这三种单位都是相对单位。\n             \n             1、像素\n             \n             像素为什么是相对单位呢？因为像素指的是显示器上的小点（CSS规范中假设“90像素=1英寸”）。实际情况是浏览器会使用显示器的实际像素值有关，在目前大多数的设计者都倾向于使用像素（px）作为单位。\n             \n             2、em\n             \n             就是本元素给定字体的 font-size 值，如果元素的 font-size 为 14px ，那么 1em = 14px；如果 font-size 为 18px，那么 1em = 18px。如下代码：\n             \n             p{font-size:12px;text-indent:2em;}\n             上面代码就是可以实现段落首行缩进 24px（也就是两个字体大小的距离）。\n             \n             下面注意一个特殊情况：\n             \n             但当给 font-size 设置单位为 em 时，此时计算的标准以 p 的父元素的 font-size 为基础。如下代码：\n             \n             html:\n             \n             <p>以这个<span>例子</span>为例。</p>\n             css:\n             \n             p{font-size:14px}\n             span{font-size:0.8em;}\n             结果 span 中的字体“例子”字体大小就为 11.2px（14 * 0.8 = 11.2px）。\n             \n             3、百分比\n             \n             p{font-size:12px;line-height:130%}\n             设置行高（行间距）为字体的130%（12 * 1.3 = 15.6px）。\n             \n            */\n    </style>\n\n    <style type=\"text/css\">\n        table tr td,\n        th {\n            border: 1px solid #000;\n        }\n        \n        div1 {\n            /*\n                        层模型有三种形式：\n                        \n                        1、绝对定位(position: absolute)\n                        \n                        2、相对定位(position: relative)\n                        \n                        3、固定定位(position: fixed)\n                        \n                    1.position:absolute(表示绝对定位)，这条语句的作用将元素从文档流中拖出来，然后使用left、right、top、bottom属性相对于其最接近的一个具有定位属性的父包含块进行绝对定位。如果不存在这样的包含块，则相对于body元素，即相对于浏览器窗口。\n                     position:absolute;\n                     top:20px;\n                     right:100px;\n                     left:100px;\n                     top:50px;\n                    \n                     \n                     2.position:relative（表示相对定位），它通过left、right、top、bottom属性确定元素在正常文档流中的偏移位置。相对定位完成的过程是首先按static(float)方式生成一个元素(并且元素像层一样浮动了起来)，然后相对于以前的位置移动，移动的方向和幅度由left、right、top、bottom属性确定，偏移前的位置保留不动。\n                     \n                     \n                     fixed：表示固定定位，与absolute定位类型类似，但它的相对移动的坐标是视图（屏幕内的网页窗口）本身。由于视图本身是固定的，它不会随浏览器窗口的滚动条滚动而变化，除非你在屏幕中移动浏览器窗口的屏幕位置，或改变浏览器窗口的显示大小，因此固定定位的元素会始终位于浏览器窗口内视图的某个位置，不会受文档流动影响，这与background-attachment:fixed;属性功能相同。以下代码可以实现相对于浏览器视图向右移动100px，向下移动50px。并且拖动滚动条时位置固定不变。\n                     position:fixed;\n                     left:100px;\n                     top:50px;\n                     */\n        }\n    </style>\n</head>\n\n<body>\n    <h1>h(x)标题</h>\n        <p>正文(\"p\")</p>\n        <p>这是<span>李清照(单独格式\"span\")</span><strong>《咏桂》(加粗\"strong\")</strong>中的词句，在<em>李清照(斜体\"em\")</em>看来，<q>桂花暗淡青黄，性情温柔，淡泊自适，远比那些大红大紫争奇斗艳花值得称道。(引用\"q\")</q>\n        </p>\n        <blockquote>“暗淡轻黄体性柔，情疏迹远只香留。何须浅碧深红色，自是花中第一流。(缩进引用\"blockquote\")”</blockquote>\n        <p>\n            &nbsp;&nbsp;&nbsp;&nbsp;《咏桂》\n            <!-- &nbsp; 空格 <hr /> 分割线 <br /> 换行 -->\n            <hr /> 暗淡轻黄体性柔，\n            <br /> 情疏迹远只香留。\n            <br /> 何须浅碧深红色，\n            <br /> 自是花中第一流。\n        </p>\n        <address>\n            本文的作者地址：<a href=\"mailto:199301055@qq\">lilian</a>\n        </address>\n        <p>\n            一行代码块:<code> var i=i+300;</code>\n            <br />多行代码块:\n            <pre>\n            var message=\"欢迎\";\n            for(var i=1;i<=10;i++)\n            {\n            alert(message);\n            }\n        </pre>\n            <!-- <pre> 标签不只是为显示计算机的源代码时用的，在你需要在网页中预显示格式时都可以使用它，只是<pre>标签的一个常见应用就是用来展示计算机的源代码。 -->\n        </p>\n\n        <p>\n            <div id=\"one\">\n                <h3>有循序的list ordered:</h3>\n                <ol>\n                    <li>精彩少年</li>\n                    <li>美丽突然出现</li>\n                    <li>触动心灵的旋律</li>\n                </ol>\n            </div>\n            <div id=\"two\">\n                <h3>无循序的list unordered</h3>\n                <ul>\n                    <li>精彩少年</li>\n                    <li>美丽突然出现</li>\n                    <li>触动心灵的旋律</li>\n                </ul>\n            </div>\n        </p>\n        <!-- 如网页中的独立的栏目版块，就是一个典型的逻辑部分。就可以使用<div>标签作为容器。 -->\n\n        <!-- \n         创建表格的四个元素：\n         \n         table、tbody、tr、th、td\n         \n         1、<table>…</table>：整个表格以<table>标记开始、</table>标记结束。\n         \n         2、<tbody>…</tbody>：如果不加<thead><tbody><tfooter> , table表格加载完后才显示。加上这些表格结构， tbody包含行的内容下载完优先显示，不必等待表格结束后在显示，同时如果表格很长，用tbody分段，可以一部分一部分地显示。（通俗理解table 可以按结构一块块的显示，不在等整个表格加载完后显示。）\n         \n         3、<tr>…</tr>：表格的一行，所以有几对tr 表格就有几行。\n         \n         4、<td>…</td>：表格的一个单元格，一行中包含几对<td>...</td>，说明一行中就有几列。\n         \n         5、<th>…</th>：表格的头部的一个单元格，表格表头。\n         -->\n        <table summary=\"摘要的内容是不会在浏览器中显示出来的。它的作用是增加表格的可读性(语义化)，使搜索引擎更好的读懂表格内容，还可以使屏幕阅读器更好的帮助特殊用户读取表格内容。\">\n            <caption>2012年到2013年记录</caption>\n            <tr>\n                <th>班级</th>\n                <th>学生数</th>\n                <th>平均成绩</th>\n            </tr>\n            <tr>\n                <td>一班</td>\n                <td>30</td>\n                <td>89</td>\n            </tr>\n            <tr>\n                <td>二班</td>\n                <td>35</td>\n                <td>85</td>\n            </tr>\n            <tr>\n                <td>三班</td>\n                <td>32</td>\n                <td>80</td>\n            </tr>\n        </table>\n\n\n        <!-- title属性的作用，鼠标滑过链接文字时会显示这个属性的文本内容。这个属性在实际网页开发中作用很大，主要方便搜索引擎了解链接地址的内容（语义化更友好），如右侧案例代码（8-12行）\n         target = \"_blank\" 会在新的浏览器窗口中打开\n         -->\n        <ul>\n            <li><a href=\"#\" title=\"前端开发面试心法\">前端开发面试心法</a> </li>\n            <li><a href=\"#\" title=\"零基础学习html\">零基础学习html</a></li>\n            <li><a href=\"#\" title=\"JavaScript全攻略\">JavaScript全攻略</a></li>\n        </ul>\n        <p>1922年的春天，一个想要成名名叫尼克•卡拉威（<a href=\"http://www.m1905.com/mdb/star/3316/\" title=\"托比•马奎尔Tobey Maguire 饰\" target=\"_blank\">托比•马奎尔Tobey Maguire 饰</a>）的作家，离开了美国中西部，来到了纽约。那是一个道德感渐失，爵士乐流行，走私为王，股票飞涨的时代。为了追寻他的美国梦，他搬入纽约附近一海湾居住。</p>\n        <p>菲茨杰拉德，二十世纪美国文学巨擘之一，兼具作家和编剧双重身份。他以诗人的敏感和戏剧家的想象为\"爵士乐时代\"吟唱华丽挽歌，其诗人和梦想家的气质亦为那个奢靡年代的不二注解。</p>\n\n        <!--\n         如果mailto后面同时有多个参数的话，第一个参数必须以“?”开头，后面的参数每一个都以“&”分隔。\n         cc=抄送地址\n         bcc=密件抄送地址\n         ;用分号隔开多个收件人地址,可实现多收件人\n         subject=邮件主题\n         body=邮件内容\n         -->\n        <a href=\"mailto:yy@imooc.com:199301055@qq.com?subject=主题&body=你好，对此评论有些想法。\">对此有何感想，发送邮件给我</a>\n\n\n        <!--\n         1、src：标识图像的位置；\n         \n         2、alt：指定图像的描述性文本，当图像不可见时（下载不成功时），可看到该属性指定的文本；\n         \n         3、title：提供在图像可见时对图像的描述(鼠标滑过图片时显示的文本)；\n         \n         4、图像可以是GIF，PNG，JPEG格式的图像文件。\n         -->\n        <img src=\"http://img.mukewang.com/52da54ed0001ecfa04120172.jpg\" alt=\"myimage\" title=\"title啊\">\n\n\n        <!--\n             1.<form> ：<form>标签是成对出现的，以<form>开始，以</form>结束。\n             \n             2.action ：浏览者输入的数据被传送到的地方,比如一个PHP页面(save.php)。\n             \n             3.method ： 数据传送的方式（get/post）。\n             \n             注意:\n             1、所有表单控件（文本框、文本域、按钮、单选框、复选框等）都必须放在 <form></form> 标签之间（否则用户输入的信息可提交不到服务器上哦！）。\n             \n             2、method : post/get 的区别这一部分内容属于后端程序员考虑的问题。感兴趣的小伙伴可以查看本小节的 wiki，里面有详细介绍。\n             \n             \n             type：\n             \n             当type=\"text\"时，输入框为文本输入框;\n             \n             当type=\"password\"时, 输入框为密码输入框。\n             \n             name：为文本框命名，以备后台程序ASP 、PHP使用。\n             \n             value：为文本输入框设置默认值。(一般起到提示作用)\n             \n             \n             \n             -->\n        <form method=\"GET\" actio \"save.php\">\n            <label for=\"username\">用户名:</label>\n            <input type=\"text\" name=\"username\" id=\"username\" value=\"\" />\n            <label for=\"pass\">密码:</label>\n            <input type=\"password\" name=\"pass\" id=\"pass\" value=\"\" />\n            <input type=\"submit\" value=\"确定\" name=\"submit\" />\n            <input type=\"reset\" value=\"重置\" name=\"reset\" />\n        </form>\n\n        <form action=\"save.php\" method=\"post\">\n            <label>个人简介：</label>\n            <textarea cols=\"50\" rows=\"2\" placeholder=\"在这里输入内容...\"></textarea>\n            <input type=\"submit\" value=\"确定\" name=\"submit\" />\n            <input type=\"reset\" value=\"重置\" name=\"reset\" />\n        </form>\n\n\n        <!-- \n             1、type:\n             \n             当 type=\"radio\" 时，控件为单选框\n             \n             当 type=\"checkbox\" 时，控件为复选框\n             \n             2、value：提交数据到服务器的值（后台程序PHP使用）\n             \n             3、name：为控件命名,单选框同样的命名才行，以备后台程序 ASP、PHP 使用\n             \n             4、checked：当设置 checked=\"checked\" 时，该选项被默认选中\n             -->\n        <form action=\"save.php\" method=\"post\">\n            <label>性别:</label>\n            <label>男</label>\n            <input type=\"radio\" value=\"1\" name=\"gender-choose\" />\n            <label>女</label>\n            <input type=\"radio\" value=\"2\" name=\"gender-choose\" />\n            <br />\n\n            <label>兴趣爱好:</label>\n            <input type=\"checkbox\" class=\"checkbox\" value=\"1\" name=\"checkbox1\">跑步\n            <input type=\"checkbox\" class=\"checkbox\" value=\"2\" name=\"checkbox2\">打球\n            <input type=\"checkbox\" value=\"3\" name=\"checkbox3\">登山\n        </form>\n\n        <form action=\"save.php\" method=\"post\">\n            <label>爱好:</label>\n            <select>\n                    <option value=\"看书\">看书</option>\n                    <option value=\"旅游\" selected=\"selcted\">旅游</option>\n                    <option value=\"运动\">运动</option>\n                    <option value=\"购物\">购物</option>\n                </select>\n            <input type=\"reset\" value=\"重置\" />\n        </form>\n\n        <!-- CSS样式可从CSS样式代码插入的形式来看基本可以分为3种：内联式、嵌入式和外部式三种 -->\n        <!--\n\n             内联式:\n             css样式表就是把css代码直接写在现有的HTML标签中，如下面代码：\n             <p style=\"color:red\">这里文字是红色。</p> 注意要写在元素的开始标签里\n             \n             \n             嵌入式:\n             <head>\n             <style type=\"text/css\">\n             span{\n             color:red;\n             }\n             </style>\n             </head>\n             \n             \n             外联式:\n             部式css样式(也可称为外联式)就是把css代码写一个单独的外部文件中，这个css样式文件以“.css”为扩展名，\n             在<head>内（不是在<style>标签内）使用<link>标签将css样式文件链接到HTML文件内，\n             \n             <head>\n             ...\n             <link href=\"style.css\" rel=\"stylesheet\" type=\"text/css\" />\n             ...\n             </head>\n             \n             注意：\n             1、css样式文件名称以有意义的英文字母命名，如 main.css。\n             \n             2、rel=\"stylesheet\" type=\"text/css\" 是固定写法不可修改。rel属性用于定义链接的文件和HTML文档之间的关系。stylesheet，的意思就是样式调用，\n             \n             3、<link>标签位置一般写在<head>标签之内。\n             \n             三种样式是有优先级的，记住他们的优先级：内联式 > 嵌入式 > 外部式\n             \n             但是嵌入式>外部式有一个前提：嵌入式css样式的位置一定在外部式的后面。如右代码编辑器就是这样，<link href=\"style.css\" ...>代码在<style type=\"text/css\">...</style>代码的前面（实际开发中也是这么写的）。若把它们调换顺序优先级会变化。\n             \n             -->\n\n\n        <!-- 选择器 类选择器(.)和ID选择器(#) \n                 ID选择器只能在文档中使用一次。与类选择器不同，在一个HTML文档中，ID选择器只能使用一次，而且仅一次。而类选择器可以使用多次,并且可以同时使用多个\n             -->\n        <p>三年级时，我还是一个<span class=\"green bigsize\">胆小如鼠</span>的小女孩，上课从来不敢回答老师提出的问题，生怕回答错了老师会批评我。就一直没有这个<span class=\"lineWidth\">勇气</span>来回答老师提出的问题。学校举办的活动我也没勇气参加。</p>\n        <p>到了三年级下学期时，我们班上了一节<span id=\"green\">公开课</span>，老师提出了一个很简单的问题，班里很多同学都举手了，甚至成绩比我差很多的，也举手了，还说着：\"我来，我来。\"我环顾了四周，就我没有举手。</p>\n\n\n        <!-- 子选择器 -->\n        <p class=\"first\">三年级时，<span>我还是一个<span>胆小如鼠</span>的小女孩</span>，上课从来不敢回答老师提出的问题，生怕回答错了老师会批评我。就一直没有这个勇气来<a>回答老师提出的问题 </a>。学校举办的活动我也没勇气参加。</p>\n        <h1>食物</h1>\n        <ul class=\"foodAll\">\n            <li>水果\n                <ul>\n                    <li>香蕉</li>\n                    <li>苹果</li>\n                    <li>梨</li>\n                </ul>\n            </li>\n            <li>蔬菜\n                <ul>\n                    <li>白菜</li>\n                    <li>油菜</li>\n                    <li>卷心菜</li>\n                </ul>\n            </li>\n        </ul>\n\n        <!-- 包含(后代)选择器 -->\n\n</body>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n</html>",
+			"<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <title>Tab切换</title>\n    <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\">\n    <script type=\"text/javascript\" src=\"script.js\">\n        \n    </script>\n</head>\n<body>\n    <div id=\"notice\" class=\"notice\">\n        <div id=\"notice-tit\" class=\"notice-tit\">\n            <ul>\n                <li class=\"select\">\n                    <a href=\"#\">公告</a>\n                </li>\n                 <li>\n                    <a href=\"#\">规则</a>\n                </li>\n                 <li>\n                    <a href=\"#\">论坛</a>\n                </li>\n                 <li>\n                    <a href=\"#\">安全</a>\n                </li>\n                 <li>\n                    <a href=\"#\">工艺</a>\n                </li>\n            </ul>\n        </div>\n        <div id=\"notice-con\" class=\"notice-con\">\n\n             <div class=\"mode\" style=\"display:block\">\n                <ul>\n                    <li>\n                        <a href=\"#\">content1</a>\n                    </li>\n                   <li>\n                        <a href=\"#\">content2</a>\n                    </li>\n                    <li>\n                        <a href=\"#\">content3</a>\n                    </li>\n                    <li>\n                        <a href=\"#\">content4</a>\n                    </li>\n                </ul>\n            </div>\n\n            <div class=\"mode\" style=\"display:none\">\n                <ul>\n                    <li>\n                        <span>\n                            [\n                            <a href=\"#\">通知</a>\n                            ]\n                        </span>\n                        <a href=\"#\">content1</a>\n                    </li>\n                   <li>\n                        <span>\n                            [\n                            <a href=\"#\">通知</a>\n                            ]\n                        </span>\n                        <a href=\"#\">content2</a>\n                    </li>\n                    <li>\n                        <span>\n                            [\n                            <a href=\"#\">通知</a>\n                            ]\n                        </span>\n                        <a href=\"#\">content3</a>\n                    </li>\n                    <li>\n                        <span>\n                            [\n                            <a href=\"#\">通知</a>\n                            ]\n                        </span>\n                        <a href=\"#\">content4</a>\n                    </li>\n                </ul>\n            </div>\n\n             <div class=\"mode\" style=\"display:none\">\n                <ul>\n                    <li>\n                        <span>\n                            [\n                            <a href=\"#\">聚焦</a>\n                            ]\n                        </span>\n                        <a href=\"#\">content1</a>\n                    </li>\n                   <li>\n                        <span>\n                            [\n                            <a href=\"#\">聚焦</a>\n                            ]\n                        </span>\n                        <a href=\"#\">content2</a>\n                    </li>\n                    <li>\n                        <span>\n                            [\n                            <a href=\"#\">聚焦</a>\n                            ]\n                        </span>\n                        <a href=\"#\">content3</a>\n                    </li>\n                    <li>\n                        <span>\n                            [\n                            <a href=\"#\">聚焦</a>\n                            ]\n                        </span>\n                        <a href=\"#\">content4</a>\n                    </li>\n                </ul>\n            </div>\n\n            <div class=\"mode\" style=\"display:none\">\n                <ul>\n                    <li>\n                        <a href=\"#\">content1234</a>\n                    </li>\n                   <li>\n                        <a href=\"#\">content2234</a>\n                    </li>\n                    <li>\n                        <a href=\"#\">content3234</a>\n                    </li>\n                    <li>\n                        <a href=\"#\">content4234</a>\n                    </li>\n                </ul>\n            </div>\n\n             <div class=\"mode\" style=\"display:none\">\n                <ul>\n                    <li>\n                        <a href=\"#\">content1</a>\n                    </li>\n                   <li>\n                        <a href=\"#\">content2</a>\n                    </li>\n                    <li>\n                        <a href=\"#\">content3</a>\n                    </li>\n                    <li>\n                        <a href=\"#\">content4</a>\n                    </li>\n                </ul>\n            </div>\n\n        </div>\n    </div>\n</body>\n</html>",
+			">\n",
+			"<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n    <meta charset=\"UTF-8\">\n    <title>Tab切换</title>\n    <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\">\n    <script type=\"text/javascript\" src=\"script.js\">\n        \n    </script>\n</head>\n<body>\n    <div id=\"notice\" class=\"notice\">\n        <div id=\"notice-tit\" class=\"notice-tit\">\n            <ul>\n                <li class=\"select\">\n                    <a href=\"#\">公告</a>\n                </li>\n                 <li>\n                    <a href=\"#\">规则</a>\n                </li>\n                 <li>\n                    <a href=\"#\">论坛</a>\n                </li>\n                 <li>\n                    <a href=\"#\">安全</a>\n                </li>\n                 <li>\n                    <a href=\"#\">工艺</a>\n                </li>\n            </ul>\n        </div>\n        <div id=\"notice-con\" class=\"notice-con\">\n\n             <div class=\"mode\" style=\"display:block\">\n                <ul>\n                    <li>\n                        <a href=\"#\">content1</a>\n                    </li>\n                   <li>\n                        <a href=\"#\">content2</a>\n                    </li>\n                    <li>\n                        <a href=\"#\">content3</a>\n                    </li>\n                    <li>\n                        <a href=\"#\">content4</a>\n                    </li>\n                </ul>\n            </div>\n\n            <div class=\"mode\" style=\"display:none\">\n                <ul>\n                    <li>\n                        <span>\n                            [\n                            <a href=\"#\">通知</a>\n                            ]\n                        </span>\n                        <a href=\"#\">content1</a>\n                    </li>\n                   <li>\n                        <span>\n                            [\n                            <a href=\"#\">通知</a>\n                            ]\n                        </span>\n                        <a href=\"#\">content2</a>\n                    </li>\n                    <li>\n                        <span>\n                            [\n                            <a href=\"#\">通知</a>\n                            ]\n                        </span>\n                        <a href=\"#\">content3</a>\n                    </li>\n                    <li>\n                        <span>\n                            [\n                            <a href=\"#\">通知</a>\n                            ]\n                        </span>\n                        <a href=\"#\">content4</a>\n                    </li>\n                </ul>\n            </div>\n\n             <div class=\"mode\" style=\"display:none\">\n                <ul>\n                    <li>\n                        <span>\n                            [\n                            <a href=\"#\">聚焦</a>\n                            ]\n                        </span>\n                        <a href=\"#\">content1</a>\n                    </li>\n                   <li>\n                        <span>\n                            [\n                            <a href=\"#\">聚焦</a>\n                            ]\n                        </span>\n                        <a href=\"#\">content2</a>\n                    </li>\n                    <li>\n                        <span>\n                            [\n                            <a href=\"#\">聚焦</a>\n                            ]\n                        </span>\n                        <a href=\"#\">content3</a>\n                    </li>\n                    <li>\n                        <span>\n                            [\n                            <a href=\"#\">聚焦</a>\n                            ]\n                        </span>\n                        <a href=\"#\">content4</a>\n                    </li>\n                </ul>\n            </div>\n\n            <div class=\"mode\" style=\"display:none\">\n                <ul>\n                    <li>\n                        <a href=\"#\">content1234</a>\n                    </li>\n                   <li>\n                        <a href=\"#\">content2234</a>\n                    </li>\n                    <li>\n                        <a href=\"#\">content3234</a>\n                    </li>\n                    <li>\n                        <a href=\"#\">content4234</a>\n                    </li>\n                </ul>\n            </div>\n\n             <div class=\"mode\" style=\"display:none\">\n                <ul>\n                    <li>\n                        <a href=\"#\">content1</a>\n                    </li>\n                   <li>\n                        <a href=\"#\">content2</a>\n                    </li>\n                    <li>\n                        <a href=\"#\">content3</a>\n                    </li>\n                    <li>\n                        <a href=\"#\">content4</a>\n                    </li>\n                </ul>\n            </div>\n\n        </div>\n    </div>\n</body>\n</html>",
+			"k rel=\"stylesheet\" type=\"text/css\" href=\"style.css\">\n    <script type=\"text/javascript\" src=\"script.js\">\n        \n    </script>",
+			">\n",
+			"⭐️⭐️⭐️⭐️⭐️"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 27.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 120.0
+	},
+	"pinned_build_system": "",
+	"project": "verifyCode.sublime-project",
+	"replace":
+	{
+		"height": 22790.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": false,
+	"side_bar_width": 341.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
