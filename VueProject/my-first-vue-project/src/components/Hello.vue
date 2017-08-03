@@ -1,6 +1,7 @@
 <template>
   <div class="hello">
     <h1>{{ msg }}</h1>
+    <h1>{{ msgfromfather }}</h1>
     <h2>Essential Links</h2>
     <ul>
       <li><a href="https://vuejs.org" target="_blank">Core Docs</a></li>
@@ -17,6 +18,10 @@
       <li><a href="http://vue-loader.vuejs.org/" target="_blank">vue-loader</a></li>
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
     </ul>
+
+  <button v-on:click='onClickMe'>Click</button>
+  <button @click="tellFather">向父控件传参</button>
+
   </div>
 </template>
 
@@ -26,6 +31,16 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
+    }
+  },
+  props: ['msgfromfather'],
+
+  methods:{
+    onClickMe : function () {
+        alert(this.msgfromfather)
+    },
+    tellFather: function (){
+      this.$emit('clild-tell-me-something','回家吃饭');
     }
   }
 }
