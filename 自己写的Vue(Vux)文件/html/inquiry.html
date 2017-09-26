@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>报价详情</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+<base target="_self" />
+<script type="text/javascript">AutoFontSize();window.addEventListener("resize", function () {AutoFontSize();});function AutoFontSize() {var b = window.document.documentElement.getBoundingClientRect().width;b / 1 > 540 && (b = 540 * 1);var c = b / 10;window.document.documentElement.style.fontSize = c + "px";}</script>
+<script src="./js/zepto.min.js"></script>
+<script src="./js/artTemplate-3.1.3.js"></script>
+
+<style type="text/css">
+   *{padding:0;margin:0;box-sizing:border-box;}
+    html,body{min-height:100%;overflow-x:scroll;}
+    body{line-height:1.6;font-size:14px;font-family:-apple-system-font, "Helvetica Neue", sans-serif;;color:#444;background-color:#fbf9fe;}
+    .clearfix:after{display:block;visibility:hidden;clear:both;height:0;content:'.';}
+    .clearfix{*zoom:1;}
+    .clear{font-size:0;clear:both;overflow:hidden;height:0;}
+    .l{float:left;}
+    .r{float:right;}
+    .show{display:block !important;}
+    .hide{display:none !important;}
+    .text_center{text-align:center;}
+    .text_right{text-align:right;}
+    .text_left{text-align:left;}
+
+    .mt0{margin-top:0 !important;}
+    .mr0{margin-right:0 !important;}
+    .mb0{margin-bottom:0 !important;}
+    .ml0{margin-left:0 !important;}
+    .lt20{line-height:20px;}
+    .cr_gray {color: #999 !important;}
+    .cr_black {color: #444 !important;}
+    .fs12{font-size: 12px !important;}
+    .fs14{font-size: 14px !important;}
+    .fs16{font-size: 16px !important;}
+    .fs18{font-size: 18px !important;}
+    .fs24{font-size: 24px !important;}
+    .bg_fff{background-color:#fff !important;}
+    .mb15{margin-bottom:15px;}
+
+    .success{height:140px;padding:40px 0 0;color:#fff;background:#B3B3B3 url(./images/hd_bg.png) left top no-repeat;background-size:cover;overflow:hidden;}
+    .group{margin:10px 0 0;background-color:#fff;}
+    .list{background-color:#fbf9fe;}
+    .cell{position: relative;display:-webkit-box;display:-webkit-flex;display:flex;align-items: center;padding: 5px 18px 5px 15px;}
+    .left{-webkit-box-flex:1;-webkit-flex:1;flex:1;}
+    .pr18{padding-right:18px;}
+    .pl30{padding-left:30px;}
+    .arrow{position:absolute;top:50%;right:5px;display:inline-block;width:8px;height:8px;margin-top:-3px;border-width:2px 2px 0 0;border-color:#C8C8CD;border-style:solid;transform:matrix(0.71, 0.71, -0.71, 0.71, 0, 0);transition:all 0.4s;}
+    .rotate_up{transform:matrix(0.71, 0.71, -0.71, 0.71, 0, 0) rotate(-90deg);}
+    .rotate_down{transform:matrix(0.71, 0.71, -0.71, 0.71, 0, 0) rotate(90deg);}
+    .item-size{padding-left:5px;color:#05AB13;}
+</style>
+</head>
+
+<body>
+<div class="container"></div>
+
+<script type="text/html" id="tpl_share">
+<header class="success">
+    <p class="text_center middle"><i class="icon_m"></i>保单金额(元)</p>
+    <p class="text_center fs24">￥{{premiumAmount}}</p>
+</header>
+
+<div class="group">
+    <div class="cell">
+        <div class="left">
+            <label>{{plateNo}}</label>
+        </div>
+        <div class="right">
+            <span>{{vendorName}}</span>
+        </div>
+    </div>
+    <div class="cell">
+        <div class="left">
+            <label>{{ownerName}}</label>
+        </div>
+        <div class="right">
+            <span>{{createTime | dateFormat:'yyyy-MM-dd hh:mm' }}</span>
+        </div>
+    </div>
+</div>
+
+<div class="group">
+    {{if result.ctali == 1}}
+    <div class="cell">
+        <div class="left">
+            <label>交强险<span class="cr_gray">(起保时间:{{result.ctaliTerm | dateFormat:'yyyy-MM-dd'}})</span></label>
+        </div>
+        <div class="right">
+            <span>￥{{result.ctaliPremiumAmount}}</span>
+        </div>
+    </div>
+    <div class="cell">
+        <div class="left">
+            <label>车船税</label>
+        </div>
+        <div class="right">
+            <span>￥{{result.taxPremiumAmount}}</span>
+        </div>
+    </div>
+    {{/if}}
+    {{if result.ctli == 1}}
+    <div class="cell">
+        <div class="left">
+            <label>商业险<span class="cr_gray" v-if="result.ctliTerm">(起保时间:{{result.ctliTerm | dateFormat:'yyyy-MM-dd'}})</span></label>
+        </div>
+        <div class="right">
+            <span>￥{{result.ctliPremiumAmount}}</span>
+            {{if result.ctliItems}}
+            <i class="arrow rotate_up"></i>
+            {{/if}}
+        </div>
+    </div>
+    <div class="list">
+        {{each result.ctliItems as item}}
+            <div class="cell">
+                <div class="left">
+                    <label>
+                        {{item.title}}
+
+                        {{if item.detail}}
+                        <span class="cr_gray">({{item.detail}})</span>
+                        {{/if}}
+                    </label>
+                    {{if item.ctliItemsSize}}
+                    <a class="item-size" href="javascript:;">{{item.ctliItemsSize + '项'}}</a>
+                    {{/if}}
+                </div>
+                <div class="right">
+                    <span>￥{{item.premiumAmount}}</span>
+                </div>
+            </div>
+            {{if item.ctliItems}}
+            <div class="items">
+                {{each item.ctliItems as val}}
+                 <div class="bg_fff pl30 cell">
+                    <div class="left">
+                        <label>{{val.title}}</label>
+                    </div>
+                    <div class="right">
+                        <span>￥{{val.premiumAmount}}</span>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+            {{/if}}
+        {{/each}}
+    </div>
+    {{/if}}
+</div>
+</script>
+
+<script type="text/javascript">
+$(function () {
+    var url = location.href;
+    var response = $.parseJSON(decodeURIComponent(url.split('&')[0].split('response=')[1]));
+
+    template.helper('dateFormat', function (date, format) {
+        date = date * 1000;
+        date = new Date(date); //新建日期对象
+
+        var map = {
+            "M": date.getMonth() + 1, //月份
+            "d": date.getDate(), //日
+            "h": date.getHours(), //小时
+            "m": date.getMinutes(), //分
+            "s": date.getSeconds(), //秒
+            "q": Math.floor((date.getMonth() + 3) / 3), //季度
+            "S": date.getMilliseconds() //毫秒
+        };
+
+        format = format.replace(/([yMdhmsqS])+/g, function(all, t){
+            var v = map[t];
+            if(v !== undefined){
+                if(all.length > 1){
+                    v = '0' + v;
+                    v = v.substr(v.length-2);
+                }
+                return v;
+            }
+            else if(t === 'y'){
+                return (date.getFullYear() + '').substr(4 - all.length);
+            }
+            return all;
+        });
+        return format;
+    });
+
+    var html = template('tpl_share',response);
+    $('.container').append(html);
+});
+
+</script>
+</body>
+</html>

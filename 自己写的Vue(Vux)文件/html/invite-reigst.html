@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>邀请注册代理人</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <script src="./js/zepto.min.js"></script>
+</head>
+<body>
+    <img src="./images/invite-regist-content1.png" width="100%">
+    <img src="./images/invite-regist-content2.png" width="100%">
+    <img src="./images/invite-regist-content3.png" width="100%">
+    <img id="goto" src="./images/invite-regist-button.png" width="100%">
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#goto').on('click', function() {
+                var url = location.href.split('?shareLink=')[1];
+                location.href = decodeURIComponent(url);
+            });
+        });
+    </script>
+</body>
+</html>
