@@ -176,6 +176,9 @@
             <cell class='cell-padding' title="邀请好友" is-link @click.native='showQrCode'>
                 <img slot="icon" src="../../assets/personal-qr.png">
             </cell>
+            <cell class='cell-padding' title="常见问题" is-link @click.native='showCommonProblem'>
+                <img slot="icon" src="../../assets/personal-problem.png">
+            </cell>
             <cell class='cell-padding' title="联系客服">
                 <img slot="icon" src="../../assets/personal-service.png">
                 <div slot="value">
@@ -284,6 +287,10 @@
                 this.$router.push({ path: '/invite' , query:{
                     qrUrl : this.qrUrl
                 }});
+            },
+            showCommonProblem () {
+                let link = 'http://' + location.host + '/html/common-problem.html';
+                location.href = link;
             },
             groupCellClick : function (item) {
                 if (item.title === "我的团队") {
