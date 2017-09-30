@@ -47,6 +47,12 @@
         text-align: center;
     }
 
+    .qr-div p {
+        background-color: #fff;
+        padding-bottom: 10px;
+        font-size: 12px;
+    }
+
     .qr-img {
         border: 1px solid #e5e5e5;
     }
@@ -68,6 +74,7 @@
                 </label>
             </div>
             <div class="qr-div">
+                <p>光大保险代理</p>
                 <img class="qr-img" :src="qrImageSrc">
             </div>
             <div class="footer">
@@ -149,7 +156,7 @@ import { XButton } from 'vux'
                     });
 
                     _this.$wechat.onMenuShareAppMessage({
-                        title: '光大保险出单神器，易销售高推广费',
+                        title: '光大保险代理出单神器，易销售高推广费',
                         desc: '成为光大保险代理人，人人都可以创建自己的团队，轻松推广收入过万！',
                         link: shareLink,
                         imgUrl: "http://" + location.host + "/html/images/hardcoding/icon.png",
@@ -160,7 +167,7 @@ import { XButton } from 'vux'
                     });
 
                     _this.$wechat.onMenuShareTimeline({
-                        title: '光大保险出单神器，易销售高推广费',
+                        title: '光大保险代理出单神器，易销售高推广费',
                         link: shareLink,
                         imgUrl: "http://" + location.host + "/html/images/hardcoding/icon.png",
                         success: function () {
