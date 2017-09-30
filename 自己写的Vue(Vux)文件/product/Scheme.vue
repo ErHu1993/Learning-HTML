@@ -294,7 +294,11 @@
             </div>
         </div>
         <div class="agree">
-            <check-icon :value.sync="def.editTerm">同意光大保险代理工作人员调整保险起期</check-icon>
+            <div class="vux-check-icon js_success is_success" @click="editTermFN($event)">
+                <i class="weui-icon weui_icon_circle weui-icon-circle hide"></i>
+                <i class="weui-icon weui_icon_success weui-icon-success"></i>
+                <span>同意光大保险代理工作人员调整保险起期</span>
+            </div>
         </div>
         <div class="xbutton">
              <x-button type="primary" @click.native="submit">获取报价</x-button>
@@ -319,8 +323,7 @@ export default {
                 ctali: 0,
                 ctaliTerm: '',
                 ctli: 1,
-                ctliTerm: '',
-                editTerm: true
+                ctliTerm: ''
             }
         }
     },
@@ -357,8 +360,20 @@ export default {
 
             this.getEditScheme();
         }
+
     },
     methods: {
+        editTermFN (event) {
+            var $this = $(event.currentTarget);
+
+            if ($this.is('.is_success') ) {
+                $this.removeClass('is_success');
+                $this.find('i').eq(0).removeClass('hide').siblings('i').addClass('hide');
+            } else {
+                $this.addClass('is_success');
+                $this.find('i').eq(1).removeClass('hide').siblings('i').addClass('hide');
+            }
+        },
         bindEvent () {
             // 不计免保绑定
             $(document).off('.btn').on('click.btn', '.js_plan_btn', function () {
@@ -452,9 +467,15 @@ export default {
                     ctali: rt.data.flowData.ctali,
                     ctaliTerm: (rt.data.flowData.ctaliTerm)? this.formatData(rt.data.flowData.ctaliTerm):'',
                     ctli: rt.data.flowData.ctli,
-                    ctliTerm: (rt.data.flowData.ctliTerm)? this.formatData(rt.data.flowData.ctliTerm):'',
-                    editTerm: Boolean(rt.data.flowData.editTerm)
+                    ctliTerm: (rt.data.flowData.ctliTerm)? this.formatData(rt.data.flowData.ctliTerm):''
                 };
+                if (rt.data.flowData.editTerm) {
+                    $('.js_success').addClass('is_success');
+                    $('.js_success').find('i').eq(1).removeClass('hide').siblings('i').addClass('hide');
+                } else {
+                    $('.js_success').removeClass('is_success');
+                    $('.js_success').find('i').eq(0).removeClass('hide').siblings('i').addClass('hide');
+                }
 
                 this.storage.set('flowData', this.flowData);
             });
@@ -500,23 +521,35 @@ export default {
                 }
             });
 
-            _this.flowData.editTerm = Number(this.def.editTerm);
+            _this.flowData.editTerm = $('.js_success.is_success').length;
             _this.flowData.flowProfile = this.flowProfile;
 
             _this.postCreate();
         },
         postCreate () {
-            this.$vux.loading.show({
-                text: '正在提交数据'
-            })
-            this.$http.post(this.host_bdd + '/autoInsurance/v1/inquiry/create', this.flowData).then((rt) => {
-                this.$vux.loading.hide();
-                if (rt.data.code != 200) {
-                    this.$vux.toast.text(rt.data.error, 'top');
+            let _this = this;
+            if (!_this.flowData.editTerm) {
+                if (_this.flowData.ctali && !_this.flowData.ctaliTerm) {
+                    _this.$vux.toast.text('请选择交强险起保期', 'top');
                     return;
                 }
 
-                this.$router.push({path:'/history/detail',query:{'inquiryId':rt.data.inquiryId}});
+                if (_this.flowData.ctli && !_this.flowData.ctliTerm) {
+                    _this.$vux.toast.text('请选择商业险起保期', 'top');
+                    return;
+                }
+            }
+
+            _this.$vux.loading.show({text: '正在提交数据'});
+            _this.$http.post(_this.host_bdd + '/autoInsurance/v1/inquiry/create', _this.flowData).then((rt) => {
+                _this.$vux.loading.hide();
+                if (rt.data.code != 200) {
+                    _this.$vux.loading.hide();
+                    _this.$vux.toast.text(rt.data.error, 'top');
+                    return;
+                }
+
+                _this.$router.push({path:'/history/detail',query:{'inquiryId':rt.data.inquiryId}});
             });
         },
         formatData (time) {
