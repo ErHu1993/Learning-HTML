@@ -11,6 +11,17 @@
         background-color: #e6edf0;
     }
 
+     .section-title p{
+        display: inline-block;
+     }
+
+    .section-title img {
+        float:right;
+        display: inline-block;
+        width: 28px;
+        height:21px;
+    }
+
     .agree{
         border-top: 1px solid #e5e5e5;
         margin: 0px 15px;
@@ -46,6 +57,7 @@
         <group :gutter='0'>
             <group-title  class="section-title">
                 <p>投保人信息</p>
+                <img src="../../assets/camera.png" @click='takePhotoToUserInformation(1)'>
             </group-title>
 
             <x-input
@@ -142,6 +154,7 @@
 
             <group-title  class="section-title">
                 <p>被保人信息</p>
+                <img src="../../assets/camera.png" @click='takePhotoToUserInformation(2)'>
             </group-title>
 
             <popup-radio title="与投保人关系"
@@ -983,7 +996,11 @@ export default {
     },
 
     mounted :function(){
-
+        // var arr = ["1966-09-27","1967-08-29","1967-09-27","1967-09-28","1967-09-29","1967-10-27","1968-09-29","2011-09-27","2012-08-27","2012-09-27","2012-09-28","2012-09-29","2012-10-27","2013-09-27"];
+        // debugger;
+        // for (var i = 0; i < arr.length; i++) {
+        //     console.log(Number(this.judgeAge(arr[i])));
+        // }
     },
 
     methods : {
@@ -997,10 +1014,9 @@ export default {
             if (this.identityRules(this.policyHolder.identity,"投保人").valid){
                 if (this.policyHolder.identity.length == 18){
                     this.policyHolder.birth =
-                    this.policyHolder.identity.substr(6,4) + "-" +
-                    this.policyHolder.identity.substr(10,2) + "-" +
-                    this.policyHolder.identity.substr(12,2);
-
+                        this.policyHolder.identity.substr(6,4) + "-" +
+                        this.policyHolder.identity.substr(10,2) + "-" +
+                        this.policyHolder.identity.substr(12,2);
                     if (this.policyHolder.identity.substr(16,1) % 2) {
                         this.policyHolder.gender = '男';
                     } else {
@@ -1013,14 +1029,62 @@ export default {
             if (this.identityRules(this.insured.identity,"被保人").valid){
                 if (this.insured.identity.length == 18) {
                     this.insured.birth =
-                    this.insured.identity.substr(6,4) + "-" +
-                    this.insured.identity.substr(10,2) + "-" +
-                    this.insured.identity.substr(12,2);
+                        this.insured.identity.substr(6,4) + "-" +
+                        this.insured.identity.substr(10,2) + "-" +
+                        this.insured.identity.substr(12,2);
 
+                    if (!this.judgeAge(this.insured.birth)){
+                        this.$vux.toast.text('抱歉，暂时仅支持被保人5-49周岁的投保', 'top');
+                    }
                     if (this.insured.identity.substr(16,1) % 2) {
                         this.insured.gender = '男';
                     } else {
                         this.insured.gender = '女';
+                    }
+                }
+            }
+        },
+        judgeAge (birth) {
+            let brithArray = birth.split('-');
+            let byear = brithArray[0];
+            let bmouth = brithArray[1];
+            let bday = brithArray[2];
+            let nowDate = new Date();
+            let nyear = nowDate.getFullYear();
+            let nmouth = nowDate.getMonth() + 1;
+            let nday = nowDate.getDate();
+
+            if ((nyear - byear) > 5 && (nyear - byear) <= 49) {
+                return true;
+            } else if ((nyear - byear) < 5 || ((nyear - byear) > (49 + 1))) {
+                return false;
+            } else {
+                //两种情况  一个是 5岁那年 , 一个是50岁那年
+                if ((nyear - byear) == 5) {
+                    //5岁那年
+                    if ((nmouth - bmouth) > 0){
+                        return true;
+                    } else if ((nmouth - bmouth) < 0){
+                        return false;
+                    }else {
+                        if ((nday - bday) > 0){
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                } else {
+                    //50岁那年
+                    if ((nmouth - bmouth) > 0){
+                        return false;
+                    } else if ((nmouth - bmouth) < 0){
+                        return true;
+                    }else {
+                        if ((nday - bday) >= 0){
+                            return false;
+                        } else {
+                            return true;
+                        }
                     }
                 }
             }
@@ -1096,6 +1160,36 @@ export default {
                 this.agreeTotalCheck = false;
             }
         },
+        takePhotoToUserInformation (category) {
+            if (category == 2 && this.flowData.insuredRelation == '本人') return;
+            var _this = this;
+            _this.$uploadImage( function (serverId,localId) {
+                _this.$post(_this.host_bdd + '/autoInsurance/v1/upload/identity', {
+                    mediaId: serverId,
+                }, function (rt) {
+                    _this.$vux.loading.hide();
+                    if (rt.data.code != 200) {
+                        _this.$vux.toast.text(rt.data.error, 'top');
+                        return;
+                    }
+                    if (rt.data.certPersonIdentity){
+                        if (category == 1){
+                            _this.policyHolder.expiredDate = rt.data.certPersonIdentity.expiredDate;
+                            _this.policyHolder.identity = rt.data.certPersonIdentity.identity;
+                            _this.policyHolder.name = rt.data.certPersonIdentity.name;
+                            _this.policyHolder.birth = rt.data.certPersonIdentity.birth;
+                            _this.policyHolder.gender = rt.data.certPersonIdentity.gender;
+                        }else if (category == 2){
+                            _this.insured.expiredDate = rt.data.certPersonIdentity.expiredDate;
+                            _this.insured.identity = rt.data.certPersonIdentity.identity;
+                            _this.insured.name = rt.data.certPersonIdentity.name;
+                            _this.insured.birth = rt.data.certPersonIdentity.birth;
+                            _this.insured.gender = rt.data.certPersonIdentity.gender;
+                        }
+                    }
+                });
+            });
+        },
         submitInfo () {
 
             if (this.userNameRules(this.policyHolder.name,'投保人')
@@ -1120,6 +1214,11 @@ export default {
                 var insuredValid = this.identityRules(this.insured.identity,'被保人');
                 if (!insuredValid.valid) {
                     this.$vux.toast.text(insuredValid.msg, 'top');
+                    return;
+                }
+
+                if (!this.judgeAge(this.insured.birth)){
+                    this.$vux.toast.text('抱歉，暂时仅支持被保人5-49周岁的投保', 'top');
                     return;
                 }
 
