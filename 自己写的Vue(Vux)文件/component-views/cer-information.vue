@@ -34,8 +34,8 @@
 
 
     .flex-image {
-      width:64px;
-      height:48px;
+      width:100%;
+      height:auto;
       vertical-align: middle;
     }
 
@@ -72,7 +72,7 @@
                             :src="imageSrcFront">
                             <img class="flex-image"
                             v-show='!imageSrcFront'
-                            src="../../assets/camera.png"><i></i>
+                            src="../../assets/identity-front.png"><i></i>
                         </div>
                         <p>请上传身份证正面</p>
                     </flexbox-item>
@@ -83,7 +83,7 @@
                             :src="imageSrcBack">
                             <img class="flex-image"
                             v-show='!imageSrcBack'
-                            src="../../assets/camera.png"><i></i>
+                            src="../../assets/identity-back.png"><i></i>
                         </div>
                         <p>请上传身份证反面</p>
                     </flexbox-item>
@@ -98,7 +98,7 @@
                             :src="imageSrcFront">
                             <img class="flex-image"
                             v-show='!imageSrcFront'
-                            src="../../assets/camera.png"><i></i>
+                            src="../../assets/identity-front.png"><i></i>
                         </div>
                         <p>身份证正面</p>
                     </flexbox-item>
@@ -109,7 +109,7 @@
                             :src="imageSrcBack">
                             <img class="flex-image"
                             v-show='!imageSrcBack'
-                            src="../../assets/camera.png"><i></i>
+                            src="../../assets/identity-back.png"><i></i>
                         </div>
                         <p>身份证反面</p>
                     </flexbox-item>
@@ -141,59 +141,64 @@
                 </flexbox>
             </div>
 
-            <x-input title="真实姓名"
-            v-model="userModel.realName"
-            :disabled='category == 3'
-            placeholder="请输入"
-            :is-type="nameRules"
-            placeholder-align="right"
-            text-align="right">
-            </x-input>
+            <group gutter="0">
+                <x-input title="真实姓名"
+                v-model="userModel.realName"
+                :disabled='category == 3'
+                placeholder="请输入"
+                :is-type="nameRules"
+                placeholder-align="right"
+                text-align="right">
+                </x-input>
 
-            <x-input title="身份证号"
-            v-model="userModel.identity"
-            :disabled='category == 3'
-            placeholder="请输入"
-            :is-type="identityRules"
-            placeholder-align="right"
-            text-align="right">
-            </x-input>
+                <x-input title="身份证号"
+                v-model="userModel.identity"
+                :disabled='category == 3'
+                placeholder="请输入"
+                :is-type="identityRules"
+                placeholder-align="right"
+                text-align="right">
+                </x-input>
 
-            <popup-radio title="性别"
-            :options="sexOptions"
-            :readonly='category == 3'
-            v-model="userModel.sex">
-            </popup-radio>
+                <popup-radio title="性别"
+                :options="sexOptions"
+                :placeholder='userModel.sex ? "" : "请选择"'
+                :readonly='category == 3'
+                v-model="userModel.sex">
+                </popup-radio>
 
-            <popup-radio title="民族"
-            :options="nationOtions"
-            :readonly='category == 3'
-            v-model="userModel.nation">
-            </popup-radio>
+                <popup-radio title="民族"
+                :options="nationOtions"
+                :placeholder='userModel.nation ? "" : "请选择"'
+                :readonly='category == 3'
+                v-model="userModel.nation">
+                </popup-radio>
 
-            <cell title="出生日期"
-            class='cell-date'
-            @click.native='category == 3 ? showBirthDate = false : showBirthDate = true'
-            :is-link='category != 3'>
-                <img src="../../assets/date-icon.png" v-show='category != 3'>
-                <span>{{userModel.birthDate}}</span>
-            </cell>
+                <cell title="出生日期"
+                class='cell-date'
+                :placeholder='userModel.birthDate ? "" : "请选择"'
+                @click.native='category == 3 ? showBirthDate = false : showBirthDate = true'
+                :is-link='category != 3'>
+                    <img src="../../assets/date-icon.png" v-show='category != 3'>
+                    <span>{{userModel.birthDate}}</span>
+                </cell>
 
-            <popup v-model="showBirthDate">
-                <datetime-view
-                v-model='userModel.birthDate'
-                :min-year='1900'
-                :max-year='new Date().getFullYear()'
-                format='YYYY-MM-DD'>
-                </datetime-view>
-            </popup>
+                <popup v-model="showBirthDate">
+                    <datetime-view
+                    v-model='userModel.birthDate'
+                    :min-year='1900'
+                    :max-year='new Date().getFullYear()'
+                    format='YYYY-MM-DD'>
+                    </datetime-view>
+                </popup>
 
-            <popup-radio title="学历"
-            :options="academicOptions"
-            :readonly='category == 3'
-            v-model="userModel.academic">
-            </popup-radio>
-
+                <popup-radio title="学历"
+                :options="academicOptions"
+                :placeholder='userModel.academic ? "" : "请选择"'
+                :readonly='category == 3'
+                v-model="userModel.academic">
+                </popup-radio>
+            </group>
         </group>
     </div>
 </template>
@@ -299,7 +304,7 @@ import { Group, Cell ,XInput,Box,Icon,XButton ,PopupRadio,Flexbox, FlexboxItem, 
                             _this.$vux.toast.text(rt.data.error, 'top');
                             return;
                         }
-                        _this.getImageData(1,localId);
+                        _this.getImageData(1,rt.data.tenantAgentInfo.frontPath);
 
                         _this.userModel.waitingAuditInfoId = rt.data.tenantAgentInfo.id;
 
@@ -345,9 +350,9 @@ import { Group, Cell ,XInput,Box,Icon,XButton ,PopupRadio,Flexbox, FlexboxItem, 
                             return;
                         }
 
-                        _this.getImageData(0,localId);
-
                         _this.userModel.infoId = rt.data.tenantAgentInfo.id;
+
+                        _this.getImageData(0,rt.data.tenantAgentInfo.backPath);
 
                         if (rt.data.tenantAgentInfo.identity) {
                              _this.userModel.identity = rt.data.tenantAgentInfo.identity;
@@ -373,16 +378,17 @@ import { Group, Cell ,XInput,Box,Icon,XButton ,PopupRadio,Flexbox, FlexboxItem, 
                     });
                 });
             },
-            getImageData : function (location,localId) {
+            getImageData : function (location,path) {
                 var _this = this;
-                _this.$wechat.getLocalImgData({
-                    localId: localId, // 图片的localID
-                    success: function (res) {
+                _this.$getImageUrlFromOSS(path,function (rt){
+                    if (rt){
                         if (location){
-                            _this.imageSrcFront = res.localData;
-                        }else{
-                            _this.imageSrcBack = res.localData;
+                            _this.imageSrcFront = rt;
+                        }else {
+                            _this.imageSrcBack = rt;
                         }
+                    }else {
+                        _this.$vux.toast.text('获取图片失败:' + JSON.stringify(rt), 'top');
                     }
                 });
             },
