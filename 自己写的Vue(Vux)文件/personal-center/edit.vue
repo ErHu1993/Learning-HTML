@@ -135,6 +135,9 @@
                     this.$vux.toast.text('请输入正确的姓名', 'top')
                     return;
                 }
+                this.$vux.loading.show({
+                    text: '正在提交数据'
+                })
                 var _this = this;
                 _this.$post(_this.host_bdd + '/agent/v1/update', {
                     nickName:_this.userInfo.nickName,
