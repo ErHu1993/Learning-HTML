@@ -40,8 +40,7 @@
     }
 
     .submit {
-        margin: 0.4rem 0 0;
-        padding: 0 15px;
+        padding: 15px 15px 0;
     }
 
     .kefu {
@@ -219,6 +218,13 @@ export default {
     },
     created () {
         this.getAccount();
+        this.$nextTick( () => {
+            this.minHeight();
+
+            $(window).on('resize', () => {
+                this.minHeight();
+            });
+        });
     },
     methods: {
         // 资金账户信息
@@ -260,6 +266,13 @@ export default {
             this.$router.push({ path: '/account/apply-list' , query : {
                 dealType : 'recharge'
             }});
+        },
+        minHeight () {
+            let ch = $('.card').height();
+            let sh = $('.submit').height();
+            let kh = $('.kefu').height();
+
+            $('.container').css('minHeight', ch + sh + kh);
         }
     }
 }
