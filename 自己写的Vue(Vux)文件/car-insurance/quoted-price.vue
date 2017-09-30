@@ -40,7 +40,7 @@
                 value-text-align="left"
                 @on-change='addressChange'>
             </popup-picker>
-            <x-input title="车牌号码" v-model="numberPlate" :is-type="plateNoRules">
+            <x-input title="车牌号码" v-model="numberPlate" :is-type="plateNoRules" @on-change='numberPlateChange'>
                 <label slot="right">未上牌不用填</label>
                 <label slot="right" class="take-photo-img" @click='takePhotoToCarInformation'></label>
             </x-input>
@@ -98,6 +98,11 @@ import { Group, Cell ,XInput ,Picker,PopupPicker ,GroupTitle,XButton} from 'vux'
                                 _this.addressData.push(city);
                             }
                         }
+                        var provience = _this.codeCities[0];
+                        var city = provience.children[0];
+                        _this.addressValue.push(provience.nameCn);
+                        _this.addressValue.push(city.nameCn);
+                        _this.currentCityCode = city;
                         _this.getCurrentAdress();
                      }
                  });
@@ -138,20 +143,24 @@ import { Group, Cell ,XInput ,Picker,PopupPicker ,GroupTitle,XButton} from 'vux'
                 jsonp: 'callback',
                 jsonpCallback: 'showLocation',
                 success: function (rt) {
-                        var cityCode = rt.content.address_detail.city_code;
-                        for (var i = 0; i < _this.codeCities.length; i++) {
-                            var provience = _this.codeCities[i];
-                            for (var j = 0; j < provience.children.length; j++) {
-                                var city = provience.children[j];
-                                if (city.baiDuId == cityCode) {
-                                     _this.addressValue.push(provience.nameCn);
-                                     _this.addressValue.push(city.nameCn);
-                                     _this.currentCityCode = city;
-                                    return;
-                                }
+                    var cityCode = rt.content.address_detail.city_code;
+                    for (var i = 0; i < _this.codeCities.length; i++) {
+                        var provience = _this.codeCities[i];
+                        for (var j = 0; j < provience.children.length; j++) {
+                            var city = provience.children[j];
+                            if (city.baiDuId == cityCode) {
+                                 _this.addressValue = [];
+                                 _this.addressValue.push(provience.nameCn);
+                                 _this.addressValue.push(city.nameCn);
+                                 _this.currentCityCode = city;
+                                return;
                             }
                         }
                     }
+                },
+                error : function (rt) {
+
+                }
                 })
             },
             takePhotoToCarInformation () {
@@ -175,6 +184,9 @@ import { Group, Cell ,XInput ,Picker,PopupPicker ,GroupTitle,XButton} from 'vux'
                     });
                 });
             },
+            numberPlateChange (value) {
+                this.numberPlate = this.numberPlate.toUpperCase();
+            },
             addressChange (value) {
                 for (var i = 0; i < this.codeCities.length; i++) {
                     var provience = this.codeCities[i];
@@ -188,13 +200,18 @@ import { Group, Cell ,XInput ,Picker,PopupPicker ,GroupTitle,XButton} from 'vux'
                                 return;
                             }
                         }
-                     }
+                    }
                 }
             },
             nextStep () {
 
                 if (!this.plateNoRules(this.numberPlate).valid) {
                     this.$vux.toast.text('请输入正确的车牌号码', 'top')
+                    return;
+                }
+
+                if (!this.currentCityCode){
+                    this.$vux.toast.text('请选择正确的城市', 'top')
                     return;
                 }
 
@@ -207,9 +224,14 @@ import { Group, Cell ,XInput ,Picker,PopupPicker ,GroupTitle,XButton} from 'vux'
                 if (this.numberPlate.length > 2){
                     flowData.plateNo = this.numberPlate;
                 }
+
                 if (this.vehicle) {
                     flowData.vehicle = this.vehicle;
                 }
+
+                flowData.policyHolderSameAsOwner = true;
+                flowData.insuredSameAsOwner = true;
+
                 this.storage.set('flowData', flowData);
                 this.$router.push({ path: '/car-insurance/car-information'});
             }
