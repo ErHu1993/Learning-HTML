@@ -21,7 +21,7 @@
         <section class="submit-button" v-show='canEdit'>
             <x-button type='primary' @click.native='submitInfo'>修改信息</x-button>
         </section>
-        <p v-show='canEdit'> * 光大保险将保护您的隐私安全，信息仅用于代理人备案 </p>
+        <p v-show='canEdit'> * 光大保险代理将保护您的隐私安全，信息仅用于代理人备案 </p>
     </div>
 </template>
 
