@@ -15,6 +15,7 @@
 
     .section-title img {
         float:right;
+        margin-bottom: 6px;
         width: 28px;
         height:21px;
     }
@@ -40,12 +41,14 @@
         title="车架号 "
         placeholder="请输入   "
         v-model="vehicle.vin"
+        text-align="right"
         placeholder-align="right"
         :is-type="carFrameNumberRules">
         </x-input>
         <x-input
         title="发动机号"
         placeholder="请输入   "
+        text-align="right"
         v-model="vehicle.engineNo"
         placeholder-align="right"
         :is-type="engineNumberRules">
@@ -53,11 +56,12 @@
         <x-input
         title="品牌型号"
         placeholder="请输入   "
+        text-align="right"
         v-model="vehicle.model"
         placeholder-align="right"
         :is-type="carModelRules">
         </x-input>
-        <x-switch title="是否过户" v-model="customer.transfered"></x-switch>
+        <x-switch class='switch-vertical-middle' title="是否过户" v-model="customer.transfered"></x-switch>
         <datetime
         v-model="customer.transferTime"
         v-show='customer.transfered'
@@ -67,13 +71,14 @@
         </datetime>
     </group>
     <group>
-        <group-title slot="title" class="section-title">
+        <group-title slot="title" class="section-title">车主信息
             <img src="../../assets/camera.png" @click='takePhotoToUserInformation(0)'>
         </group-title>
         <x-input
         title="车主姓名"
         placeholder="请输入   "
         v-model="owner.name"
+        text-align="right"
         placeholder-align="right"
         @on-change='ownerNameChange'
         :is-type="userNameRules">
@@ -81,6 +86,7 @@
         <x-input
         title="身份证号"
         placeholder="请输入   "
+        text-align="right"
         v-model="owner.identity"
         placeholder-align="right"
         @on-change='ownerIdentityChange'
@@ -89,6 +95,7 @@
         <x-input
         title="手机号码"
         placeholder="请输入   "
+        text-align="right"
         v-model="customer.ownerMobile"
         @on-change='ownerMobileChange'
         placeholder-align="right"
@@ -105,24 +112,30 @@
             </check-icon>
         </group-title>
         <x-input
+        v-show='!policyHolderSameAsOwner'
         title="投保人姓名"
         placeholder="请输入   "
+        text-align="right"
         :disabled='policyHolderSameAsOwner'
         v-model="policyHolder.name"
         placeholder-align="right"
         :is-type="userNameRules">
         </x-input>
         <x-input
+        v-show='!policyHolderSameAsOwner'
         title="身份证号"
         placeholder="请输入   "
+        text-align="right"
         :disabled='policyHolderSameAsOwner'
         v-model="policyHolder.identity"
         placeholder-align="right"
         :is-type="identityRules">
         </x-input>
         <x-input
+        v-show='!policyHolderSameAsOwner'
         title="手机号码"
         placeholder="请输入   "
+        text-align="right"
         :disabled='policyHolderSameAsOwner'
         v-model="customer.policyHolderMobile"
         placeholder-align="right"
@@ -139,24 +152,30 @@
             </check-icon>
         </group-title>
         <x-input
+        v-show='!insuredSameAsOwner'
         title="被投保人姓名"
         placeholder="请输入   "
+        text-align="right"
         :disabled='insuredSameAsOwner'
         v-model="insured.name"
         placeholder-align="right"
         :is-type="userNameRules">
         </x-input>
         <x-input
+        v-show='!insuredSameAsOwner'
         title="身份证号"
         placeholder="请输入   "
+        text-align="right"
         :disabled='insuredSameAsOwner'
         v-model="insured.identity"
         placeholder-align="right"
         :is-type="identityRules">
         </x-input>
         <x-input
+        v-show='!insuredSameAsOwner'
         title="手机号码"
         placeholder="请输入   "
+        text-align="right"
         :disabled='insuredSameAsOwner'
         v-model="customer.insuredMobile"
         placeholder-align="right"
@@ -189,7 +208,6 @@ import { Group, Cell ,XInput ,Datetime,GroupTitle,XButton,XSwitch,CheckIcon} fro
         mounted : function() {
             var _this = this;
             this.$nextTick(function () {
-
                  this.quotedPriceFlowData = this.storage.get('flowData');
 
                  this.policyHolderSameAsOwner = Boolean(this.quotedPriceFlowData.policyHolderSameAsOwner);
@@ -217,15 +235,14 @@ import { Group, Cell ,XInput ,Datetime,GroupTitle,XButton,XSwitch,CheckIcon} fro
                 if (this.quotedPriceFlowData.insured) {
                     this.insured = this.quotedPriceFlowData.insured;
                 }
-                console.log("flowData = " , JSON.stringify(this.quotedPriceFlowData));
             });
         },
 
         data () {
             var _this = this;
             return {
-                policyHolderSameAsOwner : false,//投保人信息同车主信息
-                insuredSameAsOwner : false, //被保人信息是否同车主信息 ,
+                policyHolderSameAsOwner : null,//投保人信息同车主信息
+                insuredSameAsOwner : null, //被保人信息是否同车主信息 ,
                 vehicle : {
                     registerDate : "", //登记日期
                     engineNo : "", //发动机号
@@ -406,6 +423,10 @@ import { Group, Cell ,XInput ,Datetime,GroupTitle,XButton,XSwitch,CheckIcon} fro
                     this.policyHolder.name = this.owner.name;
                     this.policyHolder.identity = this.owner.identity;
                     this.customer.policyHolderMobile = this.customer.ownerMobile;
+                }else {
+                    this.policyHolder.name = null;
+                    this.policyHolder.identity = null;
+                    this.customer.policyHolderMobile = null;
                 }
             },
             insuredSameAsOwnerClick (value) {
@@ -413,6 +434,10 @@ import { Group, Cell ,XInput ,Datetime,GroupTitle,XButton,XSwitch,CheckIcon} fro
                     this.insured.name = this.owner.name;
                     this.insured.identity = this.owner.identity;
                     this.customer.insuredMobile = this.customer.ownerMobile;
+                }else {
+                    this.insured.name = null;
+                    this.insured.identity = null;
+                    this.customer.insuredMobile = null;
                 }
             },
             nextStep () {
@@ -421,16 +446,55 @@ import { Group, Cell ,XInput ,Datetime,GroupTitle,XButton,XSwitch,CheckIcon} fro
                  && this.engineNumberRules(this.vehicle.engineNo)
                  && this.carModelRules(this.vehicle.model)
                  && (!this.customer.transfered || this.transferTimeRules(this.customer.transferTime))
-                 && this.userNameRules(this.owner.name,'车主')
-                 && this.identityRules(this.owner.identity,'车主').valid
-                 && this.mobileRules(this.customer.ownerMobile,'车主').valid
-                 && this.userNameRules(this.policyHolder.name,'投保人')
-                 && this.identityRules(this.policyHolder.identity,'投保人').valid
-                 && this.mobileRules(this.customer.policyHolderMobile,'投保人').valid
-                 && this.userNameRules(this.insured.name,'被投保人')
-                 && this.identityRules(this.insured.identity,'被投保人').valid
-                 && this.mobileRules(this.customer.insuredMobile,'被投保人').valid
-                 ){
+                 && this.userNameRules(this.owner.name,'车主'))
+                {
+
+                    var result = this.identityRules(this.owner.identity,'车主');
+                    if (!result.valid){
+                        this.$vux.toast.text(result.msg, 'top')
+                        return;
+                    }
+
+                    result = this.mobileRules(this.customer.ownerMobile,'车主');
+                    if (!result.valid){
+                        this.$vux.toast.text(result.msg, 'top')
+                        return;
+                    }
+
+                    result = this.userNameRules(this.policyHolder.name,'投保人');
+                    if (!result){
+                        return;
+                    }
+
+                    result = this.identityRules(this.policyHolder.identity,'投保人');
+                    if (!result.valid){
+                        this.$vux.toast.text(result.msg, 'top')
+                        return;
+                    }
+
+                    result = this.mobileRules(this.customer.policyHolderMobile,'投保人');
+                    if (!result.valid){
+                        this.$vux.toast.text(result.msg, 'top')
+                        return;
+                    }
+
+                    result = this.userNameRules(this.insured.name,'被投保人');
+                    if (!result){
+                        return;
+                    }
+
+                    result = this.identityRules(this.insured.identity,'被投保人');
+                    if (!result.valid){
+                        this.$vux.toast.text(result.msg, 'top')
+                        return;
+                    }
+
+                    result = this.mobileRules(this.customer.insuredMobile,'被投保人');
+                    if (!result.valid){
+                        this.$vux.toast.text(result.msg, 'top')
+                        return;
+                    }
+
                     //合并数据
                     this.quotedPriceFlowData.vehicle = this.vehicle;
                     if (!this.customer.transfered){
@@ -456,7 +520,6 @@ import { Group, Cell ,XInput ,Datetime,GroupTitle,XButton,XSwitch,CheckIcon} fro
                     flowData.policyHolderSameAsOwner = Number(flowData.policyHolderSameAsOwner);
                     flowData.insuredSameAsOwner = Number(flowData.insuredSameAsOwner);
 
-                    console.log(JSON.stringify(flowData));
                     this.storage.set('flowData', flowData);
                     this.$router.push({ path: '/product/scheme'});
                 }
