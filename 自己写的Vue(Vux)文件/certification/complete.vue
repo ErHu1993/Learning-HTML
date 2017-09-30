@@ -1,12 +1,20 @@
 <style scoped>
     .box{
         background-color: #fbf9fe;
+        margin: 10px;
+    }
+
+    .box p{
+        margin: 10px;
+        text-align: center;
     }
 </style>
 
 <template>
     <div class="box">
-        <msg title="提交成功资料审核中" description="1-3个工作日内将返回结果" :buttons="buttons"></msg>
+        <msg title="提交成功资料审核中" description="1-3个工作日内将返回结果" :buttons="buttons">
+        </msg>
+        <p>温馨提示：审核通过并成为正式代理人后，才能提现哦</p>
     </div>
 </template>
 
@@ -24,7 +32,7 @@ import { Msg} from 'vux'
             return {
                 buttons: [{
                 type: 'primary',
-                text: "进入" + (this.$route.query.title ? this.$route.query.title : '个人中心'),
+                text: "进入个人中心",
                 onClick: this.jump.bind(this)
               }]
             }
@@ -32,11 +40,7 @@ import { Msg} from 'vux'
 
         methods: {
             jump : function () {
-                if (this.$route.query.url){
-                    this.$router.push({ path: this.$route.query.url });
-                } else {
-                    this.$router.push({ path: '/personal' });
-                }
+                this.$router.push({ path: '/personal' });
             }
         }
     }
