@@ -326,7 +326,7 @@
                     <x-switch class='switch-vertical-middle'
                         title="有无社会基本医疗保险"
                         v-model="customer.haveHealthInsurance"
-                        @on-click='healthInsuranceChange'>
+                        @on-change='healthInsuranceChange'>
                     </x-switch>
                     <popup-picker title="请选择您的年龄段"
                         :data="ageOtions"
@@ -725,8 +725,7 @@ export default {
 
     },
     methods: {
-        healthInsuranceChange (value) {
-            this.customer.haveHealthInsurance = !this.customer.haveHealthInsurance;
+        healthInsuranceChange (oldValue,newValue) {
             this.ageOtionChange(this.customer.ageOption)
         },
         ageOtionChange (value) {
