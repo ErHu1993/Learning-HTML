@@ -37,7 +37,7 @@
         <section class="submit-button">
             <x-button type='primary' @click.native='submitInfo'>确定</x-button>
         </section>
-        <p> * 光大保险将保护您的隐私安全，信息仅用于代理人备案 </p>
+        <p> * 光大保险代理将保护您的隐私安全，信息仅用于代理人备案 </p>
         <div>
             <x-dialog v-model="showContact"
             :dialog-style="{'max-width': '90%', width: '90%'}">
@@ -78,10 +78,10 @@ import cerInformation from '@/views/component-views/cer-information.vue';
                     waitingAuditInfoId:'',
                     realName:'',
                     identity:'',
-                    sex : '男',
-                    nation:'汉族',
-                    academic:'本科',
-                    birthDate: new Date().getFullYear() - 30 + "-01-01"
+                    sex : '',
+                    nation:'',
+                    academic:'',
+                    birthDate: ''//new Date().getFullYear() - 30 + "-01-01"
                 },
                 nameRules : function (value) {
                     return {
@@ -133,10 +133,29 @@ import cerInformation from '@/views/component-views/cer-information.vue';
                     return;
                 }
 
+                if (!this.userModel.sex){
+                    this.$vux.toast.text('请输入正确的性别', 'top')
+                    return;
+                }
+
+                if (!this.userModel.nation){
+                    this.$vux.toast.text('请输入正确的民族', 'top')
+                    return;
+                }
+
+                if (!this.userModel.birthDate){
+                    this.$vux.toast.text('请输入正确的出生日期', 'top')
+                    return;
+                }
+
+                if (!this.userModel.academic){
+                    this.$vux.toast.text('请输入正确的学历', 'top')
+                    return;
+                }
+
                 this.$vux.loading.show({
                     text: '正在提交数据'
                 })
-
                 var _this = this;
                 _this.$post(_this.host_bdd + '/agent/v1/info/submit', {
                     identity:_this.userModel.identity,
@@ -152,7 +171,7 @@ import cerInformation from '@/views/component-views/cer-information.vue';
                         _this.$vux.toast.text(rt.data.error, 'top')
                         return;
                     }
-                    _this.$router.push({ path: '/complete', query:{url:_this.$route.query.url ,title: _this.$route.query.title}});
+                    _this.$router.replace('/complete');
                 });
             },
         }
