@@ -127,39 +127,33 @@
 
 <template>
     <section class="container">
-        <div class="first">
-            <div class="first-left">
-                <label>提现至</label>
-                <label v-show='showPremiumRate'>提示:</label>
+        <div class="intbody">
+            <div class="first">
+                <div class="first-left">
+                    <label>提现至</label>
+                    <label v-show='showPremiumRate'>提示:</label>
+                </div>
+                <div class="first-right">
+                    <label style='color:#305BDA'>微信钱包</label>
+                    <label class='cr_gray' v-show='showPremiumRate'>提现手续费0.1%</label>
+                </div>
             </div>
-            <div class="first-right">
-                <label style='color:#305BDA'>微信钱包</label>
-                <label class='cr_gray' v-show='showPremiumRate'>提现手续费0.1%</label>
+            <div class="cell">
+                <div class="label">
+                    <label>提现金额</label>
+                </div>
             </div>
-        </div>
-       <!--  <div class="first cell">
-            <div class="label">
-                <label>提现至</label>
+            <div class="cell" style="padding:0">
+                <div class="value apply-money">
+                    <label>￥</label>
+                    <input type="text" autocomplete="off" name="money" style="width:100%;padding-left:45px;line-height:30px;" />
+                </div>
+                <div class="line"></div>
             </div>
-            <div class="value">
-                <span class="blue" style="padding-left:15px;">微信钱包</span>
+            <div class="cell">
+                <div class="label"><label class="fs12 cr_gray" >{{applyContent}}</label></div>
+                <div class="value text_right"><span class="blue js_all" @click="seeAll">全部提现</span></div>
             </div>
-        </div> -->
-        <div class="cell">
-            <div class="label">
-                <label>提现金额</label>
-            </div>
-        </div>
-        <div class="cell" style="padding:0">
-            <div class="value apply-money">
-                <label>￥</label>
-                <input type="text" autocomplete="off" name="money" style="width:100%;padding-left:45px;line-height:30px;" />
-            </div>
-            <div class="line"></div>
-        </div>
-        <div class="cell">
-            <div class="label"><label class="fs12 cr_gray" >{{applyContent}}</label></div>
-            <div class="value text_right"><span class="blue js_all" @click="seeAll">全部提现</span></div>
         </div>
         <div class="bottom">
             <x-button type="primary" :disabled="disabled" @click.native="setMoney">提现</x-button>
@@ -238,6 +232,14 @@ export default {
                 return;
             }
             _this.userInfo = rt.data.message;
+        });
+
+        this.$nextTick( () => {
+            this.minHeight();
+
+            $(window).on('resize', () => {
+                this.minHeight();
+            });
         });
 
         $(document).off('input propertychange').on('input propertychange', '[name="money"]', function () {
@@ -348,6 +350,13 @@ export default {
         onConfirm (msg) {
             this.money = ((parseFloat(this.money) - this.commission).toFixed(2));
             this.apply();
+        },
+        minHeight () {
+            let ih = $('.intbody').height();
+            let bh = $('.bottom').height();
+            let kh = $('.kefu').height();
+
+            $('.container').css('minHeight', ih + bh + kh);
         }
     }
 }
