@@ -59,7 +59,7 @@
     }
 
     .search-input{
-        width: 200px;
+        width: 220px;
         margin-left: 20px;
         display: inline-block;
         margin-top: 30px;
@@ -106,7 +106,7 @@
 
     /* 日期选择器宽度设置 */
     .ivu-date-picker{
-        width: 200px;
+        width: 220px;
     }
 
     .model-header{
@@ -115,7 +115,6 @@
     }
 
     .model-content{
-        font-size: 12px;
         position: relative;
         height: 25rem;
         overflow-y: auto;
@@ -129,7 +128,6 @@
         float: left;
         margin-left:75px;
         width:360px;
-        height:250px;
     }
 
     .model-content-comment{
@@ -277,7 +275,7 @@
                 </div>
                 <div>
                     <label class="model-content-title">  身份证照:</label>
-                    <div style="overflow:hidden;">
+                    <div class="clearfix" style="margin:-18px 0 0;">
                         <img v-show='imageSrcFront' :src="imageSrcFront" class="model-content-image">
                         <img v-show='imageSrcBack' :src="imageSrcBack" class="model-content-image">
                     </div>
@@ -311,7 +309,7 @@
                 </div>
             </div>
             <div slot="footer">
-                <Button type="success" size="default" @click="handleSure('inforModel')" :loading="loading">确定</Button>
+                <Button type="success" @click="handleSure('inforModel')" :loading="loading">确定</Button>
             </div>
         </Modal>
     </div>
@@ -415,40 +413,42 @@
                     {
                         title: '申请时间',
                         key: 'createTime',
-                        width: 140
+                        width: 160
                     },
                     {
                         title: '申请代理人',
-                        key: 'contact'
+                        key: 'contact',
+                        width: 110
                     },
                     {
                         title: '提现金额（元）',
                         key: 'amount',
+                        width: 140
                     },
                     {
                         title: '手续费（元）',
                         key: 'serviceCharge',
+                        width: 130
                     },
                     {
                         title: '本月提现次数',
                         key: 'outcomeCount',
-                        width: 120
+                        width: 130
                     },
                     {
                         title: '提现账户',
                         key: 'applyLocation',
-                        width: 120
+                        width: 100
                     },
                     {
                         title: '审核状态',
-                        width: 120,
                         align: 'center',
                         key: 'state',
+                        width: 100
                     },
                     {
                         title: '操作',
                         key: 'action',
-                        width: 150,
                         align: 'center',
                         render: (h, params) => {
                             return h('div', [
