@@ -25,21 +25,21 @@
 
     .search-date-picker{
         width: 250px;
-        margin-left: 240px;
+        margin-left: 260px;
         margin-top: 30px;
         display: inline-block;
         position:absolute;
     }
 
     .search-input{
-        width: 200px ;
+        width: 220px ;
         margin-left: 20px;
         display: inline-block;
         margin-top: 30px;
     }
 
     .search-select{
-        width: 200px;
+        width: 220px;
         margin-left: 20px;
         margin-top: 30px;
         position:absolute;
@@ -78,7 +78,7 @@
 
     /* 日期选择器宽度设置 */
     .ivu-date-picker{
-        width: 200px;
+        width: 220px;
     }
 
 </style>
