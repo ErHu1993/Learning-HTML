@@ -15,7 +15,7 @@
         padding-top: 20px;
         padding-bottom: 20px;
         line-height: 12px;
-        font-size: 12px;
+        font-size: 14px;
         font-weight: normal;
         background-color: #fff;
     }
@@ -29,7 +29,7 @@
         padding-top: 31px;
         padding-bottom: 31px;
         line-height: 12px;
-        font-size: 12px;
+        font-size: 14px;
         background-color: #fff;
     }
 
@@ -42,7 +42,6 @@
     .upload-image{
         float: left;
         width:300px;
-        height:200px;
     }
 
     .section-header{
@@ -69,15 +68,15 @@
 </style>
 
 <template>
-    <div class="main fs12">
+    <div class="main">
         <div style="background-color: #fff">
             <breadcrumb :breadcrumb="breadcrumb"></Breadcrumb>
         </div>
 
         <div class="whiteColor">
             <h5 class="head-title"><span style="background-color: #3a97f6;">&nbsp;</span>  基本信息</h5>
-            <Form ref="userModel" :model="userModel" :rules="rulesModel" inline :label-width="100">
-                <Form-item label="直属上级" style="margin-left:8px;" prop="leader" v-if='userModel.leader'>
+            <Form ref="userModel" :model="userModel" :rules="rulesModel" inline :label-width="120">
+                <Form-item label="直属上级" style="margin-left:20px;" prop="leader" v-if='userModel.leader'>
                    <Row>
                     <Col span="12" class="form-input" style="width:595px">
                          <Select
@@ -104,13 +103,13 @@
                 <Form-item label="手机号" prop="phoneNum">
                     <Input class="form-input" v-model="userModel.phoneNum" placeholder="请输入手机号号码"></Input>
                 </Form-item>
-                <br/><br/>
+                <br/>
             </Form>
         </div>
 
         <div class="section-header">
            <h5 class="head-title"><span style="background-color: #3a97f6;">&nbsp;</span>  认证信息</h5>
-            <Form ref="auditModel" :model="auditModel" :rules="auditRules" inline :label-width="100">
+            <Form ref="auditModel" :model="auditModel" :rules="auditRules" inline :label-width="120">
                 <Form-item label="身份证正面照片" style="margin-left:20px;" :label-width='formLabelWidth' prop="infoId">
                      <Upload
                         multiple
@@ -141,15 +140,15 @@
                     </Upload>
 
                  </Form-item>
-                 <br/><br/>
-                 <Form-item label="真实姓名" prop="realName">
+                 <br/>
+                 <Form-item label="真实姓名" style="margin-left:20px" prop="realName">
                     <Input class="form-input" v-model="auditModel.realName" placeholder="请输入真实姓名"></Input>
                  </Form-item>
                  <Form-item label="身份证号" prop="identity">
                     <Input class="form-input" v-model="auditModel.identity" placeholder="请输入身份证号"></Input>
                  </Form-item>
-                 <br/><br/>
-                 <Form-item label="执业证号" prop="qualification">
+                 <br/>
+                 <Form-item label="执业证号" style="margin-left:20px" prop="qualification">
                     <Input class="form-input" v-model="auditModel.qualification" placeholder="请输入执业证号"></Input>
                  </Form-item>
                  <Form-item label="出生日期" prop="birth">
@@ -161,8 +160,8 @@
                         placeholder="选择日期" placement='top'>
                     </DatePicker>
                  </Form-item>
-                 <br/><br/>
-                 <Form-item label="性别" prop="gender">
+                 <br/>
+                 <Form-item label="性别" style="margin-left:20px" prop="gender">
                     <RadioGroup v-model="auditModel.gender">
                         <Radio label="男">
                         </Radio>
