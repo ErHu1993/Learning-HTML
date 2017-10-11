@@ -49,22 +49,20 @@
     }
 
     .labels{
-        display:block;position: relative;
-        line-height: 12px;
-        font-size: 12px;
-        font-weight: 400;
+        display:block;
+        position: relative;
     }
 
     .left{
         width: 128px;
         text-align: right;
         display: inline-block;
-        margin-bottom: 50px;
+        margin-bottom: 20px;
     }
 
     .right{
         position: absolute;
-        margin-bottom: 50px;
+        margin-bottom: 20px;
         left: 480px;
         width: 100px;
         text-align: right;
@@ -76,7 +74,7 @@
 
     .right-content{
         position: absolute;
-        margin-bottom: 50px;
+        margin-bottom: 20px;
         left: 580px;
         text-align: left;
     }
@@ -105,7 +103,7 @@
     <div class="base" v-if='selectIndex == 1'>
         <div class="whiteColor">
             <h5 class="head-title"><span style="background-color: #3a97f6;">&nbsp;</span>  基本信息</h5>
-            <div style="padding-top: 50px;" class="labels">
+            <div style="padding-top: 20px;" class="labels">
                 <label class="left">代理人名称:     </label>
                 <label class="left-content" v-text='agentDetail.name'></label>
                 <label class="right">手机号:     </label>
@@ -135,7 +133,7 @@
         </div>
         <div class="section-header" v-show='tenantAgentInfo.name'>
             <h5 class="head-title"><span style="background-color: #3a97f6;">&nbsp;</span>  认证信息</h5>
-            <div style="display:block;position: relative; padding-top: 50px;" class="labels">
+            <div style="display:block;position: relative; padding-top: 20px;" class="labels">
                 <label class="left">真实姓名:     </label>
                 <label class="left-content" v-text='tenantAgentInfo.name'></label>
                 <label class="right">身份证:     </label>
@@ -159,9 +157,9 @@
             </div>
             <div>
                 <p class="labels" style="margin-left: 58px;">身份证件:     </p>
-                <div style="overflow:hidden;margin-bottom: 20px;">
-                    <img v-show='imageSrcFront' :src="imageSrcFront" style=" float: left;margin-left:128px;width:400px;height:300px;">
-                    <img v-show='imageSrcBack' :src="imageSrcBack" style="float: left;margin-left:60px;width:400px;height:300px;">
+                <div style="overflow:hidden;margin-top:-20px;margin-bottom:20px;">
+                    <img v-show='imageSrcFront' :src="imageSrcFront" style=" float: left;margin-left:128px;width:400px;">
+                    <img v-show='imageSrcBack' :src="imageSrcBack" style="float: left;margin-left:60px;width:400px;">
                 </div>
             </div>
         </div>
