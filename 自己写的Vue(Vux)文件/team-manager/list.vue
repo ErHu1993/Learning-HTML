@@ -160,6 +160,7 @@
 
 <script>
 
+    import $ from 'jquery';
     import Breadcrumb from '@/components/layout/Breadcrumb.vue';
     import expandRow from './expand-row.vue';
 
@@ -240,12 +241,17 @@
                     }
                 },
                 {
+                    title: '真实姓名',
+                    key: 'contact',
+                    width: 120,
+                },
+                {
                     title: '代理人名称',
                     key: 'name'
                 },
                 {
                     title: '手机号',
-                    width: 120,
+                    width: 140,
                     key: 'contactMobile'
                 },
                 {
@@ -254,7 +260,7 @@
                 },
                 {
                     title: '添加时间',
-                    width: 140,
+                    width: 160,
                     key: 'createTime',
                 },
                 {
@@ -369,8 +375,8 @@
                 this.currentPage = 1,
                 this.search_agent();
                 this.datePlaceholder = "添加时间";
-                this.listTitles[4].title = "添加时间";
-                this.listTitles[4].key = "createTime";
+                this.listTitles[this.listTitles.length - 2].title = "添加时间";
+                this.listTitles[this.listTitles.length - 2].key = "createTime";
                 this.listTitles[this.listTitles.length - 1].render = (h, params) => {
                     return h('div', [
                         h('Button', {
@@ -407,8 +413,8 @@
                 this.currentPage = 1,
                 this.search_agent();
                 this.datePlaceholder = "移除时间";
-                this.listTitles[4].title = "移除时间";
-                this.listTitles[4].key = "expiredTime";
+                this.listTitles[this.listTitles.length - 2].title = "移除时间";
+                this.listTitles[this.listTitles.length - 2].key = "expiredTime";
                 this.listTitles[this.listTitles.length - 1].render = (h, params) => {
                     return h('div', [
                         h('Button', {
@@ -434,8 +440,8 @@
                 this.currentPage = 1,
                 this.search_agent();
                 this.datePlaceholder = "退出时间";
-                this.listTitles[4].title = "退出时间";
-                this.listTitles[4].key = "expiredTime";
+                this.listTitles[this.listTitles.length - 2].title = "退出时间";
+                this.listTitles[this.listTitles.length - 2].key = "expiredTime";
                 this.listTitles[this.listTitles.length - 1].render = (h, params) => {
                     return h('div', [
                         h('Button', {
