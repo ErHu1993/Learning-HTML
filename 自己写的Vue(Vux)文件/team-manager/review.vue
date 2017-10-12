@@ -1,4 +1,4 @@
-<style scoped>
+<style lang='scss' scoped>
     /* mainBody */
     .main{
         height: 100%;
@@ -59,7 +59,7 @@
     }
 
     .search-input{
-        width: 200px;
+        width: 220px;
         display: inline-block;
         margin-left: 20px;
         margin-top: 30px;
@@ -105,7 +105,7 @@
 
     /* 日期选择器宽度设置 */
     .ivu-date-picker{
-        width: 200px;
+        width: 220px;
     }
 
     .model-header{
@@ -128,7 +128,6 @@
         float: left;
         margin-left:75px;
         width:360px;
-        height:280px;
         padding-bottom: 15px;
     }
 
@@ -242,7 +241,7 @@
 
                 <div>
                      <label class="model-content-title">身份证照:</label>
-                     <div style="overflow:hidden;">
+                     <div class="clearfix" style="margin:-18px 0 0;">
                        <img v-show='imageSrcFront' :src="imageSrcFront" class="model-content-image">
                        <img v-show='imageSrcBack' :src="imageSrcBack" class="model-content-image">
                     </div>
@@ -283,7 +282,7 @@
             </div>
 
             <div slot="footer">
-                <Button type="success" size="default" @click="handleSure('inforModel')" :loading="loading">确定</Button>
+                <Button type="success" @click="handleSure('inforModel')" :loading="loading">确定</Button>
             </div>
         </Modal>
 </div>
@@ -291,7 +290,7 @@
 </template>
 
 <script>
-
+    import $ from 'jquery';
     import Breadcrumb from '@/components/layout/Breadcrumb.vue';
     import expandRow from './expand-row.vue';
 
@@ -389,12 +388,17 @@
                     }
                 },
                 {
+                    title: '真实姓名',
+                    key: 'contact',
+                    width: 120,
+                },
+                {
                     title: '代理人名称',
                     key: 'name'
                 },
                 {
                     title: '手机号',
-                    width: 120,
+                    width: 140,
                     key: 'contactMobile'
                 },
                 {
@@ -403,13 +407,13 @@
                 },
                 {
                     title: '注册申请时间',
-                    width: 140,
+                    width: 160,
                     key: 'createTime',
                 },
                 {
                     title: '操作',
                     key: 'action',
-                    width: 130,
+                    width: 80,
                     align: 'center',
                     render: (h, params) => {
                         return h('div', [
@@ -421,10 +425,18 @@
                                 style: {
                                     marginRight: '5px'
                                 },
+                                nativeOn: {
+                                    click: function () {
+                                        let bh = $(document).height();
+                                        let ch = $('.ivu-modal-content').outerHeight();
+                                        $('.ivu-modal').css('top', (bh - ch) / 2);
+                                    }
+                                },
                                 on: {
                                     click: () => {
                                         this.showReview = true;
                                         this.auditResults = false;
+                                        this.clearUserInforModel();
                                         $('.model-content').animate({scrollTop:0},"slow");
                                         this.inforModel.reviewRemark = "";
                                         this.getUserCertifyInfo(this.currentData[params.index].id)
@@ -547,10 +559,18 @@
                             style: {
                                 marginRight: '5px'
                             },
+                            nativeOn: {
+                                    click: function () {
+                                        let bh = $(document).height();
+                                        let ch = $('.ivu-modal-content').outerHeight();
+                                        $('.ivu-modal').css('top', (bh - ch) / 2);
+                                    }
+                                },
                             on: {
                                 click: () => {
                                     this.showReview = true;
                                     this.auditResults = false;
+                                    this.clearUserInforModel();
                                     $('.model-content').animate({scrollTop:0},"slow");
                                     this.inforModel.reviewRemark = "";
                                     this.getUserCertifyInfo(this.currentData[params.index].id)
@@ -577,10 +597,18 @@
                             style: {
                                 marginRight: '5px'
                             },
+                            nativeOn: {
+                                    click: function () {
+                                        let bh = $(document).height();
+                                        let ch = $('.ivu-modal-content').outerHeight();
+                                        $('.ivu-modal').css('top', (bh - ch) / 2);
+                                    }
+                                },
                             on: {
                                 click: () => {
                                     this.showReview = true;
                                     this.auditResults = false;
+                                    this.clearUserInforModel();
                                     $('.model-content').animate({scrollTop:0},"slow");
                                     this.inforModel.reviewRemark = "";
                                     this.getUserCertifyInfo(this.currentData[params.index].id)
@@ -635,6 +663,17 @@
             page_size_change :function (index) {
                 this.currentPage = index;
                 this.getDataList();
+            },
+            clearUserInforModel () {
+                this.userCertifyInfo = {
+                    name:"",
+                    identity:"",
+                    qualification:"",
+                    state:"",
+                    comment:""
+                };
+                this.imageSrcFront = null;
+                this.imageSrcBack = null;
             },
             handleSure : function (model) {
                 if (this.userCertifyInfo.state == 11){
