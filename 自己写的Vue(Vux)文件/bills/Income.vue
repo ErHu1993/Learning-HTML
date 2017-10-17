@@ -32,10 +32,18 @@
     }
 
     .search-input{
-        width: 220px ;
+        width: 350px ;
         display: inline-block;
         margin-left: 20px;
         margin-top: 30px;
+    }
+
+    .option-div{
+        text-align: left;
+        display: inline-block;
+        white-space:nowrap;
+        text-overflow:ellipsis;
+        overflow:hidden;
     }
 
     .search-select{
@@ -92,11 +100,20 @@
 
         <div class="agent-filter">
             <div class="agent-filter__search" >
-                <Input class='search-input'
-                    placeholder="代理人名称"
+                <Select
                     v-model="searchText"
-                    @on-enter="search_agent">
-                </Input>
+                    class='search-input'
+                    filterable
+                    remote
+                    placeholder="代理人名称、手机号"
+                    :remote-method="searchTeamHeader"
+                    :loading="searchLoading">
+                    <Option v-for="option in teamHeadList" :value="option.id" :key="option.id" :label='option.contact'>
+                        <div class="option-div" style="width:130px;">{{option.name}}</div>
+                        <div class="option-div" style="width:80px;">{{option.contact}}</div>
+                        <div class="option-div">{{option.contactMobile}}</div>
+                    </Option>
+                </Select>
                 <Select class='search-select' v-model="selectIndex">
                     <Option v-for="item in selectList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
@@ -105,6 +122,7 @@
                     :options="options"
                     :value='dataPickValue'
                     :placeholder="datePlaceholder"
+                    placement='left-end'
                     @on-change='searchTimeChange'>
                 </Date-picker>
                 <Button type="info" class="search-button-reset" @click='resetButtonClick'>重置</Button>
@@ -121,7 +139,6 @@
                 @on-change="page_size_change">
             </Page>
         </div>
-
     </div>
 </template>
 
@@ -136,20 +153,27 @@
             return {
                 breadcrumb: ['收入列表'],
                 datePlaceholder:"选择时间",
-                selectIndex : 1,
+                searchLoading:false,
+                teamHeadList:[
+                ],
+                selectIndex : "recharge-default",
                 selectList: [
                     {
                         label : "收入类型",
-                        value : 1
+                        value : "recharge-default"
                     },
                     {
                         label :"佣金",
-                        value : 2
+                        value : "recharge-commission"
                     },
                     {
                         label : "津贴",
-                        value : 3
-                    }
+                        value : "recharge-allowance"
+                    },
+                    {
+                        label : "红包",
+                        value : "recharge-redbag"
+                    },
                 ],
                 currentPage:1,
                 pageSize:10,
@@ -212,26 +236,36 @@
                     {
                         title: '日期',
                         key: 'createTime',
-                        width: 140
+                        width: 160
                     },
                     {
                         title: '收入类型',
-                        key: 'name',
-                        width: 120
+                        key: 'realTbcTypes',
+                        width: 130
                     },
                     {
                         title: '金额（元）',
-                        key: 'name',
+                        key: 'deltaAmount',
                         width: 120
                     },
                     {
-                        title: '代理人',
-                        key: 'name',
+                        title: '真实姓名',
+                        key: 'contact',
+                        width: 120
+                    },
+                    {
+                        title: '代理人名称',
+                        key: 'tenantName',
+                    },
+                    {
+                        title: '手机号',
+                        key: 'contactMobile',
+                        width: 140
                     },
                     {
                         title: '备注',
-                        width: 120,
-                        key: 'name',
+                        width: 160,
+                        key: 'desc2',
                     },
                 ]
             }
@@ -267,52 +301,63 @@
                     content: title
                 });
             },
+            searchTeamHeader : function (searchText) {
+                var _this = this;
+                _this.searchLoading = true;
+                if (searchText.length){
+                    var queryConditions = {
+                        "child.name,child.contact,child.contactMobile_like" : searchText ? searchText : null
+                    };
+                    queryConditions = JSON.stringify(queryConditions);
+                    _this.$http.get(_this.host_bdd + '/agency/v1/inferior/find', {
+                            params: {
+                              option: 1,
+                              q:queryConditions,
+                              pn:1,
+                              ps:20
+                          }
+                      }).then(function (response) {
+                        _this.searchLoading = false;
+                        if (response.data.code != 200) {
+                            _this.$Message.error(response.data.error);
+                            return;
+                        }
+                        _this.teamHeadList = response.data.tenantsWithParent;
+                    })
+                } else {
+                    _this.searchLoading = false;
+                    _this.teamHeadList = [];
+                    _this.searchText = "";
+                }
+            },
             getDataList : function (){
-                this.currentData = [
-                    {
-                        name:'嗒嗒嗒',
-                        createTime : '2019-02-31'
-                    },
-                    {
-                        name:'嗒嗒嗒',
-                        createTime : '2019-02-31'
-                    },
-                    {
-                        name:'嗒嗒嗒',
-                        createTime : '2019-02-31'
-                    },
-                    {
-                        name:'嗒嗒嗒',
-                        createTime : '2019-02-31'
+                var _this = this;
+                _this.$http.get(_this.host_bdd + '/captial/v1/inoutcome/inferior/find', {
+                        params: {
+                          dealType: "recharge",
+                          realTbcTypes:_this.selectIndex,
+                          q:_this.queryConditions,
+                          pn:_this.currentPage,
+                          ps:_this.pageSize
+                      }
+                  })
+                .then(function (response) {
+                    if (response.data.code != 200) {
+                        _this.$Message.error(response.data.error);
+                        return;
                     }
-                ]
-              //   var _this = this;
-              //   _this.$http.get(_this.host_bdd + '/agency/v1/inferior/find', {
-              //       params: {
-              //         option: _this.selectIndex,
-              //         q:_this.queryConditions,
-              //         pn:_this.currentPage,
-              //         ps:_this.pageSize
-              //     }
-              // })
-              //   .then(function (response) {
-              //       if (response.data.code != 200) {
-              //           _this.$Message.error(response.data.error);
-              //           return;
-              //       }
-              //       _this.currentData = response.data.tenantsWithParent;
-              //       _this.totalPage = response.data.recordCount;
-              //       if (_this.currentData) {
-              //           for (var i = 0; i < _this.currentData.length; i++) {
-              //               _this.currentData[i].createTime = _this.timeFormat(new Date(_this.currentData[i].createTime * 1000),"yyyy/MM/dd hh:mm");
-              //               if (_this.currentData[i].parent){
-              //                   _this.currentData[i].parentContent = _this.currentData[i].parent.name;
-              //               }else{
-              //                   _this.currentData[i].parentContent = "";
-              //               }
-              //           }
-              //       }
-              //   })
+                    _this.currentData = response.data.inoutcomes;
+                    _this.totalPage = response.data.recordCount;
+                    if (_this.currentData) {
+                        for (var i = 0; i < _this.currentData.length; i++) {
+                            _this.currentData[i].createTime = _this.timeFormat(new Date(_this.currentData[i].createTime * 1000),"yyyy/MM/dd hh:mm");
+                            _this.currentData[i].tenantName = _this.currentData[i].tenant.name;
+                            _this.currentData[i].contact = _this.currentData[i].tenant.contact;
+                            _this.currentData[i].contactMobile = _this.currentData[i].tenant.contactMobile;
+                        }
+
+                    }
+                })
             },
             searchTimeChange :function (results) {
                 if (typeof(results[0] === 'string') && typeof(results[1] === 'string') && results[0].length && results[1].length){
@@ -334,17 +379,18 @@
                 }else{
                     this.dataPickValue = 0;
                 }
-                this.searchText = null;
+                this.searchText = "";
                 this.queryConditions = null;
             },
             search_agent :function () {
                 this.currentPage = 1;
                 var jsonObject = {
-                    "child.createTime_ge" : this.startSearchTime ? this.startSearchTime : null,
-                    "child.createTime_le" : this.endSearchTime ? this.endSearchTime : null,
-                    "child.name,child.contact_like" : this.searchText ? this.searchText : null
+                    "createTime_ge" : this.startSearchTime ? this.startSearchTime : null,
+                    "createTime_le" : this.endSearchTime ? this.endSearchTime : null,
+                    "tenantId_eq" : this.searchText ? this.searchText : null
                 };
                 this.queryConditions = JSON.stringify(jsonObject);
+                console.log("请求条件",this.queryConditions);
                 this.getDataList();
             },
             auditRadioChange : function () {
