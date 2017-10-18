@@ -76,25 +76,25 @@
         <div class="whiteColor">
             <h5 class="head-title"><span style="background-color: #3a97f6;">&nbsp;</span>  基本信息</h5>
             <Form ref="userModel" :model="userModel" :rules="rulesModel" inline :label-width="120">
-                <Form-item label="直属上级" style="margin-left:20px;" prop="leader" v-if='userModel.leader'>
+                <Form-item label="直属上级" style="margin-left:5px;" prop="leader" v-if='userModel.leader'>
                    <Row>
-                    <Col span="12" class="form-input" style="width:595px">
-                         <Select
-                            v-model="userModel.leader"
-                            filterable
-                            remote
-                            :remote-method="searchTeamHeader"
-                            :loading="searchLoading"
-                            @on-query-change='searchQueryChange'
-                            @on-change='searchSelectChange'>
-                            <Option v-for="option in teamHeadList" :value="option.id" :key="option.id" :label='option.name'>
-                                <div class="option-div" style="width:320px;">{{option.name}}</div>
-                                <div class="option-div" style="width:80px;">{{option.contactMobile}}</div>
-                            </Option>
-                        </Select>
-
-                    </Col>
-                </Row>
+                        <Col span="12" class="form-input" style="width:630px">
+                             <Select
+                                v-model="userModel.leader"
+                                filterable
+                                remote
+                                :remote-method="searchTeamHeader"
+                                :loading="searchLoading"
+                                @on-query-change='searchQueryChange'
+                                @on-change='searchSelectChange'>
+                                <Option v-for="option in teamHeadList" :value="option.id" :key="option.id" :label='option.contact'>
+                                    <div class="option-div" style="width:400px;">{{option.name}}</div>
+                                    <div class="option-div" style="width:80px;">{{option.contact}}</div>
+                                    <div class="option-div">{{option.contactMobile}}</div>
+                                </Option>
+                            </Select>
+                        </Col>
+                    </Row>
                 </Form-item>
                 <br/>
                 <Form-item label="代理人名称" style="margin-left:20px;" prop="name">
@@ -110,7 +110,7 @@
         <div class="section-header">
            <h5 class="head-title"><span style="background-color: #3a97f6;">&nbsp;</span>  认证信息</h5>
             <Form ref="auditModel" :model="auditModel" :rules="auditRules" inline :label-width="120">
-                <Form-item label="身份证正面照片" style="margin-left:20px;" :label-width='formLabelWidth' prop="infoId">
+                <Form-item label="身份证正面照" style="margin-left:35px;" :label-width='formLabelWidth' prop="infoId">
                      <Upload
                         multiple
                         action=""
@@ -125,7 +125,7 @@
                         <img v-show='imageSrcFront' :src="imageSrcFront" class="upload-image">
                     </Upload>
                 </Form-item>
-                <Form-item label="身份证反面照片" style="margin-left:20px;" :label-width='formLabelWidth' prop="infoId">
+                <Form-item label="身份证反面照" style="margin-left:20px;" :label-width='formLabelWidth' prop="infoId">
                      <Upload
                         multiple
                         action=""
@@ -141,14 +141,14 @@
 
                  </Form-item>
                  <br/>
-                 <Form-item label="真实姓名" style="margin-left:20px" prop="realName">
+                 <Form-item label="真实姓名" style="margin-left:5px" prop="realName">
                     <Input class="form-input" v-model="auditModel.realName" placeholder="请输入真实姓名"></Input>
                  </Form-item>
                  <Form-item label="身份证号" prop="identity">
                     <Input class="form-input" v-model="auditModel.identity" placeholder="请输入身份证号"></Input>
                  </Form-item>
                  <br/>
-                 <Form-item label="执业证号" style="margin-left:20px" prop="qualification">
+                 <Form-item label="执业证号" style="margin-left:5px" prop="qualification">
                     <Input class="form-input" v-model="auditModel.qualification" placeholder="请输入执业证号"></Input>
                  </Form-item>
                  <Form-item label="出生日期" prop="birth">
@@ -161,7 +161,7 @@
                     </DatePicker>
                  </Form-item>
                  <br/>
-                 <Form-item label="性别" style="margin-left:20px" prop="gender">
+                 <Form-item label="性别" style="margin-left:-22px" prop="gender">
                     <RadioGroup v-model="auditModel.gender">
                         <Radio label="男">
                         </Radio>
@@ -209,7 +209,7 @@ export default {
                     _this.lightBigFather = rt.data.tenantWithAgentInfo;
                     _this.teamHeadList = [];
                     _this.teamHeadList.push(_this.lightBigFather);
-                    _this.userModel.leader = _this.lightBigFather.name;
+                    _this.userModel.leader = _this.lightBigFather.contact;
                 });
         });
     },
