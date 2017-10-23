@@ -524,6 +524,7 @@
                         }
                         _this.auditUserId = inferiorId;
                         _this.userCertifyInfo = rt.data.tenantAgentInfo;
+                        _this.inforModel.reviewRemark = rt.data.tenantAgentInfo.comment;
                         if (_this.userCertifyInfo){
                             _this.getIdentityImageSrc(_this.userCertifyInfo);
                         }
@@ -683,8 +684,6 @@
                         }else{
                             this.$Message.success('请填写执业证号');
                         }
-                    }else if (this.inforModel.reviewRemark || this.userCertifyInfo.qualification) {
-                        this.$Message.success('需要勾选审核通过');
                     }else {
                         this.showReview = false;
                     }
