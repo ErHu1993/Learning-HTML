@@ -122,7 +122,7 @@
                     :options="options"
                     :value='dataPickValue'
                     :placeholder="datePlaceholder"
-                    placement='left-end'
+                    placement='left-start'
                     @on-change='searchTimeChange'>
                 </Date-picker>
                 <Button type="info" class="search-button-reset" @click='resetButtonClick'>重置</Button>
