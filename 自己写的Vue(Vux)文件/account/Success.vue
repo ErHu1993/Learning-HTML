@@ -40,35 +40,35 @@
 </template>
 
 <script>
-import $ from 'zepto';
-import { Msg, Divider, XButton } from 'vux';
+import { Msg, Divider, XButton } from 'vux'
 export default {
-    data () {
-        return {
-            nickname: '',
-            amount: ''
-        }
-    },
-    components: {
-        Msg, Divider, XButton
-    },
-    created () {
-        var _this = this;
-
-        _this.nickname = this.$route.query.nickname;
-        _this.amount = this.fmoney(this.$route.query.amount, 2);
-    },
-    methods: {
-        fmoney(s, n) {
-            n = n > 0 && n <= 20 ? n : 2;
-            s = parseFloat((s + "").replace(/[^\d\.-]/g, "")).toFixed(n) + "";
-            var l = s.split(".")[0].split("").reverse(), r = s.split(".")[1];
-            var t = "";
-            for (var i = 0; i < l.length; i++) {
-                t += l[i] + ((i + 1) % 3 == 0 && (i + 1) != l.length ? "," : "");
-            }
-            return t.split("").reverse().join("") + "." + r;
-        }
+  data () {
+    return {
+      nickname: '',
+      amount: ''
     }
+  },
+  components: {
+    Msg, Divider, XButton
+  },
+  created () {
+    var _this = this
+
+    _this.nickname = this.$route.query.nickname
+    _this.amount = this.fmoney(this.$route.query.amount, 2)
+  },
+  methods: {
+    fmoney (s, n) {
+      n = n > 0 && n <= 20 ? n : 2
+      s = parseFloat((s + '').replace(/[^\d.-]/g, '')).toFixed(n) + ''
+      var l = s.split('.')[0].split('').reverse()
+      var r = s.split('.')[1]
+      var t = ''
+      for (var i = 0; i < l.length; i++) {
+        t += l[i] + ((i + 1) % 3 === 0 && (i + 1) !== l.length ? ',' : '')
+      }
+      return t.split('').reverse().join('') + '.' + r
+    }
+  }
 }
 </script>
