@@ -91,92 +91,90 @@
 </template>
 
 <script>
+import $ from 'zepto'
+import ShareTip from '@/components/ShareTip.vue'
 
-import ShareTip from '@/components/ShareTip.vue';
-import { XButton } from 'vux'
+export default {
 
-    export default {
+  data () {
+    return {
+      qrImageSrc: '',
+      share: false
+    }
+  },
 
-        data () {
-            return {
-                qrImageSrc : '',
-                share: false
-            }
-        },
-
-        created () {
-            let _this = this;
-            _this.$wechat.ready( function() {
-                _this.$wechat.showMenuItems({
+  created () {
+    let _this = this
+    _this.$wechat.ready(function () {
+      _this.$wechat.showMenuItems({
                     // 要显示的菜单项，所有menu项见附录3
-                    menuList: ['menuItem:share:appMessage', 'menuItem:share:timeline']
-                });
-            });
-        },
+        menuList: ['menuItem:share:appMessage', 'menuItem:share:timeline']
+      })
+    })
+  },
 
-        mounted () {
+  mounted () {
+    var headerHeight = $('.invite-header').height() + $('.invite-label').height()
+    var footerHeight = $('.footer').height()
+    var qrHeight = document.documentElement.clientHeight - footerHeight - headerHeight - 40 - 20
+    $('.qr-img').css('width', qrHeight + 'px')
+    $('.qr-img').css('height', qrHeight + 'px')
+    if (this.$route.query.qrUrl) {
+      this.qrImageSrc = this.$route.query.qrUrl
+    }
+    this.getUserInfo()
+  },
 
-            var headerHeight = $('.invite-header').height() + $('.invite-label').height();
-            var footerHeight = $('.footer').height();
-            var qrHeight = document.documentElement.clientHeight - footerHeight - headerHeight - 40 - 20;
-            $('.qr-img').css('width',qrHeight + 'px');
-            $('.qr-img').css('height',qrHeight + 'px');
-            if (this.$route.query.qrUrl){
-                this.qrImageSrc = this.$route.query.qrUrl;
-            }
-            this.getUserInfo();
-        },
+  components: {
+    ShareTip
+  },
 
-        components : {
-            ShareTip
-        },
-
-        methods : {
-            getUserInfo: function () {
-                var _this = this;
-                this.$http.get(_this.host_bdd + '/agent/v1/home').then((rt) => {
-                    if (rt.data.code != 200) {
-                         _this.$vux.toast.text(rt.error, 'top');
-                         return;
-                     }
-                     if (rt.data.tenantAccount && !_this.qrImageSrc) {
-                         _this.qrImageSrc = _this.host_bdd + "/agent/v1/qr?tenantId=" + rt.data.tenantAccount.id + "&width=300&height=300";
-                     }
-                     if (rt.data.tenantAccount.sharingUrl){
-                        _this.shareApp(rt.data.tenantAccount.sharingUrl);
-                     }
-                 });
-            },
-            shareApp (shareLink) {
-                shareLink = "http://" + location.host + "/html/invite-reigst.html?shareLink=" + encodeURIComponent(shareLink);
-                var _this = this;
-                this.$wechat.ready( function () {
-                     _this.$wechat.showMenuItems({
-                        menuList: ['menuItem:share:appMessage', 'menuItem:share:timeline']
-                    });
-
-                    _this.$wechat.onMenuShareAppMessage({
-                        title: '光大保险代理出单神器，易销售高推广费',
-                        desc: '成为光大保险代理人，人人都可以创建自己的团队，轻松推广收入过万！',
-                        link: shareLink,
-                        imgUrl: "http://" + location.host + "/html/images/hardcoding/icon.png",
-                        success: function () {
-                        },
-                        cancel: function () {
-                        }
-                    });
-
-                    _this.$wechat.onMenuShareTimeline({
-                        title: '光大保险代理出单神器，易销售高推广费',
-                        link: shareLink,
-                        imgUrl: "http://" + location.host + "/html/images/hardcoding/icon.png",
-                        success: function () {
-                        },
-                        cancel: function () {
-                        }
-                    });
-                });
-            }
+  methods: {
+    getUserInfo: function () {
+      var _this = this
+      this.$http.get(_this.host_bdd + '/agent/v1/home').then((rt) => {
+        if (rt.data.code !== 200) {
+          _this.$vux.toast.text(rt.error, 'top')
+          return
         }
+        if (rt.data.tenantAccount && !_this.qrImageSrc) {
+          _this.qrImageSrc = _this.host_bdd + '/agent/v1/qr?tenantId=' + rt.data.tenantAccount.id + '&width=300&height=300'
+        }
+        if (rt.data.tenantAccount.sharingUrl) {
+          _this.shareApp(rt.data.tenantAccount.sharingUrl)
+        }
+      })
+    },
+    shareApp (shareLink) {
+      shareLink = 'http://' + window.location.host + '/html/invite-reigst.html?shareLink=' + encodeURIComponent(shareLink)
+      var _this = this
+      this.$wechat.ready(function () {
+        _this.$wechat.showMenuItems({
+          menuList: ['menuItem:share:appMessage', 'menuItem:share:timeline']
+        })
+
+        _this.$wechat.onMenuShareAppMessage({
+          title: '光大保险代理出单神器，易销售高推广费',
+          desc: '成为光大保险代理人，人人都可以创建自己的团队，轻松推广收入过万！',
+          link: shareLink,
+          imgUrl: 'http://' + window.location.host + '/html/images/hardcoding/icon.png',
+          success: function () {
+          },
+          cancel: function () {
+          }
+        })
+
+        _this.$wechat.onMenuShareTimeline({
+          title: '光大保险代理出单神器，易销售高推广费',
+          link: shareLink,
+          imgUrl: 'http://' + window.location.host + '/html/images/hardcoding/icon.png',
+          success: function () {
+          },
+          cancel: function () {
+          }
+        })
+      })
+    }
+  }
 }
 </script>
