@@ -200,80 +200,90 @@
 </template>
 
 <script>
-import { XButton, XDialog, TransferDomDirective as TransferDom   } from 'vux';
+import $ from 'zepto'
+import { XButton, XDialog, TransferDomDirective as TransferDom } from 'vux'
 
 export default {
-    data () {
-        return {
-            catpitalAccount: {},
-            showHideTax: false
-        }
-    },
-    components: {
-        XButton,
-        XDialog
-    },
-    directives: {
-        TransferDom
-    },
-    created () {
-        this.getAccount();
-        this.$nextTick( () => {
-            this.minHeight();
-
-            $(window).on('resize', () => {
-                this.minHeight();
-            });
-        });
-    },
-    methods: {
-        // 资金账户信息
-        getAccount () {
-            var _this = this;
-            this.$http.get(this.host_bdd + '/captial/v1/account').then((rt) => {
-                if (rt.data.code != 200) {
-                    _this.$vux.toast.text(rt.data.error, 'top');
-                    return;
-                }
-
-                _this.catpitalAccount = rt.data.catpitalAccount;
-            });
-        },
-        extract () {
-            var _this = this;
-            this.$http.get(this.host_bdd + '/agent/v1/info').then( (rt) => {
-                if (rt.data.code != 200) {
-                    _this.$vux.toast.text(rt.data.error, 'top');
-                    return;
-                }
-
-                if (rt.data.tenantAgentInfo.state == 1) {
-                    _this.$router.push({path:'/account/apply', query:{
-                        amount:_this.catpitalAccount.cashAmount,
-                        outcomeCount:_this.catpitalAccount.outcomeCount
-                    }});
-                } else {
-                    _this.$vux.toast.text('待审核状态不允许提现', 'top');
-                }
-            });
-        },
-        goTransitOutAmount () {
-            this.$router.push({ path: '/account/apply-list' , query : {
-                dealType : 'decharge'
-            }});
-        },
-        goTransitInAmount () {
-            this.$router.push({ path: '/account/apply-list' , query : {
-                dealType : 'recharge'
-            }});
-        },
-        minHeight () {
-            let ch = $('.card').height();
-            let sh = $('.submit').height();
-            let kh = $('.kefu').height();
-
-            $('.container').css('minHeight', ch + sh + kh);
-        }
+  data () {
+    return {
+      catpitalAccount: {},
+      showHideTax: false
     }
+  },
+  components: {
+    XButton,
+    XDialog
+  },
+  directives: {
+    TransferDom
+  },
+  created () {
+    this.getAccount()
+    this.$nextTick(() => {
+      this.minHeight()
+
+      $(window).on('resize', () => {
+        this.minHeight()
+      })
+    })
+  },
+  methods: {
+    // 资金账户信息
+    getAccount () {
+      var _this = this
+      this.$http.get(this.host_bdd + '/captial/v1/account').then((rt) => {
+        if (rt.data.code !== 200) {
+          _this.$vux.toast.text(rt.data.error, 'top')
+          return
+        }
+
+        _this.catpitalAccount = rt.data.catpitalAccount
+      })
+    },
+    extract () {
+      var _this = this
+      this.$http.get(this.host_bdd + '/agent/v1/info').then((rt) => {
+        if (rt.data.code !== 200) {
+          _this.$vux.toast.text(rt.data.error, 'top')
+          return
+        }
+
+        if (rt.data.tenantAgentInfo.state === 1) {
+          _this.$router.push({
+            path: '/account/apply',
+            query: {
+              amount: _this.catpitalAccount.cashAmount,
+              outcomeCount: _this.catpitalAccount.outcomeCount
+            }
+          })
+        } else {
+          _this.$vux.toast.text('待审核状态不允许提现', 'top')
+        }
+      })
+    },
+    goTransitOutAmount () {
+      this.$router.push({
+        path: '/account/apply-list',
+        query: {
+          dealType: 'decharge'
+        }
+      })
+    },
+    goTransitInAmount () {
+      this.$router.push({
+        path: '/account/apply-list',
+        query: {
+          dealType: 'recharge'
+        }
+      })
+    },
+    minHeight () {
+      let ch = $('.card').height()
+      let sh = $('.submit').height()
+      let kh = $('.kefu').height()
+
+      $('.container').css('minHeight', ch + sh + kh)
+    }
+  }
 }
 </script>

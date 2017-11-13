@@ -194,170 +194,168 @@
 </template>
 
 <script>
-import $ from 'zepto';
-import { Group, Cell, XInput, XButton, XDialog,Confirm, TransferDomDirective as TransferDom } from 'vux';
+import $ from 'zepto'
+import { Group, Cell, XInput, XButton, XDialog, Confirm, TransferDomDirective as TransferDom } from 'vux'
 export default {
-    data () {
-        return {
-            money: '',
-            allMoney: '',
-            commission : '',
-            confirmTitle: '',
-            applyContent:'',
-            userInfo: '',
-            showConfirm: false,
-            showPremiumRate : this.$route.query.outcomeCount >= 3,
-            showHideRule: false,
-            disabled: true
-        }
-    },
-    components: {
-        Group, Cell, XInput, XButton, XDialog,Confirm
-    },
-    directives: {
-        TransferDom
-    },
-    created () {
+  data () {
+    return {
+      money: '',
+      allMoney: '',
+      commission: '',
+      confirmTitle: '',
+      applyContent: '',
+      userInfo: '',
+      showConfirm: false,
+      showPremiumRate: this.$route.query.outcomeCount >= 3,
+      showHideRule: false,
+      disabled: true
+    }
+  },
+  components: {
+    Group, Cell, XInput, XButton, XDialog, Confirm
+  },
+  directives: {
+    TransferDom
+  },
+  created () {
+    var _this = this
 
-        var _this = this;
+    this.allMoney = this.$route.query.amount
+    this.applyContent = '可提现余额 ' + this.allMoney + ' 元'
 
-        this.allMoney = this.$route.query.amount;
-        this.applyContent = "可提现余额 " + this.allMoney + " 元";
+    this.$http.get(this.host + '/bdd-home/web/auth/wxUserInfo', {
+      withCredentials: true
+    }).then((rt) => {
+      if (rt.data.status !== 200) {
+        _this.$vux.toast.text(rt.data.message, 'top')
+        return
+      }
+      _this.userInfo = rt.data.message
+    })
 
-        this.$http.get(this.host + '/bdd-home/web/auth/wxUserInfo', {
-            withCredentials: true
-        }).then((rt) => {
-            if (rt.data.status != 200) {
-                _this.$vux.toast.text(rt.data.message, 'top');
-                return;
-            }
-            _this.userInfo = rt.data.message;
-        });
+    this.$nextTick(() => {
+      this.minHeight()
 
-        this.$nextTick( () => {
-            this.minHeight();
+      $(window).on('resize', () => {
+        this.minHeight()
+      })
+    })
 
-            $(window).on('resize', () => {
-                this.minHeight();
-            });
-        });
+    $(document).off('input propertychange').on('input propertychange', '[name="money"]', function () {
+      let val = $.trim($(this).val())
+      let number = val.replace(/[^0-9.]/g, '') // 0-9.
+      let money = number.replace('..', '.') // 同时出现2个.过滤
+      let float = money.split('.')
 
-        $(document).off('input propertychange').on('input propertychange', '[name="money"]', function () {
-            let val = $.trim($(this).val()),
-                number = val.replace(/[^0-9.]/g, ''), // 0-9.
-                money = number.replace('..', '.'), // 同时出现2个.过滤
-                float = money.split('.');
-
-            _this.disabled = (val) ? false : true;
-            $(this).val(money);
+      _this.disabled = !val
+      $(this).val(money)
 
             // 只能有一个.分割
-            if (float.length > 2) {
-                $(this).val(float[0]+ '.' + float[1]);
-                return;
-            }
+      if (float.length > 2) {
+        $(this).val(float[0] + '.' + float[1])
+        return
+      }
 
             // 小数点只保留2位
-            if (float[1] && float[1].length > 2) {
-                $(this).val(float[0] + '.' + float[1].substr(0, 2));
-                return;
-            }
+      if (float[1] && float[1].length > 2) {
+        $(this).val(float[0] + '.' + float[1].substr(0, 2))
+        return
+      }
 
-            if (_this.showPremiumRate && val > 0) {
-                var serviceCharge = parseFloat((parseFloat(val) * 0.001).toFixed(2));
-                if (serviceCharge < 0.01) {
-                    serviceCharge = 0.01;
-                }
-                _this.applyContent = "额外扣除￥" + serviceCharge + "手续费";
-                return;
-            }
-            _this.applyContent = "可提现余额 " + _this.allMoney + " 元";
-        });
-    },
-    methods: {
-        setMoney () {
-
-            this.money = +$('[name="money"]').val();
-
-            if (this.money == 0) return;
-
-            if (this.money > +this.allMoney) {
-                this.$vux.toast.text('提现金额超出可用余额', 'top');
-                return;
-            }
-
-            if (parseFloat(this.money) < 0.1) {
-                this.$vux.toast.text('每笔提现金额最小为 0.1 元', 'top');
-                return;
-            }
-
-            //提现金额
-            var floatMoney = parseFloat(this.money);
-            //总金额
-            var floatAllmoney = parseFloat(this.allMoney);
-            //手续费
-            this.commission = 0.00;
-            //是否需要扣除手续费
-            if (this.showPremiumRate){
-                //因为最低手续费为0.01，所以需要保留小数点后2位，且小数点后第三位四舍五入
-                this.commission = parseFloat((floatMoney * 0.001).toFixed(2));
-                //如果手续费小于0.01，则按0.01收取
-                if (this.commission < 0.01) {
-                    this.commission = 0.01;
-                }
-                //js中 29.01 + 0.03 = 29.040000000000003 所以这里还要toFixed一下变成29.040 减法也是一样
-                if (parseFloat((floatMoney + this.commission).toFixed(2)) > floatAllmoney) {
-                    this.confirmTitle = '剩余零钱不足以支付提现手续费 ¥ ' + this.commission
-                    + "最大可提现金额为 ¥ " + ((floatMoney - this.commission).toFixed(2));
-                    this.showConfirm = true;
-                    return;
-                }
-            }
-            this.apply();
-        },
-        apply () {
-            this.$vux.loading.show({
-                text: '正在申请提现'
-            });
-            this.$post(this.host_bdd + '/captial/v1/outcome/apply', {
-                amount: Math.round(this.money * 100),
-                userInfo: this.userInfo,
-                outcomeCount:(this.$route.query.outcomeCount + 1),
-                serviceCharge:Math.round(this.commission * 100)
-            }, (rt) => {
-                this.$vux.loading.hide();
-                if (rt.data.code != 200) {
-                    this.$vux.toast.text(rt.data.error, 'top');
-                    return;
-                }
-                this.$route.query.outcomeCount += 1;
-                this.showPremiumRate = this.$route.query.outcomeCount >= 3;
-
-                let info = JSON.parse(this.userInfo);
-                this.$router.replace({
-                    path:'/account/success',
-                    query: {
-                        nickname: info.nickname,
-                        amount: this.money
-                    }
-                });
-            });
-        },
-        seeAll () {
-            $('[name="money"]').val(this.allMoney);
-            this.disabled = false;
-        },
-        onConfirm (msg) {
-            this.money = ((parseFloat(this.money) - this.commission).toFixed(2));
-            this.apply();
-        },
-        minHeight () {
-            let ih = $('.intbody').height();
-            let bh = $('.bottom').height();
-            let kh = $('.kefu').height();
-
-            $('.container').css('minHeight', ih + bh + kh);
+      if (_this.showPremiumRate && val > 0) {
+        var serviceCharge = parseFloat((parseFloat(val) * 0.001).toFixed(2))
+        if (serviceCharge < 0.01) {
+          serviceCharge = 0.01
         }
+        _this.applyContent = '额外扣除￥' + serviceCharge + '手续费'
+        return
+      }
+      _this.applyContent = '可提现余额 ' + _this.allMoney + ' 元'
+    })
+  },
+  methods: {
+    setMoney () {
+      this.money = +$('[name="money"]').val()
+
+      if (this.money === 0) return
+
+      if (this.money > +this.allMoney) {
+        this.$vux.toast.text('提现金额超出可用余额', 'top')
+        return
+      }
+
+      if (parseFloat(this.money) < 0.1) {
+        this.$vux.toast.text('每笔提现金额最小为 0.1 元', 'top')
+        return
+      }
+
+            // 提现金额
+      var floatMoney = parseFloat(this.money)
+            // 总金额
+      var floatAllmoney = parseFloat(this.allMoney)
+            // 手续费
+      this.commission = 0.00
+            // 是否需要扣除手续费
+      if (this.showPremiumRate) {
+                // 因为最低手续费为0.01，所以需要保留小数点后2位，且小数点后第三位四舍五入
+        this.commission = parseFloat((floatMoney * 0.001).toFixed(2))
+                // 如果手续费小于0.01，则按0.01收取
+        if (this.commission < 0.01) {
+          this.commission = 0.01
+        }
+                // js中 29.01 + 0.03 = 29.040000000000003 所以这里还要toFixed一下变成29.040 减法也是一样
+        if (parseFloat((floatMoney + this.commission).toFixed(2)) > floatAllmoney) {
+          this.confirmTitle = '剩余零钱不足以支付提现手续费 ¥ ' + this.commission +
+                    '最大可提现金额为 ¥ ' + ((floatMoney - this.commission).toFixed(2))
+          this.showConfirm = true
+          return
+        }
+      }
+      this.apply()
+    },
+    apply () {
+      this.$vux.loading.show({
+        text: '正在申请提现'
+      })
+      this.$post(this.host_bdd + '/captial/v1/outcome/apply', {
+        amount: Math.round(this.money * 100),
+        userInfo: this.userInfo,
+        outcomeCount: (this.$route.query.outcomeCount + 1),
+        serviceCharge: Math.round(this.commission * 100)
+      }, (rt) => {
+        this.$vux.loading.hide()
+        if (rt.data.code !== 200) {
+          this.$vux.toast.text(rt.data.error, 'top')
+          return
+        }
+        this.$route.query.outcomeCount += 1
+        this.showPremiumRate = this.$route.query.outcomeCount >= 3
+
+        let info = JSON.parse(this.userInfo)
+        this.$router.replace({
+          path: '/account/success',
+          query: {
+            nickname: info.nickname,
+            amount: this.money
+          }
+        })
+      })
+    },
+    seeAll () {
+      $('[name="money"]').val(this.allMoney)
+      this.disabled = false
+    },
+    onConfirm (msg) {
+      this.money = ((parseFloat(this.money) - this.commission).toFixed(2))
+      this.apply()
+    },
+    minHeight () {
+      let ih = $('.intbody').height()
+      let bh = $('.bottom').height()
+      let kh = $('.kefu').height()
+
+      $('.container').css('minHeight', ih + bh + kh)
     }
+  }
 }
 </script>
