@@ -19,29 +19,28 @@
 </template>
 
 <script>
+import {Msg} from 'vux'
 
-import { Msg} from 'vux'
+export default {
 
-    export default {
+  components: {
+    Msg
+  },
 
-        components: {
-            Msg
-        },
-
-        data () {
-            return {
-                buttons: [{
-                type: 'primary',
-                text: "进入个人中心",
-                onClick: this.jump.bind(this)
-              }]
-            }
-        },
-
-        methods: {
-            jump : function () {
-                this.$router.push({ path: '/personal' });
-            }
-        }
+  data () {
+    return {
+      buttons: [{
+        type: 'primary',
+        text: '进入个人中心',
+        onClick: this.jump.bind(this)
+      }]
     }
+  },
+
+  methods: {
+    jump: function () {
+      this.$router.push({ path: '/personal' })
+    }
+  }
+}
 </script>
