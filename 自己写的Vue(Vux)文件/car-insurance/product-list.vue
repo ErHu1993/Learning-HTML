@@ -39,50 +39,47 @@
 </template>
 
 <script>
+export default {
 
-import $ from 'zepto';
+  mounted: function () {
+    this.$nextTick(function () {
+      this.getVendorsList()
+    })
+  },
 
-    export default {
-
-        mounted :function(){
-            var _this = this;
-            this.$nextTick(function () {
-                this.getVendorsList();
-            });
-        },
-
-        data () {
-            return {
-                vendorsListData : []
-            }
-        },
-
-        methods: {
-
-            getVendorsList: function () {
-                var _this = this;
-                _this.$http.get(_this.host_bdd + '/autoInsurance/v1/vendors').then((rt) => {
-                    if (rt.data.code != 200) {
-                         _this.$vux.toast.text(rt.error, 'top');
-                         return;
-                     }
-                     if (rt.data.autoInsuranceProduceVendors) {
-                         _this.vendorsListData = rt.data.autoInsuranceProduceVendors;
-                     }
-                 });
-            },
-
-            itemClick (item) {
-                if (item.url) {
-                    window.location.href = item.url;
-                }else {
-                    this.$router.push({ path: '/car-insurance/quoted-price' ,query : {
-                        produceId : item.produceId,
-                        vendorId : item.id,
-                        bannerSrc : item.bannerSrc
-                    }});
-                }
-            }
-        }
+  data () {
+    return {
+      vendorsListData: []
     }
+  },
+
+  methods: {
+
+    getVendorsList: function () {
+      var _this = this
+      _this.$http.get(_this.host_bdd + '/autoInsurance/v1/vendors').then((rt) => {
+        if (rt.data.code !== 200) {
+          _this.$vux.toast.text(rt.error, 'top')
+          return
+        }
+        if (rt.data.vendors) {
+          _this.vendorsListData = rt.data.vendors
+        }
+      })
+    },
+
+    itemClick (item) {
+      if (item.url) {
+        window.location.href = item.url
+      } else {
+        this.$router.push({ path: '/car-insurance/quoted-price',
+          query: {
+            produceId: item.produceId,
+            vendorId: item.id,
+            bannerSrc: item.bannerSrc
+          }})
+      }
+    }
+  }
+}
 </script>
