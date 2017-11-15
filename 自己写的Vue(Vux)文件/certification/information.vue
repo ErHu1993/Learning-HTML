@@ -55,125 +55,123 @@
 </template>
 
 <script>
+import {XButton, XDialog, CheckIcon} from 'vux'
+import cerInformation from '@/views/component-views/cer-information.vue'
 
-import { XButton ,XDialog, CheckIcon} from 'vux'
-import cerInformation from '@/views/component-views/cer-information.vue';
+export default {
 
-    export default {
+  components: {
+    XButton,
+    cerInformation,
+    XDialog,
+    CheckIcon
+  },
 
-        components: {
-            XButton,
-            cerInformation,
-            XDialog,
-            CheckIcon
-        },
-
-        data () {
-            return {
-                agreeCheck : true,
-                showContact : false,
-                contactImgUrl : '',
-                userModel : {
-                    infoId:'',
-                    waitingAuditInfoId:'',
-                    realName:'',
-                    identity:'',
-                    sex : '',
-                    nation:'',
-                    academic:'',
-                    birthDate: ''//new Date().getFullYear() - 30 + "-01-01"
-                },
-                nameRules : function (value) {
-                    return {
-                      valid: value.length > 0,
-                      msg: '请输入正确的姓名'
-                    }
-                },
-                identityRules: function (value) {
-                    var reg = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$)/;
-                    var result =  reg.test(value);
-                    return {
-                      valid: result,
-                      msg: '请输入正确的身份证号'
-                    }
-                }
-            }
-        },
-
-         mounted () {
-            this.contactImgUrl = document.getElementById('img').src;
-        },
-
-        methods : {
-
-            previewImage () {
-                this.$wechat.previewImage({
-                    current: '', // 当前显示图片的http链接
-                    urls: [this.contactImgUrl] // 需要预览的图片http链接列表
-                });
-            },
-
-            submitInfo : function () {
-
-                if (!this.agreeCheck) {
-                    this.$vux.toast.text('您没有同意《保险中介委托授权代理合同》', 'top')
-                    return;
-                }
-
-                if (!this.userModel.infoId) {
-                    this.$vux.toast.text('请上传身份证照片', 'top')
-                    return;
-                }
-                if (!this.nameRules(this.userModel.realName).valid){
-                    this.$vux.toast.text('请输入正确的姓名', 'top')
-                    return;
-                }
-                if (!this.identityRules(this.userModel.identity).valid){
-                    this.$vux.toast.text('请输入正确的身份证号', 'top')
-                    return;
-                }
-
-                if (!this.userModel.sex){
-                    this.$vux.toast.text('请输入正确的性别', 'top')
-                    return;
-                }
-
-                if (!this.userModel.nation){
-                    this.$vux.toast.text('请输入正确的民族', 'top')
-                    return;
-                }
-
-                if (!this.userModel.birthDate){
-                    this.$vux.toast.text('请输入正确的出生日期', 'top')
-                    return;
-                }
-
-                if (!this.userModel.academic){
-                    this.$vux.toast.text('请输入正确的学历', 'top')
-                    return;
-                }
-
-                this.$vux.loading.show({
-                    text: '正在提交数据'
-                })
-                var _this = this;
-                _this.$post(_this.host_bdd + '/agent/v1/info/submit', {
-                    identity:_this.userModel.identity,
-                    name:_this.userModel.realName,
-                    gender:_this.userModel.sex,
-                    nation:_this.userModel.nation,
-                    birth:_this.userModel.birthDate,
-                    education:_this.userModel.academic,
-                    infoId:_this.userModel.infoId
-                }, function (rt) {
-                    _this.$vux.loading.hide();
-                    if (rt.data.code != 200) {
-                        _this.$vux.toast.text(rt.data.error, 'top')
-                        return;
-                    }
-                    _this.$router.replace('/complete');
-                });
-            },
+  data () {
+    return {
+      agreeCheck: true,
+      showContact: false,
+      contactImgUrl: '',
+      userModel: {
+        infoId: '',
+        waitingAuditInfoId: '',
+        realName: '',
+        identity: '',
+        sex: '',
+        nation: '',
+        academic: '',
+        birthDate: ''// new Date().getFullYear() - 30 + "-01-01"
+      },
+      nameRules: function (value) {
+        return {
+          valid: value.length > 0,
+          msg: '请输入正确的姓名'
         }
+      },
+      identityRules: function (value) {
+        var reg = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$)/
+        var result = reg.test(value)
+        return {
+          valid: result,
+          msg: '请输入正确的身份证号'
+        }
+      }
     }
+  },
+
+  mounted () {
+    this.contactImgUrl = document.getElementById('img').src
+  },
+
+  methods: {
+
+    previewImage () {
+      this.$wechat.previewImage({
+        current: '', // 当前显示图片的http链接
+        urls: [this.contactImgUrl] // 需要预览的图片http链接列表
+      })
+    },
+
+    submitInfo: function () {
+      if (!this.agreeCheck) {
+        this.$vux.toast.text('您没有同意《保险中介委托授权代理合同》', 'top')
+        return
+      }
+
+      if (!this.userModel.infoId) {
+        this.$vux.toast.text('请上传身份证照片', 'top')
+        return
+      }
+      if (!this.nameRules(this.userModel.realName).valid) {
+        this.$vux.toast.text('请输入正确的姓名', 'top')
+        return
+      }
+      if (!this.identityRules(this.userModel.identity).valid) {
+        this.$vux.toast.text('请输入正确的身份证号', 'top')
+        return
+      }
+
+      if (!this.userModel.sex) {
+        this.$vux.toast.text('请输入正确的性别', 'top')
+        return
+      }
+
+      if (!this.userModel.nation) {
+        this.$vux.toast.text('请输入正确的民族', 'top')
+        return
+      }
+
+      if (!this.userModel.birthDate) {
+        this.$vux.toast.text('请输入正确的出生日期', 'top')
+        return
+      }
+
+      if (!this.userModel.academic) {
+        this.$vux.toast.text('请输入正确的学历', 'top')
+        return
+      }
+
+      this.$vux.loading.show({
+        text: '正在提交数据'
+      })
+      var _this = this
+      _this.$post(_this.host_bdd + '/agent/v1/info/submit', {
+        identity: _this.userModel.identity,
+        name: _this.userModel.realName,
+        gender: _this.userModel.sex,
+        nation: _this.userModel.nation,
+        birth: _this.userModel.birthDate,
+        education: _this.userModel.academic,
+        infoId: _this.userModel.infoId
+      }, function (rt) {
+        _this.$vux.loading.hide()
+        if (rt.data.code !== 200) {
+          _this.$vux.toast.text(rt.data.error, 'top')
+          return
+        }
+        _this.$router.replace('/complete')
+      })
+    }
+  }
+}
 </script>
