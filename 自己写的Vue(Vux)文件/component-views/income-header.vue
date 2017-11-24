@@ -41,21 +41,20 @@
 </template>
 
 <script>
-
     export default {
 
-        data () {
-            return {
+      data () {
+        return {
 
-            }
-        },
-
-        props: {
-            headerModel : {
-                headerTitle : String,
-                incomeAmount : String,
-                footerTitle : String
-            }
         }
+      },
+
+      props: {
+        headerModel: {
+          headerTitle: String,
+          incomeAmount: String,
+          footerTitle: String
+        }
+      }
     }
 </script>
