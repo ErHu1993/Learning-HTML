@@ -262,195 +262,196 @@
 </template>
 
 <script>
-    import {  Scroller, XButton, LoadMore ,Card} from 'vux'
-    import $ from 'zepto';
+    import {Scroller, XButton, LoadMore, Card} from 'vux'
+    import $ from 'zepto'
 
     export default {
 
-        components: {
-            Scroller,
-            LoadMore,
-            XButton,
-            Card
-        },
+      components: {
+        Scroller,
+        LoadMore,
+        XButton,
+        Card
+      },
 
-        data () {
-            return {
-                onFetching: true,
-                listHeight: 0,
-                pageNumber: 0,
-                pageCount: 1,
-                pageSize: 20,
-                placeholderHeader:require('../../assets/head.png'),
-                searchText:"",
-                queryConditions:null,
-                queryOption:100,
-                status: {
-                    pullupStatus: 'default'
-                },
-                tenantsWithParent : [
-                ],
-                tenantStatistics : {
-                    prePremiumAmount : '0',
-                    premiumAmount : '0',
-                    recordCount : '0'
-                }
-            }
-        },
+      data () {
+        return {
+          onFetching: true,
+          listHeight: 0,
+          pageNumber: 0,
+          pageCount: 1,
+          pageSize: 20,
+          placeholderHeader: require('../../assets/head.png'),
+          searchText: '',
+          queryConditions: null,
+          queryOption: 100,
+          status: {
+            pullupStatus: 'default'
+          },
+          tenantsWithParent: [
+          ],
+          tenantStatistics: {
+            prePremiumAmount: '0',
+            premiumAmount: '0',
+            recordCount: '0'
+          }
+        }
+      },
 
-        filters : {
+      filters: {
             // 金额判断 -- 为 0.00
-            moneyFilter (money) {
-                var result = "0.00";
-                if (money > 0) {
-                    return money;
-                }
-                return result;
-            }
-        },
+        moneyFilter (money) {
+          var result = '0.00'
+          if (money > 0) {
+            return money
+          }
+          return result
+        }
+      },
 
-        created () {
-            this.listHeight = $(window).height() - 58 - 67 - 10;
-        },
+      created () {
+        this.listHeight = $(window).height() - 58 - 67 - 10
+      },
 
-        updated() {
+      updated () {
         this.$nextTick(() => {
-            this.$refs.scrollerBottom.donePulldown();
-            this.$refs.scrollerBottom.reset();
+          this.$refs.scrollerBottom.donePulldown()
+          this.$refs.scrollerBottom.reset()
 
-            const boxH = $('.box2').height(), listH = $('.box2').closest('.list').height();
-                if (boxH <= listH) {
-                    $('.weui-loadmore__tips')
+          const boxH = $('.box2').height()
+          const listH = $('.box2').closest('.list').height()
+          if (boxH <= listH) {
+            $('.weui-loadmore__tips')
                     .text('已显示全部')
                     .prev().hide()
-                    .parent().css('margin-top', listH - boxH);
-                }
-            });
-        },
+                    .parent().css('margin-top', listH - boxH)
+          }
+        })
+      },
 
-        mounted () {
-            this.$nextTick(() => {
-                if (this.tenantsWithParent.length){
-                    this.$refs.scrollerBottom.reset({top:0});
-                }
-                this.getStatisticsData();
-                // this.onFetching = true;
-                this.getTeamList({
-                    option:this.queryOption,
-                    q:this.queryConditions,
-                    pn: this.pageNumber + 1,
-                    ps: this.pageSize
-                }, 'on');
-                this.listenInputChange();
-            });
-        },
+      mounted () {
+        this.$nextTick(() => {
+          if (this.tenantsWithParent.length) {
+            this.$refs.scrollerBottom.reset({top: 0})
+          }
+          this.getStatisticsData()
+            // this.onFetching = true;
+          this.getTeamList({
+            option: this.queryOption,
+            q: this.queryConditions,
+            pn: this.pageNumber + 1,
+            ps: this.pageSize
+          }, 'on')
+          this.listenInputChange()
+        })
+      },
 
-        methods : {
-            getStatisticsData () {
-                this.$http.get(this.host_bdd + '/agent/v1/inferior/statistics')
+      methods: {
+        getStatisticsData () {
+          this.$http.get(this.host_bdd + '/agent/v1/inferior/statistics')
                  .then((rt) => {
-                    if (rt.data.code != 200) {
-                        this.$vux.toast.text(rt.data.message, 'top');
-                        return;
-                    }
-                    if (rt.data.tenantStatistics) {
-                        this.tenantStatistics = rt.data.tenantStatistics;
-                    }
-                });
-            },
+                   if (rt.data.code !== 200) {
+                     this.$vux.toast.text(rt.data.message, 'top')
+                     return
+                   }
+                   if (rt.data.tenantStatistics) {
+                     this.tenantStatistics = rt.data.tenantStatistics
+                   }
+                 })
+        },
             // 获取数据
-            getTeamList (data, on) {
-                var _this = this;
-                this.$http.get(this.host_bdd + '/agent/v1/inferior/find', {
-                    params: data
-                }).then((rt) => {
-                    if (rt.data.code != 200) {
-                        this.$vux.toast.text(rt.data.message, 'top');
-                        return;
-                    }
-                    // 多页数据进行合并
-                    if (on == 'down'){
-                        this.tenantsWithParent = [];
-                    }
-
-                    if (rt.data.tenantsWithParent){
-                        this.tenantsWithParent = this.tenantsWithParent.concat(rt.data.tenantsWithParent);
-                        this.pageNumber = rt.data.pageNumber;
-                        this.pageCount = rt.data.pageCount;
-                    }
-                    this.tenantStatistics.recordCount = rt.data.recordCount;
-
-                    setTimeout( () => {
-                        _this.onFetching = false;
-                    }, 1000);
-                });
-            },
-            // 到底加载
-            onScrollBottom () {
-                if (this.onFetching) {
-                    return;
-                }
-                this.onFetching = true;
-                if (this.pageCount == this.pageNumber) {
-                    $('.weui-loadmore__tips').text('数据全部加载完成！').prev().hide();
-                    return;
-                }
-                this.getTeamList({
-                    option:this.queryOption,
-                    q:this.queryConditions,
-                    pn: this.pageNumber + 1,
-                    ps: this.pageSize
-                }, 'on');
-            },
-            // 下拉刷新
-            onPulldown () {
-                this.initData();
-                this.getTeamList({
-                    option:this.queryOption,
-                    q:this.queryConditions,
-                    pn: this.pageNumber + 1,
-                    ps: this.pageSize
-                }, 'down');
-            },
-            // 初始化
-            initData () {
-                this.onFetching = true;
-                this.pageNumber = 0;
-                $('.weui-loadmore__tips').text('loading').prev().show();
-            },
-            listenInputChange () {
-                var _this = this;
-                var timer = setInterval(function() {
-                    var dateControl = document.getElementById('search_input_6mp4g');
-                    if (dateControl) {
-                        clearInterval(timer);
-                        dateControl.addEventListener('input', function (e) {
-                            _this.searchText = e.target.value;
-                            if (!_this.searchText) {
-                                _this.searchHandle();
-                            }
-                        });
-                    }
-                }, 500);
-            },
-            searchHandle () {
-                this.searchText = $('#search_input_6mp4g').val();
-                if (this.searchText) {
-                    var jsonObject = {
-                        "child.name,child.contact,child.contactMobile_like" : this.searchText
-                    };
-                    this.queryConditions = JSON.stringify(jsonObject);
-                    this.listHeight = $(window).height() - 58 - 10;
-                }else {
-                    this.queryConditions = null;
-                    this.listHeight = $(window).height() - 58 - 10 - 67;
-                }
-                this.onPulldown();
-                this.$refs.scrollerBottom.reset({top:0});
-            },
-            goDetail (tenantsWithParent) {
-                this.$router.push({ path: '/team/detail', query:{id: tenantsWithParent.id}});
+        getTeamList (data, on) {
+          var _this = this
+          this.$http.get(this.host_bdd + '/agent/v1/inferior/find', {
+            params: data
+          }).then((rt) => {
+            if (rt.data.code !== 200) {
+              this.$vux.toast.text(rt.data.message, 'top')
+              return
             }
+                    // 多页数据进行合并
+            if (on === 'down') {
+              this.tenantsWithParent = []
+            }
+
+            if (rt.data.tenantsWithParent) {
+              this.tenantsWithParent = this.tenantsWithParent.concat(rt.data.tenantsWithParent)
+              this.pageNumber = rt.data.pageNumber
+              this.pageCount = rt.data.pageCount
+            }
+            this.tenantStatistics.recordCount = rt.data.recordCount
+
+            setTimeout(() => {
+              _this.onFetching = false
+            }, 1000)
+          })
+        },
+            // 到底加载
+        onScrollBottom () {
+          if (this.onFetching) {
+            return
+          }
+          this.onFetching = true
+          if (this.pageCount === this.pageNumber) {
+            $('.weui-loadmore__tips').text('数据全部加载完成！').prev().hide()
+            return
+          }
+          this.getTeamList({
+            option: this.queryOption,
+            q: this.queryConditions,
+            pn: this.pageNumber + 1,
+            ps: this.pageSize
+          }, 'on')
+        },
+            // 下拉刷新
+        onPulldown () {
+          this.initData()
+          this.getTeamList({
+            option: this.queryOption,
+            q: this.queryConditions,
+            pn: this.pageNumber + 1,
+            ps: this.pageSize
+          }, 'down')
+        },
+            // 初始化
+        initData () {
+          this.onFetching = true
+          this.pageNumber = 0
+          $('.weui-loadmore__tips').text('loading').prev().show()
+        },
+        listenInputChange () {
+          var _this = this
+          var timer = setInterval(function () {
+            var dateControl = document.getElementById('search_input_6mp4g')
+            if (dateControl) {
+              clearInterval(timer)
+              dateControl.addEventListener('input', function (e) {
+                _this.searchText = e.target.value
+                if (!_this.searchText) {
+                  _this.searchHandle()
+                }
+              })
+            }
+          }, 500)
+        },
+        searchHandle () {
+          this.searchText = $('#search_input_6mp4g').val()
+          if (this.searchText) {
+            var jsonObject = {
+              'child.name,child.contact,child.contactMobile_like': this.searchText
+            }
+            this.queryConditions = JSON.stringify(jsonObject)
+            this.listHeight = $(window).height() - 58 - 10
+          } else {
+            this.queryConditions = null
+            this.listHeight = $(window).height() - 58 - 10 - 67
+          }
+          this.onPulldown()
+          this.$refs.scrollerBottom.reset({top: 0})
+        },
+        goDetail (tenantsWithParent) {
+          this.$router.push({path: '/team/detail', query: {id: tenantsWithParent.id}})
         }
+      }
     }
 </script>
