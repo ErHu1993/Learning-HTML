@@ -173,6 +173,9 @@
             </cell>
         </group>
         <group class="group">
+            <cell class='cell-padding' title="个人名片" is-link @click.native='CardLink'>
+                <img slot="icon" src="../../assets/personal-card.png">
+            </cell>
             <cell class='cell-padding' title="邀请好友" is-link @click.native='showQrCode'>
                 <img slot="icon" src="../../assets/personal-qr.png">
             </cell>
@@ -192,130 +195,154 @@
 </template>
 
 <script>
-    import { Group, Cell ,XInput ,XButton ,Card ,Actionsheet} from 'vux'
+    import {Group, Cell, XInput, XButton, Card, Actionsheet} from 'vux'
 
     export default {
 
-        components: {
-            Group,
-            Cell,
-            XInput,
-            XButton,
-            Card,
-            Actionsheet
-        },
+      components: {
+        Group,
+        Cell,
+        XInput,
+        XButton,
+        Card,
+        Actionsheet
+      },
 
-        data () {
-            return {
-                showQR:false,
-                showInsurancePrice:false,
-                insurancePriceMenus: {
-                    menu1: '车险报价',
-                    menu2: '报价记录'
-                 },
-                qrUrl:"",
-                cellsData:[
-                    {
-                        title:"我的团队",
-                        icon:require('../../assets/personal-team.png'),
-                    },
-                    {
-                        title:"车险报价",
-                        icon:require('../../assets/personal-price.png'),
-                    },
-                    {
-                        title:"我的订单",
-                        icon:require('../../assets/personal-order.png'),
-                    }
-                ],
-                tenantAccount: {
-                    portrait:"",
-                    cashAmount:"",
-                    premiumAmount:"",
-                    user: {
-                        name:"",
-                        mobile:""
-                    }
-                }
+      data () {
+        return {
+          showQR: false,
+          showInsurancePrice: false,
+          insurancePriceMenus: {
+            menu1: '车险报价',
+            menu2: '报价记录'
+          },
+          qrUrl: '',
+          cellsData: [
+            {
+              title: '我的团队',
+              icon: require('../../assets/personal-team.png')
+            },
+            {
+              title: '车险报价',
+              icon: require('../../assets/personal-price.png')
+            },
+            {
+              title: '我的订单',
+              icon: require('../../assets/personal-order.png')
             }
-        },
-        mounted :function(){
-            var _this = this;
-            this.$nextTick(function () {
-                _this.$http.get(_this.host_bdd + '/agent/v1/info').then((rt) => {
-                    if (rt.data.code != 200) {
-                        _this.$vux.toast.text(rt.data.error, 'top');
-                        return;
-                    }
-                    if (!rt.data.tenantAgentInfo) {
-                        let url = location.hash.substr(1);
-                        _this.$router.push({ path:'/information', query: { url:url, title: document.title } });
-                        return;
-                    }
-                    _this.getUserInfo();
-                });
-            });
-        },
-
-        methods : {
-            getUserInfo: function () {
-                var _this = this;
-                _this.$http.get(_this.host_bdd + '/agent/v1/home').then((rt) => {
-                    if (rt.data.code != 200) {
-                         _this.$vux.toast.text(rt.error, 'top');
-                         return;
-                     }
-                     if (rt.data.tenantAccount) {
-                         _this.tenantAccount = rt.data.tenantAccount;
-                         _this.qrUrl = _this.host_bdd + "/agent/v1/qr?tenantId=" + _this.tenantAccount.id + "&width=300&height=300";
-                     }
-                 });
-            },
-            gotoCashAmount : function (event) {
-                this.$router.push({ path: '/account'});
-                event.cancelBubble = true;
-            },
-            gotoPremiumAmount : function (event) {
-                this.$router.push({ path: '/account/my/premium'});
-                event.cancelBubble = true;
-            },
-            userHeaderClick : function (event) {
-                this.$router.push({ path: '/edit'});
-                event.cancelBubble = true;
-            },
-            showQrCode : function () {
-                this.$router.push({ path: '/invite' , query:{
-                    qrUrl : this.qrUrl
-                }});
-            },
-            showCommonProblem () {
-                let link = 'http://' + location.host + '/html/common-problem.html';
-                location.href = link;
-            },
-            groupCellClick : function (item) {
-                if (item.title === "我的团队") {
-                    if (this.tenantAccount.hasInferior){
-                        this.$router.push({ path: '/team/list'});
-                    }else{
-                        this.$router.push({ path: '/team/empty' ,query : {
-                            title : '我的团队'
-                        }});
-                    }
-                }else if (item.title === "车险报价") {
-                    this.showInsurancePrice = true;
-                }else if (item.title === "我的订单"){
-                    this.$router.push('/order');
-                }
-            },
-            insurancePriceClick  : function (index) {
-                if (index == "menu1"){
-                    this.$router.push({ path: '/car-insurance/product-list'});
-                }else if (index == "menu2"){
-                    this.$router.push('/history');
-                }else {
-                    //取消
-                }
+          ],
+          tenantAccount: {
+            portrait: '',
+            cashAmount: '',
+            premiumAmount: '',
+            user: {
+              name: '',
+              mobile: ''
             }
+          }
         }
+      },
+      mounted: function () {
+        var _this = this
+        this.$nextTick(function () {
+          _this.$http.get(_this.host_bdd + '/agent/v1/info').then((rt) => {
+            if (rt.data.code !== 200) {
+              _this.$vux.toast.text(rt.data.error, 'top')
+              return
+            }
+            if (!rt.data.tenantAgentInfo) {
+              let url = window.location.hash.substr(1)
+              _this.$router.push({ path: '/information', query: { url: url, title: document.title } })
+              return
+            }
+            _this.getUserInfo()
+          })
+        })
+        // 解决Bug:iOS 返回不刷页面导致微信分享无法控制 (webview返回层缓存)
+        var u = navigator.userAgent
+        var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
+        if (isiOS) {
+          window.addEventListener('pageshow', function (e) {
+            if (e.persisted) {
+              window.location.reload()
+            }
+          })
+        }
+      },
+      methods: {
+        getUserInfo: function () {
+          var _this = this
+          _this.$http.get(_this.host_bdd + '/agent/v1/home').then((rt) => {
+            if (rt.data.code !== 200) {
+              _this.$vux.toast.text(rt.error, 'top')
+              return
+            }
+            if (rt.data.tenantAccount) {
+              _this.tenantAccount = rt.data.tenantAccount
+              if (rt.data.tenantAccount.roleType === 2) {
+                _this.cellsData.push({
+                  title: '保险电销',
+                  icon: require('../../assets/personal-call.png')
+                })
+              }
+              _this.qrUrl = _this.host_bdd + '/agent/v1/qr?tenantId=' + _this.tenantAccount.id + '&width=300&height=300'
+            }
+          })
+        },
+        gotoCashAmount: function (event) {
+          this.$router.push({path: '/account'})
+          event.cancelBubble = true
+        },
+        gotoPremiumAmount: function (event) {
+          this.$router.push({path: '/account/my/premium'})
+          event.cancelBubble = true
+        },
+        userHeaderClick: function (event) {
+          this.$router.push({path: '/edit'})
+          event.cancelBubble = true
+        },
+        showQrCode: function () {
+          this.$router.push({path: '/invite',
+            query: {
+              qrUrl: this.qrUrl
+            }
+          })
+        },
+        showCommonProblem () {
+          let link = 'http://' + window.location.host + '/html/common-problem.html'
+          window.location.href = link
+        },
+        groupCellClick: function (item) {
+          if (item.title === '我的团队') {
+            if (this.tenantAccount.hasInferior) {
+              this.$router.push({path: '/team/list'})
+            } else {
+              this.$router.push({path: '/team/empty',
+                query: {
+                  title: '我的团队'
+                }
+              })
+            }
+          } else if (item.title === '车险报价') {
+            this.showInsurancePrice = true
+          } else if (item.title === '我的订单') {
+            this.$router.push('/order')
+          } else if (item.title === '保险电销') {
+            this.$router.push({path: '/out-call'})
+          }
+        },
+        insurancePriceClick: function (index) {
+          if (index === 'menu1') {
+            this.$router.push({path: '/car-insurance/product-list'})
+          } else if (index === 'menu2') {
+            this.$router.push('/history')
+          } else {
+            // 取消
+          }
+        },
+        CardLink () {
+          window.location.href = window.location.origin + '/r/_card'
+        }
+      }
     }
 </script>
