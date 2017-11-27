@@ -157,167 +157,176 @@
 </template>
 
 <script>
-    import { Group ,Card} from 'vux'
-    import echarts from 'echarts';
-    import $ from 'zepto';
+    import {Group, Card} from 'vux'
+    import echarts from 'echarts'
+    import $ from 'zepto'
 
     export default {
 
-        components: {
-            Group,
-            Card
-        },
+      components: {
+        Group,
+        Card
+      },
 
-        data () {
-            return {
-                placeholderHeader : require('../../assets/head.png'),
-                tenantWithAgentInfo : []
-            }
-        },
-
-        filters : {
-            // 金额判断 -- 为 0.00
-            moneyFilter (money) {
-                var result = "0.00";
-                if (money > 0) {
-                    return money;
-                }
-                return result;
-            }
-        },
-
-        mounted () {
-            var _this = this;
-            this.$nextTick(function () {
-                this.getMemberDetail();
-                this.getPremiumChartData();
-                this.getCommissionChartData();
-                this.getPolicyChartData();
-            });
-        },
-
-        methods : {
-            click () {
-
-            },
-            getMemberDetail: function () {
-                var _this = this;
-                _this.$http.get(_this.host_bdd + '/agent/v1/inferior/detail/' + _this.$route.query.id).then((rt) => {
-                    if (rt.data.code != 200) {
-                         _this.$vux.toast.text(rt.error, 'top');
-                         return;
-                     }
-                     if (rt.data.tenantWithAgentInfo) {
-                         _this.tenantWithAgentInfo = rt.data.tenantWithAgentInfo;
-                     }
-                 });
-            },
-            //保费数据
-            getPremiumChartData () {
-                var _this = this;
-                _this.$http.get(_this.host_bdd + '/agent/v1/inferior/detail/' + _this.$route.query.id + "/premium").then((rt) => {
-                    if (rt.data.code != 200) {
-                         _this.$vux.toast.text(rt.error, 'top');
-                         return;
-                     }
-                     if (rt.data.lineChart) {
-                         _this.setChartOption("echarts-premium-amount",rt.data.lineChart);
-                     }
-                 });
-            },
-            //佣金数据
-            getCommissionChartData () {
-                var _this = this;
-                _this.$http.get(_this.host_bdd + '/agent/v1/inferior/detail/' + _this.$route.query.id + "/commission").then((rt) => {
-                    if (rt.data.code != 200) {
-                         _this.$vux.toast.text(rt.error, 'top');
-                         return;
-                     }
-                     if (rt.data.lineChart) {
-                         _this.setChartOption("echarts-commission-amount",rt.data.lineChart);
-                     }
-                 });
-            },
-            //保单数据
-            getPolicyChartData () {
-                var _this = this;
-                _this.$http.get(_this.host_bdd + '/agent/v1/inferior/detail/' + _this.$route.query.id + "/policy").then((rt) => {
-                    if (rt.data.code != 200) {
-                         _this.$vux.toast.text(rt.error, 'top');
-                         return;
-                     }
-                     if (rt.data.lineChart) {
-                        _this.setChartOption("echarts-policy-count",rt.data.lineChart);
-                     }
-                 });
-            },
-            //设置图标数据 , 标签id
-            setChartOption (tagId,chartData) {
-                // 指定图表的配置项和数据
-                var xAxisData = [];//x坐标
-                var seriesData = [];//点坐标
-                for (var i = 0; i < chartData.length; i++) {
-                    xAxisData.push(chartData[i].datetime);
-                    seriesData.push(chartData[i].major);
-                }
-
-                var element = document.getElementById(tagId);
-                element.style.width = (document.body.clientWidth) / 5 * chartData.length  + 'px';
-                $('#'+tagId).parent().scrollLeft((parseInt(element.style.width) - parseInt(document.body.clientWidth)));
-
-                //初始化组件并绘制
-                var premiumChart = echarts.init(document.getElementById(tagId));
-                //配置选项
-                var option = {
-                    grid :[
-                        {
-                            left:"0px",
-                            right:'0px'
-                        }
-                    ],
-                    xAxis: [
-                        {
-                            type: 'category',
-                            data: xAxisData,
-                        }
-                    ],
-                    yAxis: [
-                        {
-                            splitLine: {
-                                show: false
-                            },
-                            axisLine: {
-                                show: false
-                            },
-                            axisTick: {
-                                show: false
-                            },
-                            axisLabel: {
-                                show:false
-                            }
-                        }
-                    ],
-                    series: [
-                        {
-                            type:'line',
-                            data:seriesData,
-                            label: {
-                                normal: {
-                                    show: true,
-                                    position: 'top'
-                                }
-                            },
-                            itemStyle: {
-                                normal: {
-                                    color : '#2c80e9'
-                                }
-                            }
-                        }
-                    ]
-                };
-                // 使用刚指定的配置项和数据显示图表。
-                premiumChart.setOption(option);
-            }
+      data () {
+        return {
+          placeholderHeader: require('../../assets/head.png'),
+          tenantWithAgentInfo: []
         }
+      },
+
+      filters: {
+            // 金额判断 -- 为 0.00
+        moneyFilter (money) {
+          var result = '0.00'
+          if (money > 0) {
+            return money
+          }
+          return result
+        }
+      },
+
+      mounted () {
+        this.$nextTick(function () {
+          this.getMemberDetail()
+          this.getPremiumChartData()
+          this.getCommissionChartData()
+          this.getPolicyChartData()
+        })
+      },
+
+      methods: {
+        click () {
+
+        },
+        getMemberDetail: function () {
+          var _this = this
+          _this.$http.get(_this.host_bdd + '/agent/v1/inferior/detail/' + _this.$route.query.id).then((rt) => {
+            if (rt.data.code !== 200) {
+              _this.$vux.toast.text(rt.error, 'top')
+              return
+            }
+            if (rt.data.tenantWithAgentInfo) {
+              _this.tenantWithAgentInfo = rt.data.tenantWithAgentInfo
+            }
+          })
+        },
+            // 保费数据
+        getPremiumChartData () {
+          var _this = this
+          _this.$http.get(_this.host_bdd + '/agent/v1/inferior/detail/' + _this.$route.query.id + '/premium').then((rt) => {
+            if (rt.data.code !== 200) {
+              _this.$vux.toast.text(rt.error, 'top')
+              return
+            }
+            if (rt.data.lineChart) {
+              _this.setChartOption('echarts-premium-amount', rt.data.lineChart)
+            }
+          })
+        },
+            // 佣金数据
+        getCommissionChartData () {
+          var _this = this
+          _this.$http.get(_this.host_bdd + '/agent/v1/inferior/detail/' + _this.$route.query.id + '/commission').then((rt) => {
+            if (rt.data.code !== 200) {
+              _this.$vux.toast.text(rt.error, 'top')
+              return
+            }
+            if (rt.data.lineChart) {
+              _this.setChartOption('echarts-commission-amount', rt.data.lineChart)
+            }
+          })
+        },
+            // 保单数据
+        getPolicyChartData () {
+          var _this = this
+          _this.$http.get(_this.host_bdd + '/agent/v1/inferior/detail/' + _this.$route.query.id + '/policy').then((rt) => {
+            if (rt.data.code !== 200) {
+              _this.$vux.toast.text(rt.error, 'top')
+              return
+            }
+            if (rt.data.lineChart) {
+              _this.setChartOption('echarts-policy-count', rt.data.lineChart)
+            }
+          })
+        },
+            // 设置图标数据 , 标签id
+        setChartOption (tagId, chartData) {
+                // 指定图表的配置项和数据
+          var xAxisData = []// x坐标
+          var seriesData = []// 点坐标
+          for (var i = 0; i < chartData.length; i++) {
+            xAxisData.push(chartData[i].datetime)
+            seriesData.push(chartData[i].major)
+          }
+
+          var element = document.getElementById(tagId)
+          element.style.width = (document.body.clientWidth) / 5 * chartData.length + 'px'
+          $('#' + tagId).parent().scrollLeft((parseInt(element.style.width) - parseInt(document.body.clientWidth)))
+
+            // 初始化组件并绘制
+          var premiumChart = echarts.init(document.getElementById(tagId))
+            // 配置选项
+          var option = {
+            tooltip: {
+              trigger: 'axis',
+              confine: true,
+              axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                  color: '#999'
+                }
+              }
+            },
+            grid: [
+              {
+                left: '0px',
+                right: '0px'
+              }
+            ],
+            xAxis: [
+              {
+                type: 'category',
+                data: xAxisData
+              }
+            ],
+            yAxis: [
+              {
+                splitLine: {
+                  show: false
+                },
+                axisLine: {
+                  show: false
+                },
+                axisTick: {
+                  show: false
+                },
+                axisLabel: {
+                  show: false
+                }
+              }
+            ],
+            series: [
+              {
+                type: 'line',
+                data: seriesData,
+                label: {
+                  normal: {
+                    show: true,
+                    position: 'top'
+                  }
+                },
+                itemStyle: {
+                  normal: {
+                    color: '#2c80e9'
+                  }
+                }
+              }
+            ]
+          }
+            // 使用刚指定的配置项和数据显示图表。
+          premiumChart.setOption(option)
+        }
+      }
     }
 </script>
