@@ -847,457 +847,455 @@
 </template>
 
 <script>
-import $ from 'zepto';
-import { Group, Cell ,XInput ,GroupTitle,XButton,XSwitch,CheckIcon,PopupRadio,DatetimeView,Popup,TransferDom,XDialog} from 'vux'
+import $ from 'zepto'
+import {Group, Cell, XInput, GroupTitle, XButton, XSwitch, CheckIcon, PopupRadio, DatetimeView, Popup, TransferDom, XDialog} from 'vux'
 
 export default {
 
-    components: {
-        Popup,
-        CheckIcon,
-        Group,
-        XDialog,
-        DatetimeView,
-        PopupRadio,
-        Cell,
-        XInput,
-        GroupTitle,
-        XSwitch,
-        XButton
-    },
-    directives: {
-        TransferDom
-    },
+  components: {
+    Popup,
+    CheckIcon,
+    Group,
+    XDialog,
+    DatetimeView,
+    PopupRadio,
+    Cell,
+    XInput,
+    GroupTitle,
+    XSwitch,
+    XButton
+  },
+  directives: {
+    TransferDom
+  },
 
-    data () {
+  data () {
+    return {
+      showPolicyHolderIdentityDate: false,
+      showInsuredIdentityDate: false,
+      showPolicyHolderBirthDate: false,
+      showInsuredBirthDate: false,
+      agreeCheck: false,
+      agreeTotalCheck: false,
+      agreeDeclareCheck: false,
+      agreeAttentionCheck: false,
+      agreeProvisionCheck: false,
+      showDeclare: false,
+      showAttention: false,
+      showProvision: false,
+      sexOptions: ['男', '女'],
+      provinceOptions: ['安徽省'],
+      province: '安徽省',
+      insuredRelationOptions: ['本人', '父母', '配偶', '子女'],
+      startDate: this.$dateFormat(new Date().getTime() / 1000, 'yyyy-MM-dd'),
+      endDate: '',
+      flowData: {
+        produceId: '',
+        vendorId: '',
+        socialInsuFlag: false,
+        policyHolderEmail: '',
+        policyHolderMobile: '',
+        policyHolderAddress: '',
+        insuredAddress: '',
+        insuredRelation: '本人'
+      },
+      insured: {
+        expiredDate: '',
+        identity: '',
+        name: '',
+        birth: '',
+        gender: ''
+      },
+      policyHolder: {
+        expiredDate: '',
+        identity: '',
+        name: '',
+        birth: '',
+        gender: ''
+      },
+      userNameRules: function (value, user) {
+        var valid = value.length > 0
+        var msg = '请输入正确的' + user + '姓名'
+        if (!valid) {
+          this.$vux.toast.text(msg, 'top')
+        }
+        return valid
+      },
+      identityRules: function (value, user) {
+        var reg = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$)/
+        var result = reg.test(value)
         return {
-            showPolicyHolderIdentityDate : false,
-            showInsuredIdentityDate : false,
-            showPolicyHolderBirthDate : false,
-            showInsuredBirthDate : false,
-            agreeCheck : false,
-            agreeTotalCheck : false,
-            agreeDeclareCheck : false,
-            agreeAttentionCheck : false,
-            agreeProvisionCheck : false,
-            showDeclare : false,
-            showAttention : false,
-            showProvision : false,
-            sexOptions : ['男','女'],
-            provinceOptions : ['安徽省'],
-            province : '安徽省',
-            insuredRelationOptions : ['本人','父母','配偶','子女'],
-            startDate: this.$dateFormat(new Date().getTime()/1000,'yyyy-MM-dd'),
-            endDate : '',
-            flowData : {
-                produceId : '',
-                vendorId : '',
-                socialInsuFlag : false,
-                policyHolderEmail : '',
-                policyHolderMobile : '',
-                policyHolderAddress : '',
-                insuredAddress : '',
-                insuredRelation : '本人'
-            },
-            insured : {
-                expiredDate : '',
-                identity : '',
-                name : '',
-                birth : '',
-                gender : ''
-            },
-            policyHolder : {
-                expiredDate : '',
-                identity : '',
-                name : '',
-                birth : '',
-                gender : ''
-            },
-            userNameRules : function (value,user) {
-                var valid = value.length > 0;
-                var msg = '请输入正确的' + user + '姓名';
-                if (!valid) {
-                    this.$vux.toast.text(msg, 'top')
-                }
-                return valid;
-            },
-            identityRules: function (value,user) {
-                var reg = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}[0-9Xx]$)/;
-                var result =  reg.test(value);
-                return {
-                  valid: result,
-                  msg: '请输入正确的' + user + '身份证号'
-                }
-            },
-            userEmailRules : function (value,user) {
-                var reg = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
-                var result =  reg.test(value);
-                return {
-                  valid: result,
-                  msg: '请输入正确的' + user + '电子邮箱'
-                }
-            },
-            adressRules : function (value,user) {
-                return {
-                  valid: value.length >= 5,
-                  msg: '请输入正确的' + user + '详细地址'
-                }
-            },
-             mobileRules : function (value,user) {
-                var reg = /^1[34578]\d{9}$/;
-                var result =  reg.test(value);
-                return {
-                  valid: result,
-                  msg: '请输入正确的' + user + '手机号码'
-                }
-            },
+          valid: result,
+          msg: '请输入正确的' + user + '身份证号'
         }
-    },
-
-    created () {
-        var date = this.$dateFormat(new Date().getTime()/1000,'yyyy-MM-dd').split('-');
-        date[0] = parseInt(date[0]) + 100;
-        this.endDate = date.join('-');
-
-        var liAnFlowData = this.storage.get('liAnFlowData');
-        if (liAnFlowData) {
-            if (liAnFlowData.produceId){
-                this.flowData.produceId = liAnFlowData.produceId;
-            }
-            if (liAnFlowData.vendorId){
-                this.flowData.vendorId = liAnFlowData.vendorId;
-            }
-            if (liAnFlowData.socialInsuFlag){
-                this.flowData.socialInsuFlag = liAnFlowData.socialInsuFlag;
-            }
-            if (liAnFlowData.policyHolderEmail){
-                this.flowData.policyHolderEmail = liAnFlowData.policyHolderEmail;
-            }
-            if (liAnFlowData.policyHolderMobile){
-                this.flowData.policyHolderMobile  = liAnFlowData.policyHolderMobile;
-            }
-            if (liAnFlowData.policyHolderAddress){
-                this.flowData.policyHolderAddress = liAnFlowData.policyHolderAddress;
-            }
-            if (liAnFlowData.insuredAddress){
-                this.flowData.insuredAddress = liAnFlowData.insuredAddress;
-            }
-            if (liAnFlowData.insuredRelation){
-                this.flowData.insuredRelation = liAnFlowData.insuredRelation;
-            }
-            if (liAnFlowData.policyHolder){
-                this.flowData.policyHolder = liAnFlowData.policyHolder;
-            }
-            if (liAnFlowData.insured){
-                this.flowData.insured = liAnFlowData.insured;
-            }
-            this.flowData.socialInsuFlag = Boolean(liAnFlowData.socialInsuFlag);
+      },
+      userEmailRules: function (value, user) {
+        var reg = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+        var result = reg.test(value)
+        return {
+          valid: result,
+          msg: '请输入正确的' + user + '电子邮箱'
         }
-    },
+      },
+      adressRules: function (value, user) {
+        return {
+          valid: value.length >= 5,
+          msg: '请输入正确的' + user + '详细地址'
+        }
+      },
+      mobileRules: function (value, user) {
+        var reg = /^1[34578]\d{9}$/
+        var result = reg.test(value)
+        return {
+          valid: result,
+          msg: '请输入正确的' + user + '手机号码'
+        }
+      }
+    }
+  },
 
-    mounted :function(){
+  created () {
+    var date = this.$dateFormat(new Date().getTime() / 1000, 'yyyy-MM-dd').split('-')
+    date[0] = parseInt(date[0]) + 100
+    this.endDate = date.join('-')
+
+    var liAnFlowData = this.storage.get('liAnFlowData')
+    if (liAnFlowData) {
+      if (liAnFlowData.produceId) {
+        this.flowData.produceId = liAnFlowData.produceId
+      }
+      if (liAnFlowData.vendorId) {
+        this.flowData.vendorId = liAnFlowData.vendorId
+      }
+      if (liAnFlowData.socialInsuFlag) {
+        this.flowData.socialInsuFlag = liAnFlowData.socialInsuFlag
+      }
+      if (liAnFlowData.policyHolderEmail) {
+        this.flowData.policyHolderEmail = liAnFlowData.policyHolderEmail
+      }
+      if (liAnFlowData.policyHolderMobile) {
+        this.flowData.policyHolderMobile = liAnFlowData.policyHolderMobile
+      }
+      if (liAnFlowData.policyHolderAddress) {
+        this.flowData.policyHolderAddress = liAnFlowData.policyHolderAddress
+      }
+      if (liAnFlowData.insuredAddress) {
+        this.flowData.insuredAddress = liAnFlowData.insuredAddress
+      }
+      if (liAnFlowData.insuredRelation) {
+        this.flowData.insuredRelation = liAnFlowData.insuredRelation
+      }
+      if (liAnFlowData.policyHolder) {
+        this.flowData.policyHolder = liAnFlowData.policyHolder
+      }
+      if (liAnFlowData.insured) {
+        this.flowData.insured = liAnFlowData.insured
+      }
+      this.flowData.socialInsuFlag = Boolean(liAnFlowData.socialInsuFlag)
+    }
+  },
+
+  mounted: function () {
         // var arr = ["1966-09-27","1967-08-29","1967-09-27","1967-09-28","1967-09-29","1967-10-27","1968-09-29","2011-09-27","2012-08-27","2012-09-27","2012-09-28","2012-09-29","2012-10-27","2013-09-27"];
         // debugger;
         // for (var i = 0; i < arr.length; i++) {
         //     console.log(Number(this.judgeAge(arr[i])));
         // }
-    },
+  },
 
-    methods : {
-        policyHolderIdentityChange () {
+  methods: {
+    policyHolderIdentityChange () {
+      if (this.flowData.insuredRelation === '本人') {
+        var identity = this.policyHolder.identity
+        this.insured.identity = identity
+      }
 
-            if (this.flowData.insuredRelation == '本人') {
-                var identity = this.policyHolder.identity;
-                this.insured.identity = identity;
-            }
-
-            if (this.identityRules(this.policyHolder.identity,"投保人").valid){
-                if (this.policyHolder.identity.length == 18){
-                    this.policyHolder.birth =
-                        this.policyHolder.identity.substr(6,4) + "-" +
-                        this.policyHolder.identity.substr(10,2) + "-" +
-                        this.policyHolder.identity.substr(12,2);
-                    if (this.policyHolder.identity.substr(16,1) % 2) {
-                        this.policyHolder.gender = '男';
-                    } else {
-                        this.policyHolder.gender = '女';
-                    }
-                }
-            }
-        },
-        insuredIdentityChange () {
-            if (this.identityRules(this.insured.identity,"被保人").valid){
-                if (this.insured.identity.length == 18) {
-                    this.insured.birth =
-                        this.insured.identity.substr(6,4) + "-" +
-                        this.insured.identity.substr(10,2) + "-" +
-                        this.insured.identity.substr(12,2);
-
-                    if (!this.judgeAge(this.insured.birth)){
-                        this.$vux.toast.text('抱歉，暂时仅支持被保人5-49周岁的投保', 'top');
-                    }
-                    if (this.insured.identity.substr(16,1) % 2) {
-                        this.insured.gender = '男';
-                    } else {
-                        this.insured.gender = '女';
-                    }
-                }
-            }
-        },
-        judgeAge (birth) {
-            let brithArray = birth.split('-');
-            let byear = brithArray[0];
-            let bmouth = brithArray[1];
-            let bday = brithArray[2];
-            let nowDate = new Date();
-            let nyear = nowDate.getFullYear();
-            let nmouth = nowDate.getMonth() + 1;
-            let nday = nowDate.getDate();
-
-            if ((nyear - byear) > 5 && (nyear - byear) <= 49) {
-                return true;
-            } else if ((nyear - byear) < 5 || ((nyear - byear) > (49 + 1))) {
-                return false;
-            } else {
-                //两种情况  一个是 5岁那年 , 一个是50岁那年
-                if ((nyear - byear) == 5) {
-                    //5岁那年
-                    if ((nmouth - bmouth) > 0){
-                        return true;
-                    } else if ((nmouth - bmouth) < 0){
-                        return false;
-                    }else {
-                        if ((nday - bday) > 0){
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    }
-                } else {
-                    //50岁那年
-                    if ((nmouth - bmouth) > 0){
-                        return false;
-                    } else if ((nmouth - bmouth) < 0){
-                        return true;
-                    }else {
-                        if ((nday - bday) >= 0){
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    }
-                }
-            }
-        },
-        insuredRelationChange (value) {
-            if (value == '本人'){
-                var policy = {};
-                policy = $.extend(true, policy, this.policyHolder);
-                this.insured = policy;
-                var adress = this.flowData.policyHolderAddress
-                this.flowData.insuredAddress = adress;
-            }
-        },
-        policyHolderNameChange () {
-            if (this.flowData.insuredRelation == '本人') {
-                var name = this.policyHolder.name;
-                this.insured.name = name;
-            }
-        },
-        policyHolderIdentityDateChange () {
-            if (this.flowData.insuredRelation == '本人') {
-                var expiredDate = this.policyHolder.expiredDate;
-                this.insured.expiredDate = expiredDate;
-            }
-        },
-        policyHolderBirthDateChange () {
-            if (this.flowData.insuredRelation == '本人') {
-                var birth = this.policyHolder.birth;
-                this.insured.birth = birth;
-            }
-        },
-        policyHolderGenderChange () {
-            if (this.flowData.insuredRelation == '本人') {
-                var gender = this.policyHolder.gender;
-                this.insured.gender = gender;
-            }
-        },
-        policyHolderAddressChange () {
-            if (this.flowData.insuredRelation == '本人') {
-                var adress = this.flowData.policyHolderAddress;
-                this.flowData.insuredAddress = adress;
-            }
-        },
-        getInsuredRelationType (relation) {
-            switch (relation) {
-                case '本人' : {
-                    return 'SELF';
-                }
-                case '父母' : {
-                    return 'PARENT';
-                }
-                case '配偶' : {
-                    return 'LOVER';
-                }
-                case '子女' : {
-                    return 'CHILD'
-                }
-            }
-        },
-        agreeTotalDeclare (value) {
-            this.agreeCheck = false;
-            if (this.agreeAttentionCheck && this.agreeDeclareCheck && this.agreeProvisionCheck) {
-                this.agreeTotalCheck = !this.agreeTotalCheck;
-                this.agreeCheck = this.agreeTotalCheck;
-            }else {
-                if (!this.agreeDeclareCheck){
-                    this.$vux.toast.text('必须点击阅读《投保声明》', 'top');
-                }else if (!this.agreeAttentionCheck) {
-                    this.$vux.toast.text('必须点击阅读《理赔须知》', 'top');
-                }else {
-                    this.$vux.toast.text('必须点击阅读《保险条款》', 'top');
-                }
-                this.agreeTotalCheck = false;
-            }
-        },
-        takePhotoToUserInformation (category) {
-            if (category == 2 && this.flowData.insuredRelation == '本人') return;
-            var _this = this;
-            _this.$uploadImage( function (serverId,localId) {
-                _this.$post(_this.host_bdd + '/autoInsurance/v1/upload/identity', {
-                    mediaId: serverId,
-                }, function (rt) {
-                    _this.$vux.loading.hide();
-                    if (rt.data.code != 200) {
-                        _this.$vux.toast.text(rt.data.error, 'top');
-                        return;
-                    }
-                    if (rt.data.certPersonIdentity){
-                        if (category == 1){
-                            _this.policyHolder.expiredDate = rt.data.certPersonIdentity.expiredDate;
-                            _this.policyHolder.identity = rt.data.certPersonIdentity.identity;
-                            _this.policyHolder.name = rt.data.certPersonIdentity.name;
-                            _this.policyHolder.birth = rt.data.certPersonIdentity.birth;
-                            _this.policyHolder.gender = rt.data.certPersonIdentity.gender;
-                        }else if (category == 2){
-                            _this.insured.expiredDate = rt.data.certPersonIdentity.expiredDate;
-                            _this.insured.identity = rt.data.certPersonIdentity.identity;
-                            _this.insured.name = rt.data.certPersonIdentity.name;
-                            _this.insured.birth = rt.data.certPersonIdentity.birth;
-                            _this.insured.gender = rt.data.certPersonIdentity.gender;
-                        }
-                    }
-                });
-            });
-        },
-        submitInfo () {
-
-            if (this.userNameRules(this.policyHolder.name,'投保人')
-                && this.userNameRules(this.insured.name,'被保人')){
-
-                if (!this.policyHolder.expiredDate) {
-                    this.$vux.toast.text('请输入正确的投保人身份证有效期', 'top');
-                    return;
-                }
-
-                if (!this.insured.expiredDate) {
-                    this.$vux.toast.text('请输入正确的被保人身份证有效期', 'top');
-                    return;
-                }
-
-                var policyHolderValid = this.identityRules(this.policyHolder.identity,'投保人');
-                if (!policyHolderValid.valid) {
-                    this.$vux.toast.text(policyHolderValid.msg, 'top');
-                    return;
-                }
-
-                var insuredValid = this.identityRules(this.insured.identity,'被保人');
-                if (!insuredValid.valid) {
-                    this.$vux.toast.text(insuredValid.msg, 'top');
-                    return;
-                }
-
-                if (!this.judgeAge(this.insured.birth)){
-                    this.$vux.toast.text('抱歉，暂时仅支持被保人5-49周岁的投保', 'top');
-                    return;
-                }
-
-                if (!this.policyHolder.birth) {
-                    this.$vux.toast.text('请输入正确的投保人出生日期', 'top');
-                    return;
-                }
-
-                if (!this.insured.birth) {
-                    this.$vux.toast.text('请输入正确的被保人出生日期', 'top');
-                    return;
-                }
-
-                if(!this.policyHolder.gender){
-                    this.$vux.toast.text('请输入正确的投保人性别', 'top');
-                    return;
-                }
-
-                if(!this.insured.gender){
-                    this.$vux.toast.text('请输入正确的被保人性别', 'top');
-                    return;
-                }
-
-                if(!this.userEmailRules(this.flowData.policyHolderEmail).valid){
-                    this.$vux.toast.text('请输入正确的投保人电子邮件', 'top');
-                    return;
-                }
-
-                if(!this.adressRules(this.flowData.policyHolderAddress).valid){
-                    this.$vux.toast.text('请输入正确的投保人详细地址', 'top');
-                    return;
-                }
-
-                if(!this.adressRules(this.flowData.insuredAddress).valid){
-                    this.$vux.toast.text('请输入正确的被保人详细地址', 'top');
-                    return;
-                }
-
-                if(!this.mobileRules(this.flowData.policyHolderMobile).valid){
-                    this.$vux.toast.text('请输入正确的投保人手机号码', 'top');
-                    return;
-                }
-
-                if (!this.agreeCheck){
-                    this.$vux.toast.text('必须同意遵守投保声明，理赔须知，保险条款', 'top');
-                    return;
-                }
-
-                this.flowData.insured = this.insured;
-                this.flowData.policyHolder = this.policyHolder;
-
-                var liAnFlowData = {};
-                liAnFlowData = $.extend(true, liAnFlowData, this.flowData);
-                liAnFlowData.insuredRelation = this.getInsuredRelationType(liAnFlowData.insuredRelation);
-                liAnFlowData.socialInsuFlag = Number(liAnFlowData.socialInsuFlag);
-
-                this.$vux.loading.show({
-                    text: '正在提交数据'
-                });
-                var _this = this;
-                this.$http.post(this.host_bdd + '/lifeInsurance/v1/cx', liAnFlowData).then((rt) => {
-                    _this.$vux.loading.hide();
-                    if (rt.data.code != 200) {
-                        _this.$vux.toast.text(rt.data.error, 'top');
-                        return;
-                    }
-                    var lianProduceData = {
-                        "produceId" : liAnFlowData.produceId,
-                        "vendorId" : liAnFlowData.vendorId,
-                        "socialInsuFlag" : liAnFlowData.haveHealthInsurance
-                    }
-                    _this.storage.set('liAnFlowData', lianProduceData);
-                    _this.$router.replace({ path: '/product/lian/complete', query : {
-                        orderId : rt.data.orderId,
-                        payUrl : rt.data.payUrl,
-                    }});
-                });
-            }
+      if (this.identityRules(this.policyHolder.identity, '投保人').valid) {
+        if (this.policyHolder.identity.length === 18) {
+          this.policyHolder.birth =
+                        this.policyHolder.identity.substr(6, 4) + '-' +
+                        this.policyHolder.identity.substr(10, 2) + '-' +
+                        this.policyHolder.identity.substr(12, 2)
+          if (this.policyHolder.identity.substr(16, 1) % 2) {
+            this.policyHolder.gender = '男'
+          } else {
+            this.policyHolder.gender = '女'
+          }
         }
+      }
+    },
+    insuredIdentityChange () {
+      if (this.identityRules(this.insured.identity, '被保人').valid) {
+        if (this.insured.identity.length === 18) {
+          this.insured.birth =
+                        this.insured.identity.substr(6, 4) + '-' +
+                        this.insured.identity.substr(10, 2) + '-' +
+                        this.insured.identity.substr(12, 2)
+
+          if (!this.judgeAge(this.insured.birth)) {
+            this.$vux.toast.text('抱歉，暂时仅支持被保人5-49周岁的投保', 'top')
+          }
+          if (this.insured.identity.substr(16, 1) % 2) {
+            this.insured.gender = '男'
+          } else {
+            this.insured.gender = '女'
+          }
+        }
+      }
+    },
+    judgeAge (birth) {
+      let brithArray = birth.split('-')
+      let byear = brithArray[0]
+      let bmouth = brithArray[1]
+      let bday = brithArray[2]
+      let nowDate = new Date()
+      let nyear = nowDate.getFullYear()
+      let nmouth = nowDate.getMonth() + 1
+      let nday = nowDate.getDate()
+
+      if ((nyear - byear) > 5 && (nyear - byear) <= 49) {
+        return true
+      } else if ((nyear - byear) < 5 || ((nyear - byear) > (49 + 1))) {
+        return false
+      } else {
+                // 两种情况  一个是 5岁那年 , 一个是50岁那年
+        if ((nyear - byear) === 5) {
+                    // 5岁那年
+          if ((nmouth - bmouth) > 0) {
+            return true
+          } else if ((nmouth - bmouth) < 0) {
+            return false
+          } else {
+            if ((nday - bday) > 0) {
+              return true
+            } else {
+              return false
+            }
+          }
+        } else {
+                    // 50岁那年
+          if ((nmouth - bmouth) > 0) {
+            return false
+          } else if ((nmouth - bmouth) < 0) {
+            return true
+          } else {
+            if ((nday - bday) >= 0) {
+              return false
+            } else {
+              return true
+            }
+          }
+        }
+      }
+    },
+    insuredRelationChange (value) {
+      if (value === '本人') {
+        var policy = {}
+        policy = $.extend(true, policy, this.policyHolder)
+        this.insured = policy
+        var adress = this.flowData.policyHolderAddress
+        this.flowData.insuredAddress = adress
+      }
+    },
+    policyHolderNameChange () {
+      if (this.flowData.insuredRelation === '本人') {
+        var name = this.policyHolder.name
+        this.insured.name = name
+      }
+    },
+    policyHolderIdentityDateChange () {
+      if (this.flowData.insuredRelation === '本人') {
+        var expiredDate = this.policyHolder.expiredDate
+        this.insured.expiredDate = expiredDate
+      }
+    },
+    policyHolderBirthDateChange () {
+      if (this.flowData.insuredRelation === '本人') {
+        var birth = this.policyHolder.birth
+        this.insured.birth = birth
+      }
+    },
+    policyHolderGenderChange () {
+      if (this.flowData.insuredRelation === '本人') {
+        var gender = this.policyHolder.gender
+        this.insured.gender = gender
+      }
+    },
+    policyHolderAddressChange () {
+      if (this.flowData.insuredRelation === '本人') {
+        var adress = this.flowData.policyHolderAddress
+        this.flowData.insuredAddress = adress
+      }
+    },
+    getInsuredRelationType (relation) {
+      switch (relation) {
+        case '本人' : {
+          return 'SELF'
+        }
+        case '父母' : {
+          return 'PARENT'
+        }
+        case '配偶' : {
+          return 'LOVER'
+        }
+        case '子女' : {
+          return 'CHILD'
+        }
+      }
+    },
+    agreeTotalDeclare (value) {
+      this.agreeCheck = false
+      if (this.agreeAttentionCheck && this.agreeDeclareCheck && this.agreeProvisionCheck) {
+        this.agreeTotalCheck = !this.agreeTotalCheck
+        this.agreeCheck = this.agreeTotalCheck
+      } else {
+        if (!this.agreeDeclareCheck) {
+          this.$vux.toast.text('必须点击阅读《投保声明》', 'top')
+        } else if (!this.agreeAttentionCheck) {
+          this.$vux.toast.text('必须点击阅读《理赔须知》', 'top')
+        } else {
+          this.$vux.toast.text('必须点击阅读《保险条款》', 'top')
+        }
+        this.agreeTotalCheck = false
+      }
+    },
+    takePhotoToUserInformation (category) {
+      if (category === 2 && this.flowData.insuredRelation === '本人') return
+      var _this = this
+      _this.$uploadImage(function (serverId, localId) {
+        _this.$post(_this.host_bdd + '/autoInsurance/v1/upload/identity', {
+          mediaId: serverId
+        }, function (rt) {
+          _this.$vux.loading.hide()
+          if (rt.data.code !== 200) {
+            _this.$vux.toast.text(rt.data.error, 'top')
+            return
+          }
+          if (rt.data.certPersonIdentity) {
+            if (category === 1) {
+              _this.policyHolder.expiredDate = rt.data.certPersonIdentity.expiredDate
+              _this.policyHolder.identity = rt.data.certPersonIdentity.identity
+              _this.policyHolder.name = rt.data.certPersonIdentity.name
+              _this.policyHolder.birth = rt.data.certPersonIdentity.birth
+              _this.policyHolder.gender = rt.data.certPersonIdentity.gender
+            } else if (category === 2) {
+              _this.insured.expiredDate = rt.data.certPersonIdentity.expiredDate
+              _this.insured.identity = rt.data.certPersonIdentity.identity
+              _this.insured.name = rt.data.certPersonIdentity.name
+              _this.insured.birth = rt.data.certPersonIdentity.birth
+              _this.insured.gender = rt.data.certPersonIdentity.gender
+            }
+          }
+        })
+      })
+    },
+    submitInfo () {
+      if (this.userNameRules(this.policyHolder.name, '投保人') &&
+                this.userNameRules(this.insured.name, '被保人')) {
+        if (!this.policyHolder.expiredDate) {
+          this.$vux.toast.text('请输入正确的投保人身份证有效期', 'top')
+          return
+        }
+
+        if (!this.insured.expiredDate) {
+          this.$vux.toast.text('请输入正确的被保人身份证有效期', 'top')
+          return
+        }
+
+        var policyHolderValid = this.identityRules(this.policyHolder.identity, '投保人')
+        if (!policyHolderValid.valid) {
+          this.$vux.toast.text(policyHolderValid.msg, 'top')
+          return
+        }
+
+        var insuredValid = this.identityRules(this.insured.identity, '被保人')
+        if (!insuredValid.valid) {
+          this.$vux.toast.text(insuredValid.msg, 'top')
+          return
+        }
+
+        if (!this.judgeAge(this.insured.birth)) {
+          this.$vux.toast.text('抱歉，暂时仅支持被保人5-49周岁的投保', 'top')
+          return
+        }
+
+        if (!this.policyHolder.birth) {
+          this.$vux.toast.text('请输入正确的投保人出生日期', 'top')
+          return
+        }
+
+        if (!this.insured.birth) {
+          this.$vux.toast.text('请输入正确的被保人出生日期', 'top')
+          return
+        }
+
+        if (!this.policyHolder.gender) {
+          this.$vux.toast.text('请输入正确的投保人性别', 'top')
+          return
+        }
+
+        if (!this.insured.gender) {
+          this.$vux.toast.text('请输入正确的被保人性别', 'top')
+          return
+        }
+
+        if (!this.userEmailRules(this.flowData.policyHolderEmail).valid) {
+          this.$vux.toast.text('请输入正确的投保人电子邮件', 'top')
+          return
+        }
+
+        if (!this.adressRules(this.flowData.policyHolderAddress).valid) {
+          this.$vux.toast.text('请输入正确的投保人详细地址', 'top')
+          return
+        }
+
+        if (!this.adressRules(this.flowData.insuredAddress).valid) {
+          this.$vux.toast.text('请输入正确的被保人详细地址', 'top')
+          return
+        }
+
+        if (!this.mobileRules(this.flowData.policyHolderMobile).valid) {
+          this.$vux.toast.text('请输入正确的投保人手机号码', 'top')
+          return
+        }
+
+        if (!this.agreeCheck) {
+          this.$vux.toast.text('必须同意遵守投保声明，理赔须知，保险条款', 'top')
+          return
+        }
+
+        this.flowData.insured = this.insured
+        this.flowData.policyHolder = this.policyHolder
+
+        var liAnFlowData = {}
+        liAnFlowData = $.extend(true, liAnFlowData, this.flowData)
+        liAnFlowData.insuredRelation = this.getInsuredRelationType(liAnFlowData.insuredRelation)
+        liAnFlowData.socialInsuFlag = Number(liAnFlowData.socialInsuFlag)
+
+        this.$vux.loading.show({
+          text: '正在提交数据'
+        })
+        var _this = this
+        this.$http.post(this.host_bdd + '/lifeInsurance/v1/cx', liAnFlowData).then((rt) => {
+          _this.$vux.loading.hide()
+          if (rt.data.code !== 200) {
+            _this.$vux.toast.text(rt.data.error, 'top')
+            return
+          }
+          var lianProduceData = {
+            'produceId': liAnFlowData.produceId,
+            'vendorId': liAnFlowData.vendorId,
+            'socialInsuFlag': liAnFlowData.haveHealthInsurance
+          }
+          _this.storage.set('liAnFlowData', lianProduceData)
+          _this.$router.replace({ path: '/product/lian/complete',
+            query: {
+              orderId: rt.data.orderId,
+              payUrl: rt.data.payUrl
+            }})
+        })
+      }
     }
+  }
 }
 </script>
