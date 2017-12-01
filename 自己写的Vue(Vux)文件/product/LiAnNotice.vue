@@ -104,29 +104,28 @@
 </template>
 
 <script>
-
 import { Alert } from 'vux'
 
 export default {
 
-    components: {
-        Alert
-    },
+  components: {
+    Alert
+  },
 
-    data () {
-        return {
-            show : false
-        }
-    },
-
-    methods : {
-        showAlert () {
-            this.show = true;
-        },
-        goInputInformation () {
-            this.$router.push({path:'/product/lian/information'});
-        }
+  data () {
+    return {
+      show: false
     }
+  },
+
+  methods: {
+    showAlert () {
+      this.show = true
+    },
+    goInputInformation () {
+      this.$router.push({path: '/product/lian/information'})
+    }
+  }
 
 }
 </script>
