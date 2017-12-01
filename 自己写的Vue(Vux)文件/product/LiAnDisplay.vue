@@ -534,298 +534,298 @@
 </template>
 
 <script>
-import { Group, Cell ,XInput ,Card,XButton,XSwitch ,Picker,PopupPicker} from 'vux'
+import {Group, Cell, XInput, Card, XButton, XSwitch, Picker, PopupPicker} from 'vux'
 
 export default {
 
-    components: {
-            Group,
-            Cell,
-            Card,
-            XInput,
-            XSwitch,
-            XButton,
-            Picker,
-            PopupPicker
-        },
+  components: {
+    Group,
+    Cell,
+    Card,
+    XInput,
+    XSwitch,
+    XButton,
+    Picker,
+    PopupPicker
+  },
 
-    data () {
-        return {
-            ageOtions : [["请选择","5-9岁","10-14岁","15-19岁","20-24岁","25-29岁","30-34岁","35-39岁","40-44岁","45-49岁"]],
-            chooseIndex : 0,
-            customer : {
-                haveHealthInsurance : false,
-                ageOption : [],
-                premiumAccount : ""
-            },
-            productTableData : [
-                {
-                    title : '住院医疗费',
-                    content : [
-                        '80万'
-                    ],
-                    showBgColor : true
-                },
-                {
-                    title : '特殊门诊医疗费',
-                    content : [
-                        '门诊肾透析费10万',
-                        '门诊癌症放疗费10万',
-                        '器官移植后的门诊抗排异治疗费80万'
-                    ],
-                    showBgColor : false
-                },
-                {
-                    title : '免赔费',
-                    content : [
-                        '1万',
-                        '从其他途径获得的补偿都可抵扣免赔额，包括医保统筹'
-                    ],
-                    showBgColor : true
-                },
-                {
-                    title : '药品范围',
-                    content : [
-                        '甲乙类药、丙类药、自费药、进口药品都可以报销（不限社保用药及医保目录）'
-                    ],
-                    showBgColor : false
-                }
-            ],
-            plainDetailTableData : [
-                {
-                    title : ' ',
-                    content : [
-                        '计划1'
-                    ],
-                    showBgColor : true
-                },
-                {
-                    title : '保障区域',
-                    content : [
-                        '中国大陆'
-                    ],
-                    showBgColor : false
-                },
-                {
-                    title : '年度总限额',
-                    content : [
-                        '800,000元'
-                    ],
-                    showBgColor : false
-                },
-                {
-                    title : '赔付比例',
-                    content : [
-                        '100%'
-                    ],
-                    showBgColor : false
-                },
-                {
-                    title : '年度免赔额',
-                    content : [
-                        '10,000元'
-                    ],
-                    showBgColor : false
-                },
-                {
-                    title : '住院医疗费用保险金',
-                    content : [
-                        ' '
-                    ],
-                    showBgColor : true
-                },
-                {
-                    title : '床位费、膳食费、护理费(最多180日/年)',
-                    content : [
-                        '2,000元/日'
-                    ],
-                    showBgColor : false
-                },
-                {
-                    title : '检查检验费、治疗费',
-                    content : [
-                        '同年度总限额'
-                    ],
-                    showBgColor : false
-                },
-                {
-                    title : '药品费',
-                    content : [
-                        '同年度总限额'
-                    ],
-                    showBgColor : false
-                },
-                {
-                    title : '医生费',
-                    content : [
-                        '同年度总限额'
-                    ],
-                    showBgColor : false
-                },
-                {
-                    title : '非器官移植手术费',
-                    content : [
-                        '同年度总限额'
-                    ],
-                    showBgColor : false
-                },
-                {
-                    title : '特定器官移植手术费',
-                    content : [
-                        '300,000元/年'
-                    ],
-                    showBgColor : false
-                },
-                {
-                    title : '重症监护病房床位费',
-                    content : [
-                        '同年度总限额'
-                    ],
-                    showBgColor : false
-                },
-                {
-                    title : '救护车费',
-                    content : [
-                        '同年度总限额'
-                    ],
-                    showBgColor : false
-                },
-                {
-                    title : '特殊门诊医疗费用保险金',
-                    content : [
-                        ''
-                    ],
-                    showBgColor : true
-                },
-                {
-                    title : '门诊肾透析费',
-                    content : [
-                        '100,000元/'
-                    ],
-                    showBgColor : false
-                },
-                {
-                    title : '门诊癌症放化疗费',
-                    content : [
-                        '100,000元/'
-                    ],
-                    showBgColor : false
-                },
-                {
-                    title : '器官移植后的门诊抗排异治疗费',
-                    content : [
-                        '同年度总限额'
-                    ],
-                    showBgColor : false
-                }
-            ]
-        }
-    },
-    mounted () {
-
-    },
-    methods: {
-        healthInsuranceChange (oldValue,newValue) {
-            this.ageOtionChange(this.customer.ageOption)
+  data () {
+    return {
+      ageOtions: [['请选择', '5-9岁', '10-14岁', '15-19岁', '20-24岁', '25-29岁', '30-34岁', '35-39岁', '40-44岁', '45-49岁']],
+      chooseIndex: 0,
+      customer: {
+        haveHealthInsurance: false,
+        ageOption: [],
+        premiumAccount: ''
+      },
+      productTableData: [
+        {
+          title: '住院医疗费',
+          content: [
+            '80万'
+          ],
+          showBgColor: true
         },
-        ageOtionChange (value) {
-            switch (value[0]) {
-                case "5-9岁" :
-                {
-                    if (this.customer.haveHealthInsurance) {
-                        this.customer.premiumAccount = '652.00'
-                    }else{
-                        this.customer.premiumAccount = '1,859.00'
-                    }
-                    break;
-                }
-                case "10-14岁" :
-                {
-                    if (this.customer.haveHealthInsurance) {
-                        this.customer.premiumAccount = '356.00'
-                    }else{
-                        this.customer.premiumAccount = '1,008.00'
-                    }
-                    break;
-                }
-                case "15-19岁" :
-                {
-                    if (this.customer.haveHealthInsurance) {
-                        this.customer.premiumAccount = '237.00'
-                    }else{
-                        this.customer.premiumAccount = '692.00'
-                    }
-                    break;
-                }
-                case "20-24岁" :
-                {
-                    if (this.customer.haveHealthInsurance) {
-                        this.customer.premiumAccount = '237.00'
-                    }else{
-                        this.customer.premiumAccount = '692.00'
-                    }
-                    break;
-                }
-                case "25-29岁" :
-                {
-                    if (this.customer.haveHealthInsurance) {
-                        this.customer.premiumAccount = '356.00'
-                    }else{
-                        this.customer.premiumAccount = '1,028.00'
-                    }
-                    break;
-                }
-                case "30-34岁" :
-                {
-                    if (this.customer.haveHealthInsurance) {
-                        this.customer.premiumAccount = '474.00'
-                    }else{
-                        this.customer.premiumAccount = '1,345.00'
-                    }
-                    break;
-                }
-                case "35-39岁" :
-                {
-                    if (this.customer.haveHealthInsurance) {
-                        this.customer.premiumAccount = '594.00'
-                    }else{
-                        this.customer.premiumAccount = '1,661.00'
-                    }
-                    break;
-                }
-                case "40-44岁" :
-                {
-                    if (this.customer.haveHealthInsurance) {
-                        this.customer.premiumAccount = '770.00'
-                    }else{
-                        this.customer.premiumAccount = '2,135.00'
-                    }
-                    break;
-                }
-                case "45-49岁" :
-                {
-                    if (this.customer.haveHealthInsurance) {
-                        this.customer.premiumAccount = '989.00'
-                    }else{
-                        this.customer.premiumAccount = '2769.00'
-                    }
-                    break;
-                }
-                default :
-                {
-                    this.customer.premiumAccount = "";
-                }
-            }
+        {
+          title: '特殊门诊医疗费',
+          content: [
+            '门诊肾透析费10万',
+            '门诊癌症放疗费10万',
+            '器官移植后的门诊抗排异治疗费80万'
+          ],
+          showBgColor: false
         },
-        insuredClick () {
-            var liAnFlowData = {
-                "produceId" : this.$route.query.produceId,
-                "vendorId" : this.$route.query.vendorId,
-                "socialInsuFlag" : this.customer.haveHealthInsurance
-            }
-            this.storage.set('liAnFlowData', liAnFlowData);
-            this.$router.push({path:'/product/lian/notice'});
+        {
+          title: '免赔费',
+          content: [
+            '1万',
+            '从其他途径获得的补偿都可抵扣免赔额，包括医保统筹'
+          ],
+          showBgColor: true
+        },
+        {
+          title: '药品范围',
+          content: [
+            '甲乙类药、丙类药、自费药、进口药品都可以报销（不限社保用药及医保目录）'
+          ],
+          showBgColor: false
         }
+      ],
+      plainDetailTableData: [
+        {
+          title: ' ',
+          content: [
+            '计划1'
+          ],
+          showBgColor: true
+        },
+        {
+          title: '保障区域',
+          content: [
+            '中国大陆'
+          ],
+          showBgColor: false
+        },
+        {
+          title: '年度总限额',
+          content: [
+            '800,000元'
+          ],
+          showBgColor: false
+        },
+        {
+          title: '赔付比例',
+          content: [
+            '100%'
+          ],
+          showBgColor: false
+        },
+        {
+          title: '年度免赔额',
+          content: [
+            '10,000元'
+          ],
+          showBgColor: false
+        },
+        {
+          title: '住院医疗费用保险金',
+          content: [
+            ' '
+          ],
+          showBgColor: true
+        },
+        {
+          title: '床位费、膳食费、护理费(最多180日/年)',
+          content: [
+            '2,000元/日'
+          ],
+          showBgColor: false
+        },
+        {
+          title: '检查检验费、治疗费',
+          content: [
+            '同年度总限额'
+          ],
+          showBgColor: false
+        },
+        {
+          title: '药品费',
+          content: [
+            '同年度总限额'
+          ],
+          showBgColor: false
+        },
+        {
+          title: '医生费',
+          content: [
+            '同年度总限额'
+          ],
+          showBgColor: false
+        },
+        {
+          title: '非器官移植手术费',
+          content: [
+            '同年度总限额'
+          ],
+          showBgColor: false
+        },
+        {
+          title: '特定器官移植手术费',
+          content: [
+            '300,000元/年'
+          ],
+          showBgColor: false
+        },
+        {
+          title: '重症监护病房床位费',
+          content: [
+            '同年度总限额'
+          ],
+          showBgColor: false
+        },
+        {
+          title: '救护车费',
+          content: [
+            '同年度总限额'
+          ],
+          showBgColor: false
+        },
+        {
+          title: '特殊门诊医疗费用保险金',
+          content: [
+            ''
+          ],
+          showBgColor: true
+        },
+        {
+          title: '门诊肾透析费',
+          content: [
+            '100,000元/'
+          ],
+          showBgColor: false
+        },
+        {
+          title: '门诊癌症放化疗费',
+          content: [
+            '100,000元/'
+          ],
+          showBgColor: false
+        },
+        {
+          title: '器官移植后的门诊抗排异治疗费',
+          content: [
+            '同年度总限额'
+          ],
+          showBgColor: false
+        }
+      ]
     }
+  },
+  mounted () {
+
+  },
+  methods: {
+    healthInsuranceChange (oldValue, newValue) {
+      this.ageOtionChange(this.customer.ageOption)
+    },
+    ageOtionChange (value) {
+      switch (value[0]) {
+        case '5-9岁' :
+          {
+            if (this.customer.haveHealthInsurance) {
+              this.customer.premiumAccount = '652.00'
+            } else {
+              this.customer.premiumAccount = '1,859.00'
+            }
+            break
+          }
+        case '10-14岁' :
+          {
+            if (this.customer.haveHealthInsurance) {
+              this.customer.premiumAccount = '356.00'
+            } else {
+              this.customer.premiumAccount = '1,008.00'
+            }
+            break
+          }
+        case '15-19岁' :
+          {
+            if (this.customer.haveHealthInsurance) {
+              this.customer.premiumAccount = '237.00'
+            } else {
+              this.customer.premiumAccount = '692.00'
+            }
+            break
+          }
+        case '20-24岁' :
+          {
+            if (this.customer.haveHealthInsurance) {
+              this.customer.premiumAccount = '237.00'
+            } else {
+              this.customer.premiumAccount = '692.00'
+            }
+            break
+          }
+        case '25-29岁' :
+          {
+            if (this.customer.haveHealthInsurance) {
+              this.customer.premiumAccount = '356.00'
+            } else {
+              this.customer.premiumAccount = '1,028.00'
+            }
+            break
+          }
+        case '30-34岁' :
+          {
+            if (this.customer.haveHealthInsurance) {
+              this.customer.premiumAccount = '474.00'
+            } else {
+              this.customer.premiumAccount = '1,345.00'
+            }
+            break
+          }
+        case '35-39岁' :
+          {
+            if (this.customer.haveHealthInsurance) {
+              this.customer.premiumAccount = '594.00'
+            } else {
+              this.customer.premiumAccount = '1,661.00'
+            }
+            break
+          }
+        case '40-44岁' :
+          {
+            if (this.customer.haveHealthInsurance) {
+              this.customer.premiumAccount = '770.00'
+            } else {
+              this.customer.premiumAccount = '2,135.00'
+            }
+            break
+          }
+        case '45-49岁' :
+          {
+            if (this.customer.haveHealthInsurance) {
+              this.customer.premiumAccount = '989.00'
+            } else {
+              this.customer.premiumAccount = '2769.00'
+            }
+            break
+          }
+        default :
+          {
+            this.customer.premiumAccount = ''
+          }
+      }
+    },
+    insuredClick () {
+      var liAnFlowData = {
+        'produceId': this.$route.query.produceId,
+        'vendorId': this.$route.query.vendorId,
+        'socialInsuFlag': this.customer.haveHealthInsurance
+      }
+      this.storage.set('liAnFlowData', liAnFlowData)
+      this.$router.push({path: '/product/lian/notice'})
+    }
+  }
 }
 </script>
