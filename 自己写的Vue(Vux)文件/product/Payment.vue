@@ -86,110 +86,110 @@
 </template>
 
 <script>
-import { formatDate } from '@/libs/format.js';
-import { GroupTitle, Group, Cell, XInput, XButton, ChinaAddressV3Data , XAddress, XTextarea, CheckIcon  } from 'vux';
+import { formatDate } from '@/libs/format.js'
+import { GroupTitle, Group, Cell, XInput, XButton, ChinaAddressV3Data, XAddress, XTextarea, CheckIcon } from 'vux'
 export default {
-    data () {
-        return {
-            user: {
-                name: '',
-                phone: '',
-                addressValue: [],
-                details: '',
-            },
-            disabled: true,
-            addressData: ChinaAddressV3Data,
-            orderId: '',
-            order: {},
-            isInput: false,
-            isAddress: false,
-        }
-    },
-    components: {
-        GroupTitle, Group, Cell, XInput, XButton, ChinaAddressV3Data , XAddress, XTextarea, CheckIcon
-    },
-    filters: {
-        formatData (time) {
-            let date = new Date(time * 1000);
-            return formatDate(date, 'yyyy-MM-dd');
-        }
-    },
-    created () {
-        this.orderId = this.$route.query.orderId;
-        this.getOrderDetail(this.orderId);
-    },
-    methods: {
-        addressChange (str) {
-            if (!str) {
-                this.isAddress = false;
-            } else {
-                this.isAddress = true;
-            }
+  data () {
+    return {
+      user: {
+        name: '',
+        phone: '',
+        addressValue: [],
+        details: ''
+      },
+      disabled: true,
+      addressData: ChinaAddressV3Data,
+      orderId: '',
+      order: {},
+      isInput: false,
+      isAddress: false
+    }
+  },
+  components: {
+    GroupTitle, Group, Cell, XInput, XButton, ChinaAddressV3Data, XAddress, XTextarea, CheckIcon
+  },
+  filters: {
+    formatData (time) {
+      let date = new Date(time * 1000)
+      return formatDate(date, 'yyyy-MM-dd')
+    }
+  },
+  created () {
+    this.orderId = this.$route.query.orderId
+    this.getOrderDetail(this.orderId)
+  },
+  methods: {
+    addressChange (str) {
+      if (!str) {
+        this.isAddress = false
+      } else {
+        this.isAddress = true
+      }
 
-            if (this.isInput && this.isAddress) {
-                this.disabled = false;
-            } else {
-                this.disabled = true;
-            }
-        },
-        inputChange (val) {
-            let reg = /^1[34578]\d{9}$/;
-            if (
+      if (this.isInput && this.isAddress) {
+        this.disabled = false
+      } else {
+        this.disabled = true
+      }
+    },
+    inputChange (val) {
+      let reg = /^1[34578]\d{9}$/
+      if (
                 this.user.name.length > 0 &&
                 this.user.details.length > 0 &&
                 reg.test(this.user.phone)
             ) {
-                this.isInput = true;
-            } else {
-                this.isInput = false;
-            }
+        this.isInput = true
+      } else {
+        this.isInput = false
+      }
 
-            if (this.isInput && this.isAddress) {
-                this.disabled = false;
-            } else {
-                this.disabled = true;
-            }
-        },
-        getOrderDetail (id) {
-            this.$http.get(this.host_bdd + '/order/v1/' + this.orderId + '/detail').then( (rt) => {
-                if (rt.data.code != 200) {
-                    this.$vux.toast.text(rt.data.error, 'top');
-                    return;
-                }
-
-                this.order = rt.data.order;
-                this.user.name = rt.data.order.ownerName;
-                this.user.phone = rt.data.order.ownerMobile;
-            });
-        },
-        submit () {
-            let user = this.user,
-                addressValue = document.getElementsByClassName('vux-popup-picker-value')[0].innerText.replace(/\s/g, ','),
-                data = {
-                orderId: this.orderId,
-                name: user.name,
-                mobile: user.phone,
-                address: addressValue + ',' +user.details,
-            };
-            this.$vux.loading.show({
-                text: '正在提交数据'
-            })
-            this.$post(this.host_bdd + '/order/v1/autoInsurance/pay', data, (rt) => {
-                this.$vux.loading.hide();
-                if (rt.data.code != 200) {
-                    this.$vux.toast.text(rt.data.error, 'top');
-                    return;
-                }
-
-                this.$router.push({
-                    path:'/product/success',
-                    query: {
-                        orderId: this.orderId,
-                        premiumAmount: this.order.premiumAmount
-                    }
-                })
-            });
+      if (this.isInput && this.isAddress) {
+        this.disabled = false
+      } else {
+        this.disabled = true
+      }
+    },
+    getOrderDetail (id) {
+      this.$http.get(this.host_bdd + '/order/v1/' + this.orderId + '/detail').then((rt) => {
+        if (rt.data.code !== 200) {
+          this.$vux.toast.text(rt.data.error, 'top')
+          return
         }
+
+        this.order = rt.data.order
+        this.user.name = rt.data.order.ownerName
+        this.user.phone = rt.data.order.ownerMobile
+      })
+    },
+    submit () {
+      let user = this.user
+      let addressValue = document.getElementsByClassName('vux-popup-picker-value')[0].innerText.replace(/\s/g, ',')
+      let data = {
+        orderId: this.orderId,
+        name: user.name,
+        mobile: user.phone,
+        address: addressValue + ',' + user.details
+      }
+      this.$vux.loading.show({
+        text: '正在提交数据'
+      })
+      this.$post(this.host_bdd + '/order/v1/autoInsurance/pay', data, (rt) => {
+        this.$vux.loading.hide()
+        if (rt.data.code !== 200) {
+          this.$vux.toast.text(rt.data.error, 'top')
+          return
+        }
+
+        this.$router.push({
+          path: '/product/success',
+          query: {
+            orderId: this.orderId,
+            premiumAmount: this.order.premiumAmount
+          }
+        })
+      })
     }
+  }
 }
 </script>
