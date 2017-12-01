@@ -104,49 +104,47 @@
 </template>
 
 <script>
-
 import { XButton } from 'vux'
-import $ from 'zepto';
+import $ from 'zepto'
 
-    export default {
+export default {
 
-        components: {
-            XButton
-        },
+  components: {
+    XButton
+  },
 
-        created () {
-            this.payUrl = this.$route.query.payUrl;
-            this.qrUrl = this.host_bdd + "/lifeInsurance/v1/pay/qr?orderId=" + this.$route.query.orderId + "&width=300&height=300";
-        },
+  created () {
+    this.payUrl = this.$route.query.payUrl
+    this.qrUrl = this.host_bdd + '/lifeInsurance/v1/pay/qr?orderId=' + this.$route.query.orderId + '&width=300&height=300'
+  },
 
-        mounted :function(){
-            var _this = this;
-            this.$nextTick(function () {
-                var footerHeight = $('.footer').height();
-                var copyHeight = $('.copy-div').height();
-                var titleHeight = $('.title').height();
-                var headHeight = $('.header').height() ;
-                var qrHeight = document.documentElement.clientHeight -
-                footerHeight - copyHeight - titleHeight - headHeight - 40;
-                $('.qr-img').css('width',qrHeight + 'px')
-                $('.qr-img').css('height',qrHeight + 'px')
-            });
-        },
+  mounted: function () {
+    this.$nextTick(function () {
+      var footerHeight = $('.footer').height()
+      var copyHeight = $('.copy-div').height()
+      var titleHeight = $('.title').height()
+      var headHeight = $('.header').height()
+      var qrHeight = document.documentElement.clientHeight -
+                footerHeight - copyHeight - titleHeight - headHeight - 40
+      $('.qr-img').css('width', qrHeight + 'px')
+      $('.qr-img').css('height', qrHeight + 'px')
+    })
+  },
 
-        data () {
-            return {
-                payUrl : '',
-                qrUrl : ''
-            }
-        },
-
-        methods: {
-            handleSuccess(e) {
-                this.$vux.toast.text("复制成功！已放入您的粘贴板。您可以手动在浏览器地址栏中粘贴打开", 'middle')
-            },
-            handleError(e) {
-                this.$vux.toast.text("复制失败", 'middle')
-            },
-        }
+  data () {
+    return {
+      payUrl: '',
+      qrUrl: ''
     }
+  },
+
+  methods: {
+    handleSuccess (e) {
+      this.$vux.toast.text('复制成功！已放入您的粘贴板。您可以手动在浏览器地址栏中粘贴打开', 'middle')
+    },
+    handleError (e) {
+      this.$vux.toast.text('复制失败', 'middle')
+    }
+  }
+}
 </script>
