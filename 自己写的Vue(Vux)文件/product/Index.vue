@@ -20,19 +20,19 @@
 
 <script>
 export default {
-    data () {
-        return {
-            product: [
-                {
-                    name: '保骉车险',
-                    url: ''
-                },
-                {
-                    name: '国寿财险',
-                    url: 'V002'
-                }
-            ]
+  data () {
+    return {
+      product: [
+        {
+          name: '保骉车险',
+          url: ''
+        },
+        {
+          name: '国寿财险',
+          url: 'V002'
         }
+      ]
     }
+  }
 }
 </script>
