@@ -18,46 +18,43 @@
 </template>
 
 <script>
-import $ from 'zepto';
-import { Msg, XButton } from 'vux';
+import { Msg, XButton } from 'vux'
 export default {
-    data () {
-        return {
-            orderId: '',
-            premiumAmount: '',
-            description: ''
-        }
-    },
-    components: {
-        Msg, XButton
-    },
-    beforeRouteEnter(to, from, next) {
-        next(vm => {
-            vm.url = from.path;
-
-            if (
-                from.path == '/order/detail'
-            ) {
-                location.href = location.href.split('#')[0] + '#/order';
-            }
-        })
-    },
-    created () {
-        var _this = this;
-
-        this.orderId = this.$route.query.orderId;
-        this.premiumAmount = this.$route.query.premiumAmount;
-        this.description = '支付金额<span style="color:#ff9800">￥'+ this.premiumAmount +'</span>';
-    },
-    methods: {
-        linkOrder () {
-            this.$router.push({
-                path: '/order/detail',
-                query: {
-                    orderId: this.orderId
-                }
-            });
-        }
+  data () {
+    return {
+      orderId: '',
+      premiumAmount: '',
+      description: ''
     }
+  },
+  components: {
+    Msg, XButton
+  },
+  beforeRouteEnter (to, from, next) {
+    next(vm => {
+      vm.url = from.path
+
+      if (
+                from.path === '/order/detail'
+            ) {
+        window.location.href = window.location.href.split('#')[0] + '#/order'
+      }
+    })
+  },
+  created () {
+    this.orderId = this.$route.query.orderId
+    this.premiumAmount = this.$route.query.premiumAmount
+    this.description = '支付金额<span style="color:#ff9800">￥' + this.premiumAmount + '</span>'
+  },
+  methods: {
+    linkOrder () {
+      this.$router.push({
+        path: '/order/detail',
+        query: {
+          orderId: this.orderId
+        }
+      })
+    }
+  }
 }
 </script>
