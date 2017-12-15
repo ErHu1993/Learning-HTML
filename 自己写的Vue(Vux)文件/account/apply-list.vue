@@ -69,7 +69,7 @@
                             <div class="l title" v-else style="padding-top:4px;line-height:20px;">{{i.desc1}}</div>
                             <div class="l">
                                 <p>{{i.desc2}}</p>
-                                <p class="fs14 cr_gray">{{i.updateTime | formatData}}</p>
+                                <p class="fs14 cr_gray">{{i.createTime | formatData}}</p>
                             </div>
                         </div>
                         <div class="r right text_right">
