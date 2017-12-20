@@ -23,7 +23,7 @@
     }
 
     .search-input{
-        width: 200px;
+        width: 220px;
         margin-left: 20px;
         display: inline-block;
         margin-top: 30px;
@@ -70,7 +70,7 @@
 
     /* 日期选择器宽度设置 */
     .ivu-date-picker{
-        width: 200px;
+        width: 220px;
     }
 
     .model-header{
@@ -153,282 +153,270 @@
 </template>
 
 <script>
-
-    import $ from 'jquery';
-    import Breadcrumb from '@/components/layout/Breadcrumb.vue';
-    import expandRow from '@/views/team-manager/expand-row.vue';
+    import $ from 'jquery'
+    import Breadcrumb from '@/components/layout/Breadcrumb.vue'
+    import expandRow from '@/views/team-manager/expand-row.vue'
 
     export default {
-        data () {
-            var _this = this;
-            return {
-                breadcrumb: ['账户打款'],
-                currentPage:1,
-                pageSize:10,
-                totalPage:0,
-                searchText:"",
-                datePlaceholder:"添加时间",
-                loading: false,
-                showRemittance : false,
-                remittanceModel: {
-                    inferiorId:'',
-                    type:'1',
-                    amount:0.01,
-                    remark:''
-                },
-                remittanceTypeList:[
-                    {
-                        label : "红包",
-                        value : "1"
-                    },
-                ],
-                queryConditions:null,
-                startSearchTime:0,
-                endSearchTime:0,
-                tableHeight:'',
-                currentData:[],
-                dataPickValue:0,
-                options: {
-                    shortcuts: [
-                    {
-                        text: '今天',
-                        value () {
-                            const end = new Date(_this.timeFormat(new Date(),"yyyy/MM/dd 23:59:59"));
-                            const start = new Date(_this.timeFormat(new Date(),"yyyy/MM/dd 00:00:00"))
-                            return [start, end];
-                        }
-                    },
-                    {
-                        text: '昨天',
-                        value () {
-                            const end = new Date().setTime(new Date(_this.timeFormat(new Date(),"yyyy/MM/dd 23:59:59")).getTime() - 3600 * 24 * 1000);
-                            const start = new Date().setTime(new Date(_this.timeFormat(new Date(),"yyyy/MM/dd 00:00:00")).getTime() - 3600 * 24 * 1000);
-                            return [start, end];
-                        }
-                    },
-                    {
-                        text: '最近一周',
-                        value () {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                            return [start, end];
-                        }
-                    },
-                    {
-                        text: '最近一月',
-                        value () {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                            return [start, end];
-                        }
-                    },
-                    {
-                        text: '最近三月',
-                        value () {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                            return [start, end];
-                        }
-                    }
-                    ]
-                },
-                listTitles: [
-                {
-                    type: 'expand',
-                    width: 50,
-                    render: (h, params) => {
-                        return h(expandRow, {
-                            props: {
-                                row: params.row.parent
-                            }
-                        })
-                    }
-                },
-                {
-                    title: '真实姓名',
-                    key: 'contact',
-                    width: 120,
-                },
-                {
-                    title: '代理人名称',
-                    key: 'name'
-                },
-                {
-                    title: '手机号',
-                    width: 140,
-                    key: 'contactMobile'
-                },
-                {
-                    title: '直属上级',
-                    key: 'parentContent'
-                },
-                {
-                    title: '添加时间',
-                    width: 160,
-                    key: 'createTime',
-                },
-                {
-                    title: '操作',
-                    key: 'action',
-                    width: 130,
-                    align: 'center',
-                    render: (h, params) => {
-                        return h('div', [
-                            h('Button', {
-                                props: {
-                                    type: 'text',
-                                    size: 'small'
-                                },
-                                style: {
-                                    marginRight: '5px'
-                                },
-                                on: {
-                                    click: () => {
-                                        this.showRemittance = true;
-                                        this.loading = false;
-                                        this.remittanceModel = {
-                                            inferiorId:'',
-                                            type:'1',
-                                            amount:0.01,
-                                            remark:''
-                                        };
-                                        this.remittanceModel.inferiorId = params.row.id;
-                                    }
-                                }
-                            }, '打款'),
-                        ]);
-                    }
+      data () {
+        var _this = this
+        return {
+          breadcrumb: ['账户打款'],
+          currentPage: 1,
+          pageSize: 10,
+          totalPage: 0,
+          searchText: '',
+          datePlaceholder: '添加时间',
+          loading: false,
+          showRemittance: false,
+          remittanceModel: {
+            inferiorId: '',
+            type: '1',
+            amount: 0.01,
+            remark: ''
+          },
+          remittanceTypeList: [
+            {
+              label: '红包',
+              value: '1'
+            }
+          ],
+          queryConditions: null,
+          startSearchTime: 0,
+          endSearchTime: 0,
+          tableHeight: '',
+          currentData: [],
+          dataPickValue: 0,
+          options: {
+            shortcuts: [
+              {
+                text: '今天',
+                value () {
+                  const end = new Date(_this.timeFormat(new Date(), 'yyyy/MM/dd 23:59:59'))
+                  const start = new Date(_this.timeFormat(new Date(), 'yyyy/MM/dd 00:00:00'))
+                  return [start, end]
                 }
-                ]
-            }
-        },
-
-        components: {
-            Breadcrumb,
-            expandRow
-        },
-
-        mounted :function(){
-            this.getDataList();
-        },
-
-        updated () {
-            let bh = $('.breadcrumb').outerHeight();
-            let ah = $('.agent-filter').outerHeight();
-            let ap = $('.agent-page').outerHeight();
-            let rh = $('.js_frame_right').outerHeight();
-            let leftHeight = rh - bh - ah - ap - 20;
-            let tb = $('.ivu-table-tbody').outerHeight() + $('.ivu-table-header').outerHeight();
-            if (tb > 0 && tb < leftHeight) {
-                if ( tb < 90 ) tb = 90;
-                this.tableHeight = tb;
-                return;
-            }
-             this.tableHeight = leftHeight;
-        },
-
-        methods :{
-            toast :function (title,contet) {
-                this.$Modal.info({
-                    title: '提示',
-                    content: title
-                });
+              },
+              {
+                text: '昨天',
+                value () {
+                  const end = new Date().setTime(new Date(_this.timeFormat(new Date(), 'yyyy/MM/dd 23:59:59')).getTime() - 3600 * 24 * 1000)
+                  const start = new Date().setTime(new Date(_this.timeFormat(new Date(), 'yyyy/MM/dd 00:00:00')).getTime() - 3600 * 24 * 1000)
+                  return [start, end]
+                }
+              },
+              {
+                text: '最近一周',
+                value () {
+                  const end = new Date()
+                  const start = new Date()
+                  start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+                  return [start, end]
+                }
+              },
+              {
+                text: '最近一月',
+                value () {
+                  const end = new Date()
+                  const start = new Date()
+                  start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+                  return [start, end]
+                }
+              },
+              {
+                text: '最近三月',
+                value () {
+                  const end = new Date()
+                  const start = new Date()
+                  start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+                  return [start, end]
+                }
+              }
+            ]
+          },
+          listTitles: [
+            {
+              type: 'expand',
+              width: 50,
+              render: (h, params) => {
+                return h(expandRow, {
+                  props: {
+                    row: params.row.parent
+                  }
+                })
+              }
             },
-            getDataList : function (){
-                var _this = this;
-                _this.$http.get(_this.host_bdd + '/agency/v1/inferior/find', {
-                        params: {
-                          option: 1,
-                          q:_this.queryConditions,
-                          pn:_this.currentPage,
-                          ps:_this.pageSize
+            {
+              title: '真实姓名',
+              key: 'contact',
+              width: 120
+            },
+            {
+              title: '代理人名称',
+              key: 'name'
+            },
+            {
+              title: '手机号',
+              width: 140,
+              key: 'contactMobile'
+            },
+            {
+              title: '直属上级',
+              key: 'parentContent'
+            },
+            {
+              title: '添加时间',
+              width: 160,
+              key: 'createTime'
+            },
+            {
+              title: '操作',
+              key: 'action',
+              width: 130,
+              align: 'center',
+              render: (h, params) => {
+                return h('div', [
+                  h('Button', {
+                    props: {
+                      type: 'text',
+                      size: 'small'
+                    },
+                    style: {
+                      marginRight: '5px'
+                    },
+                    on: {
+                      click: () => {
+                        this.showRemittance = true
+                        this.loading = false
+                        this.remittanceModel = {
+                          inferiorId: '',
+                          type: '1',
+                          amount: 0.01,
+                          remark: ''
+                        }
+                        this.remittanceModel.inferiorId = params.row.id
                       }
-                  })
-                .then(function (response) {
-                    if (response.data.code != 200) {
-                        _this.$Message.error(response.data.error);
-                        return;
                     }
-                    _this.currentData = response.data.tenantsWithParent;
-                    _this.totalPage = response.data.recordCount;
-                    if (_this.currentData) {
-                        for (var i = 0; i < _this.currentData.length; i++) {
-                            if (_this.currentData[i].parent){
-                                _this.currentData[i].parentContent = _this.currentData[i].parent.name;
-                            }else{
-                                _this.currentData[i].parentContent = "";
-                            }
-                            _this.currentData[i].createTime = _this.timeFormat(new Date(_this.currentData[i].createTime * 1000),"yyyy/MM/dd hh:mm");
-                        }
-                    }
-                });
-            },
-            searchTimeChange :function (results) {
-                if (typeof(results[0] === 'string') && typeof(results[1] === 'string') && results[0].length && results[1].length){
-                    var arr = results[1].split('-');
-                    arr[2] = parseInt(arr[2]) + 1;
-                    this.startSearchTime = new Date(results[0]).getTime() / 1000;
-                    this.endSearchTime = new Date(arr.join('-')).getTime() / 1000;
-                }else{
-                    this.startSearchTime = null;
-                    this.endSearchTime = null;
-                    this.queryConditions = null;
-                }
-            },
-            findButtonClick : function () {
-                this.search_agent();
-            },
-            resetButtonClick : function () {
-                if (this.dataPickValue == 0){
-                    this.dataPickValue = null;
-                }else{
-                    this.dataPickValue = 0;
-                }
-                this.searchText = null;
-                this.queryConditions = null;
-            },
-            search_agent :function () {
-                this.currentPage = 1;
-                var jsonObject = {
-                    "child.createTime_ge" : this.startSearchTime ? this.startSearchTime : null,
-                    "child.createTime_le" : this.endSearchTime ? this.endSearchTime : null,
-                    "child.name,child.contact,child.contactMobile_like" : this.searchText ? this.searchText : null
-                };
-                this.queryConditions = JSON.stringify(jsonObject);
-                this.getDataList();
-            },
-            addAgent : function () {
-                this.$router.push({ path: '/team-manager/add' });
-            },
-            page_size_change :function (index) {
-                this.currentPage = index;
-                this.getDataList();
-            },
-            handleSure : function (model) {
-                if (this.remittanceModel.remark){
-                    var _this = this;
-                    _this.loading = true;
-                    _this.$post(_this.host_bdd + '/captial/v1/inferior/play/money', {
-                        inferiorId:_this.remittanceModel.inferiorId,
-                        option:_this.remittanceModel.type,
-                        amount:_this.remittanceModel.amount * 100 + "",
-                        comment:_this.remittanceModel.remark
-                    }, function (rt) {
-                        _this.loading = false;
-                        if (rt.data.code != 200) {
-                            _this.$Message.error(rt.data.error);
-                            return;
-                        }
-                        _this.showRemittance = false;
-                        _this.$Message.success('提交成功!');
-                    });
-                } else {
-                    this.$Message.error('请填写打款备注');
-                }
-            },
+                  }, '打款')
+                ])
+              }
+            }
+          ]
         }
-    };
+      },
+
+      components: {
+        Breadcrumb,
+        expandRow
+      },
+
+      mounted: function () {
+        this.getDataList()
+      },
+
+      updated () {
+        let bh = $('.breadcrumb').outerHeight()
+        let ah = $('.agent-filter').outerHeight()
+        let ap = $('.agent-page').outerHeight()
+        let rh = $('.js_frame_right').outerHeight()
+        let leftHeight = rh - bh - ah - ap - 20
+        this.tableHeight = this.getTableMinHeight(leftHeight)
+      },
+
+      methods: {
+        toast: function (title, contet) {
+          this.$Modal.info({
+            title: '提示',
+            content: title
+          })
+        },
+        getDataList: function () {
+          var _this = this
+          _this.$http.get(_this.host_bdd + '/agency/v1/inferior/find', {
+            params: {
+              option: 1,
+              q: _this.queryConditions,
+              pn: _this.currentPage,
+              ps: _this.pageSize
+            }
+          })
+          .then(function (response) {
+            if (response.data.code !== 200) {
+              _this.$Message.error(response.data.error)
+              return
+            }
+            _this.currentData = response.data.tenantsWithParent
+            _this.totalPage = response.data.recordCount
+            if (_this.currentData) {
+              for (var i = 0; i < _this.currentData.length; i++) {
+                if (_this.currentData[i].parent) {
+                  _this.currentData[i].parentContent = _this.currentData[i].parent.name
+                } else {
+                  _this.currentData[i].parentContent = ''
+                }
+                _this.currentData[i].createTime = _this.timeFormat(new Date(_this.currentData[i].createTime * 1000), 'yyyy/MM/dd hh:mm')
+              }
+            }
+          })
+        },
+        searchTimeChange: function (results) {
+          if (typeof (results[0] === 'string') && typeof (results[1] === 'string') && results[0].length && results[1].length) {
+            this.startSearchTime = parseInt(new Date(results[0]).getTime() / 1000)
+            this.endSearchTime = parseInt(new Date(results[1]).getTime() / 1000 + 24 * 3600)
+          } else {
+            this.startSearchTime = null
+            this.endSearchTime = null
+            this.queryConditions = null
+          }
+        },
+        findButtonClick: function () {
+          this.search_agent()
+        },
+        resetButtonClick: function () {
+          if (this.dataPickValue === 0) {
+            this.dataPickValue = null
+          } else {
+            this.dataPickValue = 0
+          }
+          this.searchText = null
+          this.queryConditions = null
+        },
+        search_agent: function () {
+          this.currentPage = 1
+          var jsonObject = {
+            'child.createTime_ge': this.startSearchTime ? this.startSearchTime : null,
+            'child.createTime_le': this.endSearchTime ? this.endSearchTime : null,
+            'child.name,child.contact,child.contactMobile_like': this.searchText ? this.searchText : null
+          }
+          this.queryConditions = JSON.stringify(jsonObject)
+          this.getDataList()
+        },
+        page_size_change: function (index) {
+          this.currentPage = index
+          this.getDataList()
+        },
+        handleSure: function (model) {
+          if (this.remittanceModel.remark) {
+            var _this = this
+            _this.loading = true
+            _this.$post(_this.host_bdd + '/captial/v1/inferior/play/money', {
+              inferiorId: _this.remittanceModel.inferiorId,
+              option: _this.remittanceModel.type,
+              amount: Math.round(_this.remittanceModel.amount * 100) + '',
+              comment: _this.remittanceModel.remark
+            }, function (rt) {
+              _this.loading = false
+              if (rt.data.code !== 200) {
+                _this.$Message.error(rt.data.error)
+                return
+              }
+              _this.showRemittance = false
+              _this.$Message.success('提交成功!')
+            })
+          } else {
+            this.$Message.error('请填写打款备注')
+          }
+        }
+      }
+    }
 </script>

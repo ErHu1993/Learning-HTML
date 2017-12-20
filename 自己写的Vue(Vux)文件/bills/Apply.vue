@@ -316,492 +316,483 @@
 </template>
 
 <script>
+  import $ from 'jquery'
+  import Breadcrumb from '@/components/layout/Breadcrumb.vue'
 
-    import $ from 'jquery';
-    import Breadcrumb from '@/components/layout/Breadcrumb.vue';
-
-    export default {
-        data () {
-            var _this = this;
-            return {
-                breadcrumb: ['提现申请'],
-                datePlaceholder:"申请时间",
-                currentPage:1,
-                pageSize:10,
-                totalPage:0,
-                tableHeight:'',
-                searchText:"",
-                selectIndex:1,
-                queryConditions:null,
-                startSearchTime:0,
-                endSearchTime:0,
-                currentData:[],
-                dataPickValue:0,
-                maxlength:50,
-                showReview:false,
-                loading: false,
-                auditUserId:"",
-                auditResults:"",
-                inforModel:{
-                    adoptRemark : "",
-                    failRemark : ""
-                },
-                rulesModel:{
-                    adoptRemark: [
-                        {required: false},
-                    ],
-                    failRemark: [
+  export default {
+    data () {
+      var _this = this
+      return {
+        breadcrumb: ['提现申请'],
+        datePlaceholder: '申请时间',
+        currentPage: 1,
+        pageSize: 10,
+        totalPage: 0,
+        tableHeight: '',
+        searchText: '',
+        selectIndex: 1,
+        queryConditions: null,
+        startSearchTime: 0,
+        endSearchTime: 0,
+        currentData: [],
+        dataPickValue: 0,
+        maxlength: 50,
+        showReview: false,
+        loading: false,
+        auditUserId: '',
+        auditResults: '',
+        inforModel: {
+          adoptRemark: '',
+          failRemark: ''
+        },
+        rulesModel: {
+          adoptRemark: [
+                        {required: false}
+          ],
+          failRemark: [
                         {required: true, message: '请填写审核不通过的原因', trigger: 'blur'},
-                        { type: 'string', message: '请填写审核不通过的原因', pattern:/.{1}/ ,trigger: 'blur' }
-                    ]
-                },
-                userCertifyInfo:{
-                    agentInfo : {
+                        { type: 'string', message: '请填写审核不通过的原因', pattern: /.{1}/, trigger: 'blur' }
+          ]
+        },
+        userCertifyInfo: {
+          agentInfo: {
 
-                    }
-                },
-                imageSrcFront:"",
-                imageSrcBack:"",
-                options: {
-                    shortcuts: [
-                    {
-                        text: '今天',
-                        value () {
-                            const end = new Date(_this.timeFormat(new Date(),"yyyy/MM/dd 23:59:59"));
-                            const start = new Date(_this.timeFormat(new Date(),"yyyy/MM/dd 00:00:00"))
-                            return [start, end];
-                        }
-                    },
-                    {
-                        text: '昨天',
-                        value () {
-                            const end = new Date().setTime(new Date(_this.timeFormat(new Date(),"yyyy/MM/dd 23:59:59")).getTime() - 3600 * 24 * 1000);
-                            const start = new Date().setTime(new Date(_this.timeFormat(new Date(),"yyyy/MM/dd 00:00:00")).getTime() - 3600 * 24 * 1000);
-                            return [start, end];
-                        }
-                    },
-                    {
-                        text: '最近一周',
-                        value () {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                            return [start, end];
-                        }
-                    },
-                    {
-                        text: '最近一月',
-                        value () {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                            return [start, end];
-                        }
-                    },
-                    {
-                        text: '最近三月',
-                        value () {
-                            const end = new Date();
-                            const start = new Date();
-                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                            return [start, end];
-                        }
-                    }
-                    ]
-                },
-                listTitles: [
-                    {
-                        title: '申请时间',
-                        key: 'createTime',
-                        width: 160
-                    },
-                    {
-                        title: '申请代理人',
-                        key: 'contact',
-                        width: 110
-                    },
-                    {
-                        title: '提现金额（元）',
-                        key: 'amount',
-                        width: 140
-                    },
-                    {
-                        title: '手续费（元）',
-                        key: 'serviceCharge',
-                        width: 130
-                    },
-                    {
-                        title: '本月提现次数',
-                        key: 'outcomeCount',
-                        width: 130
-                    },
-                    {
-                        title: '提现账户',
-                        key: 'applyLocation',
-                        width: 100
-                    },
-                    {
-                        title: '审核状态',
-                        align: 'center',
-                        key: 'state',
-                        width: 100
-                    },
-                    {
-                        title: '操作',
-                        key: 'action',
-                        align: 'center',
-                        render: (h, params) => {
-                            return h('div', [
-                                h('Button', {
-                                    props: {
-                                        type: 'text',
-                                        size: 'small'
-                                    },
-                                    style: {
-                                        marginRight: '5px'
-                                    },
-                                    nativeOn: {
-                                        click: function () {
-                                            let bh = $(document).height();
-                                            let ch = $('.ivu-modal-content').outerHeight();
-                                            $('.ivu-modal').css('top', (bh - ch) / 2);
-                                        }
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.showReview = true;
-                                            this.clearUserInforModel();
-                                            $('.model-content').animate({scrollTop:0},"slow");
-                                            $('.ivu-table-body').animate({scrollTop:0},"slow");
-                                            this.auditResults = '';
-                                            this.inforModel.reviewRemark = "";
-                                            this.getUserCertifyInfo(this.currentData[params.index].id)
-                                        }
-                                    }
-                                }, '审核')
-                                ]);
-                        }
-                    }
-                ],
-                outcomeTableTitle : [
-                    {
-                        title: '申请时间',
-                        key: 'createTime',
-                        width: 140
-                    },
-                    {
-                        title: '提现金额（元）',
-                        key: 'amount'
-                    },
-                    {
-                        title: '手续费（元）',
-                        key: 'serviceCharge'
-                    },
-                    {
-                        title: '本月提现次数',
-                        key: 'outcomeCount'
-                    },
-                    {
-                        title: '提现账户',
-                        key: 'applyLocation',
-                        width: 120
-                    },
-                    {
-                        title: '审核状态',
-                        width: 120,
-                        key: 'state',
-                    }
-                ],
-                outcomeTableData: [],
+          }
+        },
+        imageSrcFront: '',
+        imageSrcBack: '',
+        options: {
+          shortcuts: [
+            {
+              text: '今天',
+              value () {
+                const end = new Date(_this.timeFormat(new Date(), 'yyyy/MM/dd 23:59:59'))
+                const start = new Date(_this.timeFormat(new Date(), 'yyyy/MM/dd 00:00:00'))
+                return [start, end]
+              }
+            },
+            {
+              text: '昨天',
+              value () {
+                const end = new Date().setTime(new Date(_this.timeFormat(new Date(), 'yyyy/MM/dd 23:59:59')).getTime() - 3600 * 24 * 1000)
+                const start = new Date().setTime(new Date(_this.timeFormat(new Date(), 'yyyy/MM/dd 00:00:00')).getTime() - 3600 * 24 * 1000)
+                return [start, end]
+              }
+            },
+            {
+              text: '最近一周',
+              value () {
+                const end = new Date()
+                const start = new Date()
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+                return [start, end]
+              }
+            },
+            {
+              text: '最近一月',
+              value () {
+                const end = new Date()
+                const start = new Date()
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+                return [start, end]
+              }
+            },
+            {
+              text: '最近三月',
+              value () {
+                const end = new Date()
+                const start = new Date()
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+                return [start, end]
+              }
             }
+          ]
         },
-        mounted :function(){
-            this.getDataList();
-        },
-
-        updated () {
-            let bh = $('.breadcrumb').outerHeight();
-            let ah = $('.agent-filter').outerHeight();
-            let ap = $('.agent-page').outerHeight();
-            let rh = $('.js_frame_right').outerHeight();
-            let leftHeight = rh - bh - ah - ap - 20;
-            let tb = $('.ivu-table-tbody').outerHeight() + $('.ivu-table-header').outerHeight();
-            if (tb > 0 && tb < leftHeight) {
-                if ( tb < 90 ) tb = 90;
-                this.tableHeight = tb;
-                return;
-            }
-             this.tableHeight = leftHeight;
-        },
-
-        components: {
-            Breadcrumb
-        },
-
-        methods :{
-            getDataList : function (){
-                var _this = this;
-                _this.$http.get(_this.host_bdd + '/outcomeApply/v1/find', {
-                    params: {
-                      option: _this.selectIndex,
-                      q:_this.queryConditions,
-                      pn:_this.currentPage,
-                      ps:_this.pageSize
+        listTitles: [
+          {
+            title: '申请时间',
+            key: 'createTime',
+            width: 160
+          },
+          {
+            title: '申请代理人',
+            key: 'contact',
+            width: 110
+          },
+          {
+            title: '提现金额（元）',
+            key: 'amount',
+            width: 140
+          },
+          {
+            title: '手续费（元）',
+            key: 'serviceCharge',
+            width: 130
+          },
+          {
+            title: '本月提现次数',
+            key: 'outcomeCount',
+            width: 130
+          },
+          {
+            title: '提现账户',
+            key: 'applyLocation',
+            width: 100
+          },
+          {
+            title: '审核状态',
+            align: 'center',
+            key: 'state',
+            width: 100
+          },
+          {
+            title: '操作',
+            key: 'action',
+            align: 'center',
+            render: (h, params) => {
+              return h('div', [
+                h('Button', {
+                  props: {
+                    type: 'text',
+                    size: 'small'
+                  },
+                  style: {
+                    marginRight: '5px'
+                  },
+                  nativeOn: {
+                    click: function () {
+                      let bh = $(document).height()
+                      let ch = $('.ivu-modal-content').outerHeight()
+                      $('.ivu-modal').css('top', (bh - ch) / 2)
+                    }
+                  },
+                  on: {
+                    click: () => {
+                      this.showReview = true
+                      this.clearUserInforModel()
+                      $('.model-content').animate({scrollTop: 0}, 'slow')
+                      $('.ivu-table-body').animate({scrollTop: 0}, 'slow')
+                      this.auditResults = ''
+                      this.inforModel.reviewRemark = ''
+                      this.getUserCertifyInfo(this.currentData[params.index].id)
+                    }
                   }
-              })
-                .then(function (response) {
-                    if (response.data.code != 200) {
-                        _this.$Message.error(response.data.error);
-                        return;
-                    }
-                    _this.currentData = response.data.outcomeApplies;
-                    _this.totalPage = response.data.recordCount;
-                    if (_this.currentData) {
-                        for (var i = 0; i < _this.currentData.length; i++) {
-                            _this.currentData[i].createTime = _this.timeFormat(new Date(_this.currentData[i].createTime * 1000),"yyyy/MM/dd hh:mm");
-                            _this.currentData[i].state = _this.getApplyState(_this.currentData[i].state);
-                            _this.currentData[i].applyLocation = "微信钱包";
+                }, '审核')
+              ])
+            }
+          }
+        ],
+        outcomeTableTitle: [
+          {
+            title: '申请时间',
+            key: 'createTime',
+            width: 140
+          },
+          {
+            title: '提现金额（元）',
+            key: 'amount'
+          },
+          {
+            title: '手续费（元）',
+            key: 'serviceCharge'
+          },
+          {
+            title: '本月提现次数',
+            key: 'outcomeCount'
+          },
+          {
+            title: '提现账户',
+            key: 'applyLocation',
+            width: 120
+          },
+          {
+            title: '审核状态',
+            width: 120,
+            key: 'state'
+          }
+        ],
+        outcomeTableData: []
+      }
+    },
+    mounted: function () {
+      this.getDataList()
+    },
 
-                            var className = "current-list-table-state-default"
-                            if (_this.currentData[i].state == '未通过') {
-                                className = "current-list-table-state-red"
-                            }else if (_this.currentData[i].state == '提现成功'){
-                                className = "current-list-table-state-green"
-                            }
-                            _this.currentData[i].cellClassName = {
-                                state: className,
-                            }
-                        }
-                        setTimeout(function () {
-                            var defaultCell = $('.current-list-table-state-default');
-                            for (var i = 0; i < defaultCell.length; i++) {
-                                defaultCell[i].style.color = '#495060';
-                            }
-                            var redCell = $('.current-list-table-state-red');
-                            for (var i = 0; i < redCell.length; i++) {
-                                redCell[i].style.color = 'red';
-                            }
-                            var greenCell = $('.current-list-table-state-green');
-                            for (var i = 0; i < greenCell.length; i++) {
-                                greenCell[i].style.color = 'green';
-                            }
-                        }, 50);
-                    }
-                })
-            },
-            getUserCertifyInfo : function (inferiorId) {
-                var _this = this;
-                _this.$get(_this.host_bdd + '/outcomeApply/v1/' + inferiorId + "/detail",
-                function (rt) {
-                    if (rt.data.code != 200) {
-                        _this.$Message.error(rt.data.error);
-                        return;
-                    }
-                    _this.auditUserId = inferiorId;
-                    _this.userCertifyInfo = rt.data.outcomeAppliyDetail;
-                    if (_this.userCertifyInfo){
-                        _this.userCertifyInfo.createTime = _this.timeFormat(new Date(_this.userCertifyInfo.createTime * 1000),"yyyy/MM/dd hh:mm");
-                        _this.getIdentityImageSrc(_this.userCertifyInfo.agentInfo);
-                        _this.outcomeTableData = _this.userCertifyInfo.applies;
-                        for (var i = 0; i < _this.outcomeTableData.length; i++) {
-                            _this.outcomeTableData[i].createTime = _this.timeFormat(new Date(_this.outcomeTableData[i].createTime * 1000),"yyyy/MM/dd hh:mm");
-                            _this.outcomeTableData[i].state = _this.getApplyState(_this.outcomeTableData[i].state);
-                            _this.outcomeTableData[i].applyLocation = "微信钱包";
-                            var className = "outcome-table-state-default"
-                            if (_this.outcomeTableData[i].state == '未通过') {
-                                className = "outcome-table-state-red"
-                            }else if (_this.outcomeTableData[i].state == '提现成功'){
-                                className = "outcome-table-state-green"
-                            }
-                            _this.outcomeTableData[i].cellClassName = {
-                                state: className,
-                            }
-                        }
-                        setTimeout(function () {
-                            var defaultCell = $('.outcome-table-state-default');
-                            for (var i = 0; i < defaultCell.length; i++) {
-                                defaultCell[i].style.color = '#495060';
-                            }
-                            var redCell = $('.outcome-table-state-red');
-                            for (var i = 0; i < redCell.length; i++) {
-                                redCell[i].style.color = 'red';
-                            }
-                            var greenCell = $('.outcome-table-state-green');
-                            for (var i = 0; i < greenCell.length; i++) {
-                                greenCell[i].style.color = 'green';
-                            }
-                        }, 50);
-                    }
-                });
-            },
-            getIdentityImageSrc : function (info){
-                var _this = this;
-                _this.$getImageUrlFromOSS(info.frontPath,function (rt){
-                    if (rt){
-                        _this.imageSrcFront = rt;
-                    }
-                });
-                _this.$getImageUrlFromOSS(info.backPath,function (rt){
-                    if (rt){
-                        _this.imageSrcBack = rt;
-                    }
-                });
-            },
-            showPendingReview : function () {
-                if (this.selectIndex == 1) {return;}
-                this.selectIndex = 1;
-                this.currentData = [];
-                this.listTitles[this.listTitles.length - 1].title = '操作';
-                this.listTitles[this.listTitles.length - 1].key = 'action';
-                this.listTitles[this.listTitles.length - 1].render = (h, params) => {
-                    return h('div', [
-                        h('Button', {
-                            props: {
-                                type: 'text',
-                                size: 'small'
-                            },
-                            style: {
-                                marginRight: '5px'
-                            },
-                            nativeOn: {
-                                    click: function () {
-                                        let bh = $(document).height();
-                                        let ch = $('.ivu-modal-content').outerHeight();
-                                        $('.ivu-modal').css('top', (bh - ch) / 2);
-                                    }
-                                },
-                            on: {
-                                click: () => {
-                                    this.showReview = true;
-                                    this.clearUserInforModel();
-                                    $('.model-content').animate({scrollTop:0},"slow");
-                                    $('.ivu-table-body').animate({scrollTop:0},"slow");
-                                    this.auditResults = '';
-                                    this.inforModel.reviewRemark = "";
-                                    this.getUserCertifyInfo(this.currentData[params.index].id)
-                                }
-                            }
-                        }, '审核')
-                        ]);
+    updated () {
+      let bh = $('.breadcrumb').outerHeight()
+      let ah = $('.agent-filter').outerHeight()
+      let ap = $('.agent-page').outerHeight()
+      let rh = $('.js_frame_right').outerHeight()
+      let leftHeight = rh - bh - ah - ap - 20
+      this.tableHeight = this.getTableMinHeight(leftHeight)
+    },
+
+    components: {
+      Breadcrumb
+    },
+
+    methods: {
+      getDataList: function () {
+        var _this = this
+        _this.$http.get(_this.host_bdd + '/outcomeApply/v1/find', {
+          params: {
+            option: _this.selectIndex,
+            q: _this.queryConditions,
+            pn: _this.currentPage,
+            ps: _this.pageSize
+          }
+        })
+        .then(function (response) {
+          if (response.data.code !== 200) {
+            _this.$Message.error(response.data.error)
+            return
+          }
+          _this.currentData = response.data.outcomeApplies
+          _this.totalPage = response.data.recordCount
+          if (_this.currentData) {
+            for (var i = 0; i < _this.currentData.length; i++) {
+              _this.currentData[i].createTime = _this.timeFormat(new Date(_this.currentData[i].createTime * 1000), 'yyyy/MM/dd hh:mm')
+              _this.currentData[i].state = _this.getApplyState(_this.currentData[i].state)
+              _this.currentData[i].applyLocation = '微信钱包'
+
+              var className = 'current-list-table-state-default'
+              if (_this.currentData[i].state === '未通过') {
+                className = 'current-list-table-state-red'
+              } else if (_this.currentData[i].state === '提现成功') {
+                className = 'current-list-table-state-green'
+              }
+              _this.currentData[i].cellClassName = {
+                state: className
+              }
+            }
+            setTimeout(function () {
+              var defaultCell = $('.current-list-table-state-default')
+              for (let i = 0; i < defaultCell.length; i++) {
+                defaultCell[i].style.color = '#495060'
+              }
+              var redCell = $('.current-list-table-state-red')
+              for (let i = 0; i < redCell.length; i++) {
+                redCell[i].style.color = 'red'
+              }
+              var greenCell = $('.current-list-table-state-green')
+              for (let i = 0; i < greenCell.length; i++) {
+                greenCell[i].style.color = 'green'
+              }
+            }, 50)
+          }
+        })
+      },
+      getUserCertifyInfo: function (inferiorId) {
+        var _this = this
+        _this.$get(_this.host_bdd + '/outcomeApply/v1/' + inferiorId + '/detail',
+        function (rt) {
+          if (rt.data.code !== 200) {
+            _this.$Message.error(rt.data.error)
+            return
+          }
+          _this.auditUserId = inferiorId
+          _this.userCertifyInfo = rt.data.outcomeAppliyDetail
+          if (_this.userCertifyInfo) {
+            _this.userCertifyInfo.createTime = _this.timeFormat(new Date(_this.userCertifyInfo.createTime * 1000), 'yyyy/MM/dd hh:mm')
+            _this.getIdentityImageSrc(_this.userCertifyInfo.agentInfo)
+            _this.outcomeTableData = _this.userCertifyInfo.applies
+            for (var i = 0; i < _this.outcomeTableData.length; i++) {
+              _this.outcomeTableData[i].createTime = _this.timeFormat(new Date(_this.outcomeTableData[i].createTime * 1000), 'yyyy/MM/dd hh:mm')
+              _this.outcomeTableData[i].state = _this.getApplyState(_this.outcomeTableData[i].state)
+              _this.outcomeTableData[i].applyLocation = '微信钱包'
+              var className = 'outcome-table-state-default'
+              if (_this.outcomeTableData[i].state === '未通过') {
+                className = 'outcome-table-state-red'
+              } else if (_this.outcomeTableData[i].state === '提现成功') {
+                className = 'outcome-table-state-green'
+              }
+              _this.outcomeTableData[i].cellClassName = {
+                state: className
+              }
+            }
+            setTimeout(function () {
+              var defaultCell = $('.outcome-table-state-default')
+              for (let i = 0; i < defaultCell.length; i++) {
+                defaultCell[i].style.color = '#495060'
+              }
+              var redCell = $('.outcome-table-state-red')
+              for (let i = 0; i < redCell.length; i++) {
+                redCell[i].style.color = 'red'
+              }
+              var greenCell = $('.outcome-table-state-green')
+              for (let i = 0; i < greenCell.length; i++) {
+                greenCell[i].style.color = 'green'
+              }
+            }, 50)
+          }
+        })
+      },
+      getIdentityImageSrc: function (info) {
+        var _this = this
+        _this.$getImageUrlFromOSS(info.frontPath, function (rt) {
+          if (rt) {
+            _this.imageSrcFront = rt
+          }
+        })
+        _this.$getImageUrlFromOSS(info.backPath, function (rt) {
+          if (rt) {
+            _this.imageSrcBack = rt
+          }
+        })
+      },
+      showPendingReview: function () {
+        if (this.selectIndex === 1) { return }
+        this.selectIndex = 1
+        this.currentData = []
+        this.listTitles[this.listTitles.length - 1].title = '操作'
+        this.listTitles[this.listTitles.length - 1].key = 'action'
+        this.listTitles[this.listTitles.length - 1].render = (h, params) => {
+          return h('div', [
+            h('Button', {
+              props: {
+                type: 'text',
+                size: 'small'
+              },
+              style: {
+                marginRight: '5px'
+              },
+              nativeOn: {
+                click: function () {
+                  let bh = $(document).height()
+                  let ch = $('.ivu-modal-content').outerHeight()
+                  $('.ivu-modal').css('top', (bh - ch) / 2)
                 }
-                this.search_agent();
-            },
-            getApplyState (state) {
-                switch (state){
-                    case 1 :
-                    {
-                        return "未审核";
-                    }
-                    case 2:
-                    {
-                        return "提现成功";
-                    }
-                    case 90 :
-                    {
-                        return "未通过";
-                    }
+              },
+              on: {
+                click: () => {
+                  this.showReview = true
+                  this.clearUserInforModel()
+                  $('.model-content').animate({scrollTop: 0}, 'slow')
+                  $('.ivu-table-body').animate({scrollTop: 0}, 'slow')
+                  this.auditResults = ''
+                  this.inforModel.reviewRemark = ''
+                  this.getUserCertifyInfo(this.currentData[params.index].id)
                 }
-            },
-            showApplyPass : function () {
-                if (this.selectIndex == 2) {return;}
-                this.selectIndex = 2;
-                this.currentData = [];
-                this.listTitles[this.listTitles.length - 1].title = '备注';
-                this.listTitles[this.listTitles.length - 1].key = 'comment';
-                this.listTitles[this.listTitles.length - 1].render = null;
-                this.search_agent();
-            },
-            showApplyNotPass : function () {
-                if (this.selectIndex == 90) {return;}
-                this.selectIndex = 90;
-                this.currentData = [];
-                this.listTitles[this.listTitles.length - 1].title = '备注';
-                this.listTitles[this.listTitles.length - 1].key = 'comment';
-                this.listTitles[this.listTitles.length - 1].render = null;
-                this.search_agent();
-            },
-            searchTimeChange :function (results) {
-                if (typeof(results[0] === 'string') && typeof(results[1] === 'string') && results[0].length && results[1].length){
-                    var arr = results[1].split('-');
-                    arr[2] = parseInt(arr[2]) + 1;
-                    this.startSearchTime = new Date(results[0]).getTime() / 1000;
-                    this.endSearchTime = new Date(arr.join('-')).getTime() / 1000;
-                }else{
-                    this.startSearchTime = null;
-                    this.endSearchTime = null;
-                }
-            },
-            findButtonClick : function () {
-                this.search_agent();
-            },
-            resetButtonClick : function () {
-                if (this.dataPickValue == 0){
-                    this.dataPickValue = null;
-                }else{
-                    this.dataPickValue = 0;
-                }
-                this.searchText = null;
-                this.queryConditions = null;
-            },
-            search_agent :function () {
-                this.currentPage = 1;
-                var jsonObject = {
-                    "createTime_ge" : this.startSearchTime ? this.startSearchTime : null,
-                    "createTime_le" : this.endSearchTime ? this.endSearchTime : null,
-                    "contact,contactMobile,nickName_like" : this.searchText ? this.searchText : null
-                };
-                this.queryConditions = JSON.stringify(jsonObject);
-                this.getDataList();
-            },
-            auditRadioChange : function () {
-                this.inforModel.adoptRemark = "";
-                this.inforModel.failRemark = "";
-                $('.model-content').animate({scrollTop:$('.model-content')[0].scrollHeight},"slow");
-            },
-            page_size_change :function (index) {
-                this.currentPage = index;
-                this.getDataList();
-            },
-            clearUserInforModel () {
-                this.userCertifyInfo = {agentInfo : {}};
-                this.imageSrcFront = null;
-                this.imageSrcBack = null;
-            },
-            handleSure : function (model) {
-                if (this.auditResults) {
-                    if (this.auditResults == "审核通过"){
-                        this.submitAudit(2,this.inforModel.adoptRemark);
-                    }else if (this.auditResults == "审核不通过"){
-                        this.$refs[model].validate((valid) => {
-                            if (valid) {
-                                this.submitAudit(90,this.inforModel.failRemark);
-                            }
-                        });
-                    }else{
-                        this.showReview = false;
-                    }
-                }else{
-                    this.showReview = false;
-                }
-            },
-            submitAudit : function (state,comment) {
-                var _this = this;
-                _this.loading = true;
-                _this.$post(_this.host_bdd + '/outcomeApply/v1/audit', {
-                    outcomeApplyId:_this.auditUserId,
-                    state:state,
-                    comment:comment,
-                }, function (rt) {
-                    _this.loading = false;
-                    if (rt.data.code != 200) {
-                        _this.$Message.error(rt.data.error);
-                        return;
-                    }
-                    _this.showReview = false;
-                    _this.$Message.success('提交成功!');
-                    _this.search_agent();
-                });
+              }
+            }, '审核')
+          ])
+        }
+        this.search_agent()
+      },
+      getApplyState (state) {
+        switch (state) {
+          case 1 :
+            {
+              return '未审核'
+            }
+          case 2:
+            {
+              return '提现成功'
+            }
+          case 90 :
+            {
+              return '未通过'
             }
         }
-    };
+      },
+      showApplyPass: function () {
+        if (this.selectIndex === 2) { return }
+        this.selectIndex = 2
+        this.currentData = []
+        this.listTitles[this.listTitles.length - 1].title = '备注'
+        this.listTitles[this.listTitles.length - 1].key = 'comment'
+        this.listTitles[this.listTitles.length - 1].render = null
+        this.search_agent()
+      },
+      showApplyNotPass: function () {
+        if (this.selectIndex === 90) { return }
+        this.selectIndex = 90
+        this.currentData = []
+        this.listTitles[this.listTitles.length - 1].title = '备注'
+        this.listTitles[this.listTitles.length - 1].key = 'comment'
+        this.listTitles[this.listTitles.length - 1].render = null
+        this.search_agent()
+      },
+      searchTimeChange: function (results) {
+        if (typeof (results[0] === 'string') && typeof (results[1] === 'string') && results[0].length && results[1].length) {
+          this.startSearchTime = parseInt(new Date(results[0]).getTime() / 1000)
+          this.endSearchTime = parseInt(new Date(results[1]).getTime() / 1000 + 24 * 3600)
+        } else {
+          this.startSearchTime = null
+          this.endSearchTime = null
+        }
+      },
+      findButtonClick: function () {
+        this.search_agent()
+      },
+      resetButtonClick: function () {
+        if (this.dataPickValue === 0) {
+          this.dataPickValue = null
+        } else {
+          this.dataPickValue = 0
+        }
+        this.searchText = null
+        this.queryConditions = null
+      },
+      search_agent: function () {
+        this.currentPage = 1
+        var jsonObject = {
+          'createTime_ge': this.startSearchTime ? this.startSearchTime : null,
+          'createTime_le': this.endSearchTime ? this.endSearchTime : null,
+          'contact,contactMobile,nickName_like': this.searchText ? this.searchText : null
+        }
+        this.queryConditions = JSON.stringify(jsonObject)
+        this.getDataList()
+      },
+      auditRadioChange: function () {
+        this.inforModel.adoptRemark = ''
+        this.inforModel.failRemark = ''
+        $('.model-content').animate({scrollTop: $('.model-content')[0].scrollHeight}, 'slow')
+      },
+      page_size_change: function (index) {
+        this.currentPage = index
+        this.getDataList()
+      },
+      clearUserInforModel () {
+        this.userCertifyInfo = {agentInfo: {}}
+        this.imageSrcFront = null
+        this.imageSrcBack = null
+      },
+      handleSure: function (model) {
+        if (this.auditResults) {
+          if (this.auditResults === '审核通过') {
+            this.submitAudit(2, this.inforModel.adoptRemark)
+          } else if (this.auditResults === '审核不通过') {
+            this.$refs[model].validate((valid) => {
+              if (valid) {
+                this.submitAudit(90, this.inforModel.failRemark)
+              }
+            })
+          } else {
+            this.showReview = false
+          }
+        } else {
+          this.showReview = false
+        }
+      },
+      submitAudit: function (state, comment) {
+        var _this = this
+        _this.loading = true
+        _this.$post(_this.host_bdd + '/outcomeApply/v1/audit', {
+          outcomeApplyId: _this.auditUserId,
+          state: state,
+          comment: comment
+        }, function (rt) {
+          _this.loading = false
+          if (rt.data.code !== 200) {
+            _this.$Message.error(rt.data.error)
+            return
+          }
+          _this.showReview = false
+          _this.$Message.success('提交成功!')
+          _this.search_agent()
+        })
+      }
+    }
+  }
 </script>

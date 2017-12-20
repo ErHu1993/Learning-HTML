@@ -39,16 +39,27 @@
         margin-bottom: 10px;
         height: 45px;
     }
+
     .dialog-div {
+        text-align: left;
         height:400px;
         padding:15px 0;
         overflow:scroll;
         -webkit-overflow-scrolling:touch;
     }
 
-    .dialog-div h2 {
-        padding-bottom: 10px;
+    .dialog-div h3{
+      text-align: center;
     }
+
+    .dialog-div li{
+      padding: 5px 10px;
+    }
+
+    .vux-x-dialog:last-child .dialog-div{
+      text-align: center;
+    }
+
 
 </style>
 
@@ -57,7 +68,7 @@
         <group :gutter='0'>
             <group-title  class="section-title">
                 <p>投保人信息</p>
-                <img src="../../assets/camera.png" @click='takePhotoToUserInformation(1)'>
+                <img  v-show='!hideUploadImage' src="../../assets/camera.png" @click='takePhotoToUserInformation(1)'>
             </group-title>
 
             <x-input
@@ -154,7 +165,7 @@
 
             <group-title  class="section-title">
                 <p>被保人信息</p>
-                <img src="../../assets/camera.png" @click='takePhotoToUserInformation(2)'>
+                <img  v-show='!hideUploadImage' src="../../assets/camera.png" @click='takePhotoToUserInformation(2)'>
             </group-title>
 
             <popup-radio title="与投保人关系"
@@ -242,7 +253,7 @@
 
             <div class="agree">
                 <check-icon :value.sync="agreeCheck" @click.native='agreeTotalDeclare'>我已阅读并理解</check-icon>
-                <a @click='showDeclare = true'>《投保申明》</a>、
+                <a @click='showDeclare = true'>《投保声明》</a>、
                 <a @click='showAttention = true'>《理赔须知》</a>和
                 <a @click='showProvision = true'>《保险条款》</a>，并同意遵守。
             </div>
@@ -841,14 +852,19 @@
                     <x-button type='primary' @click.native='showProvision = false ; agreeProvisionCheck = true'>我已阅读《保险条款》</x-button>
                 </section>
             </x-dialog>
-
+            <confirm v-if='showOutCallConfirmSms'
+            v-model='showOutCallConfirmSms'
+            @on-confirm="inquirySmsConfirm"
+            @on-cancel="inquirySmsCancel">
+              <p style="text-align:left;">{{outCallConfirmSms.sms}}</p>
+            </confirm>
         </group>
     </div>
 </template>
 
 <script>
 import $ from 'zepto'
-import {Group, Cell, XInput, GroupTitle, XButton, XSwitch, CheckIcon, PopupRadio, DatetimeView, Popup, TransferDom, XDialog} from 'vux'
+import {Group, Cell, XInput, GroupTitle, Confirm, XButton, XSwitch, CheckIcon, PopupRadio, DatetimeView, Popup, TransferDom, XDialog} from 'vux'
 
 export default {
 
@@ -863,7 +879,8 @@ export default {
     XInput,
     GroupTitle,
     XSwitch,
-    XButton
+    XButton,
+    Confirm
   },
   directives: {
     TransferDom
@@ -871,6 +888,7 @@ export default {
 
   data () {
     return {
+      hideUploadImage: false,
       showPolicyHolderIdentityDate: false,
       showInsuredIdentityDate: false,
       showPolicyHolderBirthDate: false,
@@ -883,6 +901,8 @@ export default {
       showDeclare: false,
       showAttention: false,
       showProvision: false,
+      showOutCallConfirmSms: false,
+      outCallConfirmSms: '',
       sexOptions: ['男', '女'],
       provinceOptions: ['安徽省'],
       province: '安徽省',
@@ -913,6 +933,7 @@ export default {
         birth: '',
         gender: ''
       },
+      payUrl: '',
       userNameRules: function (value, user) {
         var valid = value.length > 0
         var msg = '请输入正确的' + user + '姓名'
@@ -959,14 +980,15 @@ export default {
     date[0] = parseInt(date[0]) + 100
     this.endDate = date.join('-')
 
+    this.flowData.produceId = this.$route.query.produceId
+    this.flowData.vendorId = this.$route.query.vendorId
+
+    if (this.$route.query.fromWhere && this.$route.query.token && this.$route.query.userId) {
+      this.hideUploadImage = true
+    }
+
     var liAnFlowData = this.storage.get('liAnFlowData')
     if (liAnFlowData) {
-      if (liAnFlowData.produceId) {
-        this.flowData.produceId = liAnFlowData.produceId
-      }
-      if (liAnFlowData.vendorId) {
-        this.flowData.vendorId = liAnFlowData.vendorId
-      }
       if (liAnFlowData.socialInsuFlag) {
         this.flowData.socialInsuFlag = liAnFlowData.socialInsuFlag
       }
@@ -987,22 +1009,18 @@ export default {
       }
       if (liAnFlowData.policyHolder) {
         this.flowData.policyHolder = liAnFlowData.policyHolder
+        this.policyHolder = liAnFlowData.policyHolder
       }
       if (liAnFlowData.insured) {
         this.flowData.insured = liAnFlowData.insured
+        this.insured = liAnFlowData.insured
+      }
+      if (liAnFlowData.electricitySalesJobId) {
+        this.flowData.electricitySalesJobId = liAnFlowData.electricitySalesJobId
       }
       this.flowData.socialInsuFlag = Boolean(liAnFlowData.socialInsuFlag)
     }
   },
-
-  mounted: function () {
-        // var arr = ["1966-09-27","1967-08-29","1967-09-27","1967-09-28","1967-09-29","1967-10-27","1968-09-29","2011-09-27","2012-08-27","2012-09-27","2012-09-28","2012-09-29","2012-10-27","2013-09-27"];
-        // debugger;
-        // for (var i = 0; i < arr.length; i++) {
-        //     console.log(Number(this.judgeAge(arr[i])));
-        // }
-  },
-
   methods: {
     policyHolderIdentityChange () {
       if (this.flowData.insuredRelation === '本人') {
@@ -1058,7 +1076,7 @@ export default {
       } else if ((nyear - byear) < 5 || ((nyear - byear) > (49 + 1))) {
         return false
       } else {
-                // 两种情况  一个是 5岁那年 , 一个是50岁那年
+        // 两种情况  一个是 5岁那年 , 一个是50岁那年
         if ((nyear - byear) === 5) {
                     // 5岁那年
           if ((nmouth - bmouth) > 0) {
@@ -1266,11 +1284,16 @@ export default {
 
         this.flowData.insured = this.insured
         this.flowData.policyHolder = this.policyHolder
-
         var liAnFlowData = {}
         liAnFlowData = $.extend(true, liAnFlowData, this.flowData)
         liAnFlowData.insuredRelation = this.getInsuredRelationType(liAnFlowData.insuredRelation)
         liAnFlowData.socialInsuFlag = Number(liAnFlowData.socialInsuFlag)
+
+        if (this.hideUploadImage) {
+          liAnFlowData.fromWhere = this.$route.query.fromWhere
+          liAnFlowData.token = this.$route.query.token
+          liAnFlowData.tokenUserId = this.$route.query.userId
+        }
 
         this.$vux.loading.show({
           text: '正在提交数据'
@@ -1282,19 +1305,40 @@ export default {
             _this.$vux.toast.text(rt.data.error, 'top')
             return
           }
-          var lianProduceData = {
-            'produceId': liAnFlowData.produceId,
-            'vendorId': liAnFlowData.vendorId,
-            'socialInsuFlag': liAnFlowData.haveHealthInsurance
+          _this.payUrl = rt.data.payUrl
+          _this.storage.set('liAnFlowData', null)
+          if (liAnFlowData.electricitySalesJobId && rt.data.inquirySms) {
+            // 电销而来
+            _this.showOutCallConfirmSms = true
+            _this.outCallConfirmSms = rt.data.inquirySms
+          } else {
+            // 正常购买
+            _this.goLianComplete()
           }
-          _this.storage.set('liAnFlowData', lianProduceData)
-          _this.$router.replace({ path: '/product/lian/complete',
-            query: {
-              orderId: rt.data.orderId,
-              payUrl: rt.data.payUrl
-            }})
         })
       }
+    },
+    inquirySmsConfirm () {
+      var _this = this
+      this.$vux.loading.show({
+        text: '正在发送'
+      })
+      this.$http.post(this.host_bdd + '/electricitySales/v1/sms/post', this.outCallConfirmSms).then((rt) => {
+        _this.$vux.loading.hide()
+        if (rt.data.code !== 200) {
+          _this.$vux.toast.text(rt.data.error, 'top')
+          return
+        }
+        _this.$vux.toast.text('发送成功', 'top')
+        _this.go(-1)
+      })
+    },
+    inquirySmsCancel () {
+      this.goLianComplete()
+    },
+    goLianComplete () {
+      this.storage.set('liAnPayUrl', this.payUrl)
+      this.$router.go(-1)
     }
   }
 }

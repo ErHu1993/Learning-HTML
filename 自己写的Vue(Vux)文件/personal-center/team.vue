@@ -177,10 +177,12 @@
         display: inline-block;
         float: left;
         margin-left: 10px;
+        text-align: left;
     }
 
     .cell-content-right {
         display: block;
+        text-align: right;
         margin-top: 10px;
         display: inline-block;
         float: right;
@@ -189,7 +191,6 @@
 
     .cell-content label{
         display: block;
-        text-align: left;
     }
 
 </style>
@@ -197,7 +198,7 @@
 <template>
     <div class="box">
         <div class="weui-search-bar weui-search-bar_focusing">
-            <form class="weui-search-bar__form" @submit='searchHandle'>
+            <div class="weui-search-bar__form">
                 <div class="vux-search-mask" style="display: none;"></div>
                 <div class="weui-search-bar__box">
                     <i class="weui-icon-search"></i>
@@ -208,7 +209,7 @@
                     <i class="weui-icon-search"></i>
                     <span>搜索</span>
                 </label>
-            </form>
+            </div>
             <x-button mini type="primary" style="padding:0 10px;margin-left:10px;" @click.native='searchHandle'>搜索</x-button>
         </div>
         <div v-show='!queryConditions'>
@@ -317,7 +318,15 @@
         this.$nextTick(() => {
           this.$refs.scrollerBottom.donePulldown()
           this.$refs.scrollerBottom.reset()
-
+          var _this = this
+          $(document).keydown(function (event) {
+            if (event.keyCode === 13) {
+              if (!_this.onFetching) {
+                _this.onFetching = true
+                _this.searchHandle()
+              }
+            }
+          })
           const boxH = $('.box2').height()
           const listH = $('.box2').closest('.list').height()
           if (boxH <= listH) {
@@ -383,7 +392,7 @@
 
             setTimeout(() => {
               _this.onFetching = false
-            }, 1000)
+            }, 1500)
           })
         },
             // 到底加载

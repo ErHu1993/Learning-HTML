@@ -12,6 +12,10 @@
                 <span class="expand-value">{{ row.name }}</span>
             </Col>
             <Col span="8" class="col">
+                <span class="expand-key">直属上级真实姓名：</span>
+                <span class="expand-value">{{ row.contact }}</span>
+            </Col>
+            <Col span="8" class="col">
                 <span class="expand-key">联系方式：</span>
                 <span class="expand-value">{{ row.contactMobile }}</span>
             </Col>
@@ -20,8 +24,8 @@
 </template>
 <script>
     export default {
-        props: {
-            row: Object
-        }
-    };
+      props: {
+        row: Object
+      }
+    }
 </script>

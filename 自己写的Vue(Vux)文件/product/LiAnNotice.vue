@@ -117,13 +117,43 @@ export default {
       show: false
     }
   },
-
+  mounted () {
+    this.$nextTick(function () {
+      var payUrl = this.storage.get('liAnPayUrl')
+      if (payUrl && (typeof (payUrl) === 'string')) {
+        this.storage.set('liAnPayUrl', null)
+        if (this.$route.query.fromWhere === 'APP') {
+          window.location.href = decodeURIComponent(this.getParams(payUrl.split('?')[1]).payUrl)
+        } else {
+          window.location.href = payUrl + '&fromWhere=' + this.$route.query.fromWhere + '&token=' +
+          this.$route.query.token + '&userId=' + this.$route.query.userId
+        }
+      }
+    })
+  },
   methods: {
+    getParams (paramsString) {
+      // url获取，变量声明
+      var arrURL = paramsString.split("&"), arrParms , key, val, getURL = {} // eslint-disable-line
+      // 取值，存入对象
+      for (var i = 0; i < arrURL.length; i++) {
+        arrParms = arrURL[i].split('=')
+        key = arrParms[0]
+        val = arrParms[1]
+        getURL[key] = val
+      }
+      return getURL
+    },
     showAlert () {
       this.show = true
     },
     goInputInformation () {
-      this.$router.push({path: '/product/lian/information'})
+      if (this.$route.query.fromWhere && this.$route.query.token && this.$route.query.userId) {
+        window.location.href = window.location.origin + '/r/-LACXRSBX?fromWhere=' + this.$route.query.fromWhere + '&token=' +
+        this.$route.query.token + '&userId=' + this.$route.query.userId
+      } else {
+        window.location.href = window.location.origin + '/r/-LACXRSBX'
+      }
     }
   }
 

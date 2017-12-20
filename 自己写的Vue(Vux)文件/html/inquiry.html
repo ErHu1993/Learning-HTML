@@ -2,19 +2,33 @@
 <html>
 
 <head>
-<title>报价详情</title>
+<title>车险报价详情</title>
 <meta name="keywords" content="">
 <meta name="description" content="">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+<meta name="keywords" content="车险报价详情" />
+<meta name="description" content="尊敬的车主您好，报价单价格仅供参考，最终价格以核保为准。为爱车购险，安心出行！" />
 <base target="_self" />
-<script type="text/javascript">AutoFontSize();window.addEventListener("resize", function () {AutoFontSize();});function AutoFontSize() {var b = window.document.documentElement.getBoundingClientRect().width;b / 1 > 540 && (b = 540 * 1);var c = b / 10;window.document.documentElement.style.fontSize = c + "px";}</script>
+<script type="text/javascript">
+AutoFontSize()
+window.addEventListener('resize', function () {
+  AutoFontSize()
+})
+function AutoFontSize () {
+  var b = window.document.documentElement.getBoundingClientRect().width
+  b / 1 > 540 && (b = 540 * 1)
+  var c = b / 10
+  window.document.documentElement.style.fontSize = c + 'px'
+}
+</script>
 <script src="./js/zepto.min.js"></script>
 <script src="./js/artTemplate-3.1.3.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 
 <style type="text/css">
    *{padding:0;margin:0;box-sizing:border-box;}
-    html,body{min-height:100%;overflow-x:scroll;}
+    html,body{height:100%;overflow-x:scroll;}
     body{line-height:1.6;font-size:14px;font-family:-apple-system-font, "Helvetica Neue", sans-serif;;color:#444;background-color:#fbf9fe;}
     .clearfix:after{display:block;visibility:hidden;clear:both;height:0;content:'.';}
     .clearfix{*zoom:1;}
@@ -57,9 +71,12 @@
 </head>
 
 <body>
-<div class="container"></div>
+<div class="container">
+    <p class="fs16 text_center">请在手机上打开</p>
+</div>
 
 <script type="text/html" id="tpl_share">
+
 <header class="success">
     <p class="text_center middle"><i class="icon_m"></i>保单金额(元)</p>
     <p class="text_center fs24">￥{{premiumAmount}}</p>
@@ -155,45 +172,109 @@
 </script>
 
 <script type="text/javascript">
+/* global $, template, wx */
 $(function () {
-    var url = location.href;
-    var response = $.parseJSON(decodeURIComponent(url.split('&')[0].split('response=')[1]));
+  var url = window.location.href
+  var response = $.parseJSON(decodeURIComponent(url.split('&')[0].split('response=')[1]))
 
-    template.helper('dateFormat', function (date, format) {
-        date = date * 1000;
-        date = new Date(date); //新建日期对象
+  template.helper('dateFormat', function (date, format) {
+    date = date * 1000
+    date = new Date(date) // 新建日期对象
 
-        var map = {
-            "M": date.getMonth() + 1, //月份
-            "d": date.getDate(), //日
-            "h": date.getHours(), //小时
-            "m": date.getMinutes(), //分
-            "s": date.getSeconds(), //秒
-            "q": Math.floor((date.getMonth() + 3) / 3), //季度
-            "S": date.getMilliseconds() //毫秒
-        };
+    var map = {
+      'M': date.getMonth() + 1, // 月份
+      'd': date.getDate(), // 日
+      'h': date.getHours(), // 小时
+      'm': date.getMinutes(), // 分
+      's': date.getSeconds(), // 秒
+      'q': Math.floor((date.getMonth() + 3) / 3), // 季度
+      'S': date.getMilliseconds() // 毫秒
+    }
 
-        format = format.replace(/([yMdhmsqS])+/g, function(all, t){
-            var v = map[t];
-            if(v !== undefined){
-                if(all.length > 1){
-                    v = '0' + v;
-                    v = v.substr(v.length-2);
-                }
-                return v;
-            }
-            else if(t === 'y'){
-                return (date.getFullYear() + '').substr(4 - all.length);
-            }
-            return all;
-        });
-        return format;
-    });
+    format = format.replace(/([yMdhmsqS])+/g, function (all, t) {
+      var v = map[t]
+      if (v !== undefined) {
+        if (all.length > 1) {
+          v = '0' + v
+          v = v.substr(v.length - 2)
+        }
+        return v
+      } else if (t === 'y') {
+        return (date.getFullYear() + '').substr(4 - all.length)
+      }
+      return all
+    })
+    return format
+  })
 
-    var html = template('tpl_share',response);
-    $('.container').append(html);
-});
+  var html = template('tpl_share', response)
+  $('.container').html(html)
 
+  // 获取api签名
+  $.get('/services/common/v1/wx/jsapisign', {
+    url: window.location.href.split('#')[0]
+  }, function (rt) {
+    if (rt.code !== 200) {
+      window.alert(rt.error)
+      return
+    }
+
+    let jsapiSign = JSON.parse(rt.jsapiSign)
+    // config
+    wx.config({
+      debug: false, // 开启调试模式
+      appId: jsapiSign.appId, // 必填，公众号的唯一标识
+      timestamp: jsapiSign.timestamp, // 必填，生成签名的时间戳
+      nonceStr: jsapiSign.nonceStr, // 必填，生成签名的随机串
+      signature: jsapiSign.signature, // 必填，签名，见附录1
+      jsApiList: ['onMenuShareAppMessage', 'onMenuShareTimeline', 'hideAllNonBaseMenuItem', 'showAllNonBaseMenuItem', 'hideMenuItems', 'showMenuItems'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    })
+
+    wx.error(function (res) {
+      window.alert(res)
+    })
+
+    configWeichatShare()
+  })
+
+  function configWeichatShare () {
+    wx.ready(function () {
+      wx.hideAllNonBaseMenuItem()
+
+      wx.showMenuItems({
+        // 要显示的菜单项，所有menu项见附录3
+        menuList: ['menuItem:share:appMessage', 'menuItem:share:timeline']
+      })
+
+      wx.onMenuShareAppMessage({
+        title: '车险报价详情',
+        desc: '尊敬的车主您好，报价单价格仅供参考，最终价格以核保为准。为爱车购险，安心出行！',
+        link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+        imgUrl: 'http://' + window.location.host + '/html/images/hardcoding/icon.png',
+        type: '', // 分享类型,music、video或link，不填默认为link
+        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+        success: function () {
+          // 用户确认分享后执行的回调函数
+        },
+        cancel: function () {
+          // 用户取消分享后执行的回调函数
+        }
+      })
+
+      wx.onMenuShareTimeline({
+        title: '车险报价详情',
+        link: window.location.href, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+        imgUrl: 'http://' + window.location.host + '/html/images/hardcoding/icon.png',
+        success: function () {
+          // 用户确认分享后执行的回调函数
+        },
+        cancel: function () {
+          // 用户取消分享后执行的回调函数
+        }
+      })
+    })
+  }
+})
 </script>
 </body>
 </html>

@@ -496,7 +496,7 @@
                 </div>
                 <div v-if='chooseIndex' class="plain-detail-div">
                     <div class="plain-detail-title">
-                        <p>保险涵盖医院：中国大陆地区二级或二级以上公立医院普通医疗部（不含特需及外宾病房</p>
+                        <p>保险涵盖医院：中国大陆地区二级或二级以上公立医院普通医疗部（不含特需及外宾病房）</p>
                         <h3>计划1</h3>
                     </div>
                     <div class="product-table plain-detail-table">
@@ -700,14 +700,14 @@ export default {
         {
           title: '门诊肾透析费',
           content: [
-            '100,000元/'
+            '100,000元/年'
           ],
           showBgColor: false
         },
         {
           title: '门诊癌症放化疗费',
           content: [
-            '100,000元/'
+            '100,000元/年'
           ],
           showBgColor: false
         },
@@ -720,9 +720,6 @@ export default {
         }
       ]
     }
-  },
-  mounted () {
-
   },
   methods: {
     healthInsuranceChange (oldValue, newValue) {
@@ -818,13 +815,17 @@ export default {
       }
     },
     insuredClick () {
-      var liAnFlowData = {
-        'produceId': this.$route.query.produceId,
-        'vendorId': this.$route.query.vendorId,
-        'socialInsuFlag': this.customer.haveHealthInsurance
+      if (this.$route.query.fromWhere && this.$route.query.token && this.$route.query.userId) {
+        this.$router.push({path: '/product/lian/notice',
+          query: {
+            fromWhere: this.$route.query.fromWhere,
+            token: this.$route.query.token,
+            userId: this.$route.query.userId
+          }
+        })
+      } else {
+        this.$router.push({path: '/product/lian/notice'})
       }
-      this.storage.set('liAnFlowData', liAnFlowData)
-      this.$router.push({path: '/product/lian/notice'})
     }
   }
 }

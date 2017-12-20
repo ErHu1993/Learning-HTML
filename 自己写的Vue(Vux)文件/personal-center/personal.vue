@@ -188,9 +188,10 @@
                     <a class="a-tel" href="tel:0551-62809739">0551-62809739</a>
                 </div>
             </cell>
+            <actionsheet v-model="showInsurancePrice" :menus="insurancePriceMenus" @on-click-menu="insurancePriceClick" show-cancel></actionsheet>
+            <actionsheet v-model="showOutCallProduct" :menus="outCallProductMenus" @on-click-menu="outCallProductClick" show-cancel></actionsheet>
+            <actionsheet v-model="showRevisitProduct" :menus="revisitProductMenus" @on-click-menu="revisitProductClick" show-cancel></actionsheet>
         </group>
-        <actionsheet v-model="showInsurancePrice" :menus="insurancePriceMenus" @on-click-menu="insurancePriceClick" show-cancel></actionsheet>
-
     </div>
 </template>
 
@@ -212,9 +213,19 @@
         return {
           showQR: false,
           showInsurancePrice: false,
+          showOutCallProduct: false,
+          showRevisitProduct: false,
           insurancePriceMenus: {
             menu1: '车险报价',
             menu2: '报价记录'
+          },
+          outCallProductMenus: {
+            menu1: '保骉车险',
+            menu2: '利安畅想人生'
+          },
+          revisitProductMenus: {
+            menu1: '保骉车险',
+            menu2: '利安畅想人生'
           },
           qrUrl: '',
           cellsData: [
@@ -284,6 +295,10 @@
                   title: '保险电销',
                   icon: require('../../assets/personal-call.png')
                 })
+                _this.cellsData.push({
+                  title: '电话回访',
+                  icon: require('../../assets/personal-revisit.png')
+                })
               }
               _this.qrUrl = _this.host_bdd + '/agent/v1/qr?tenantId=' + _this.tenantAccount.id + '&width=300&height=300'
             }
@@ -328,7 +343,9 @@
           } else if (item.title === '我的订单') {
             this.$router.push('/order')
           } else if (item.title === '保险电销') {
-            this.$router.push({path: '/out-call'})
+            this.showOutCallProduct = true
+          } else if (item.title === '电话回访') {
+            this.showRevisitProduct = true
           }
         },
         insurancePriceClick: function (index) {
@@ -336,6 +353,24 @@
             this.$router.push({path: '/car-insurance/product-list'})
           } else if (index === 'menu2') {
             this.$router.push('/history')
+          } else {
+            // 取消
+          }
+        },
+        outCallProductClick (index) {
+          if (index === 'menu1') {
+            window.location.href = window.location.origin + '/r/_DX_BBCX'
+          } else if (index === 'menu2') {
+            window.location.href = window.location.origin + '/r/_DX_LACXRS'
+          } else {
+            // 取消
+          }
+        },
+        revisitProductClick (index) {
+          if (index === 'menu1') {
+            window.location.href = window.location.origin + '/r/_HF_BBCX'
+          } else if (index === 'menu2') {
+            window.location.href = window.location.origin + '/r/_HF_LACXRS'
           } else {
             // 取消
           }
