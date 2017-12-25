@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>安心E家医疗保障计划</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="../lib/weui-1.1.2/weui.min.css">
+    <link rel="stylesheet" href="./css/anxin-comprehensiv.css">
+    <style type="text/css">
+    .weui-switch-cp__input:checked~.weui-switch-cp__box, .weui-switch:checked {
+      border-color: #e56969;
+      background-color: #e56969;
+    }
+    .weui-btn_primary {
+      background-color: #e56969;
+    }
+    </style>
+</head>
+<body>
+
+  <div class="top">
+    <div class="content">
+      <img class="photo" src="./images/ehome-header.png">
+      <div class="section-gray-header"></div>
+      <div class="weui-cells" style="margin-top:0px">
+         <div class="weui-cell">
+             <div class="weui-cell__bd">有无社会基本医疗险</div>
+             <div class="weui-cell__ft">
+                 <label for="switchCP" class="weui-switch-cp">
+                     <input id="switchCP" class="weui-switch-cp__input" type="checkbox" checked="checked"/>
+                     <div class="weui-switch-cp__box"></div>
+                 </label>
+             </div>
+         </div>
+         <a class="weui-cell weui-cell_access" id="showChooseAgePicker" href="javascript:;">
+             <div class="weui-cell__bd">
+                 <p>请选择您的年龄段</p>
+             </div>
+             <div class="weui-cell__ft" id='choose-age'>请选择</div>
+         </a>
+         <div class="weui-cell" id="showChooseAgePicker" href="javascript:;">
+             <div class="weui-cell__bd">
+                 <a>保费金额：</a>
+                 <a id='calculatePremiums' style="color:red;"></a>
+             </div>
+             <div class="weui-cell__ft">
+                <a class="weui-btn weui-btn_mini weui-btn_primary">计算保费</a>
+             </div>
+         </div>
+      </div>
+      <img class="photo" src="./images/ehome-tab-top.png">
+      <div class="section-gray-header"></div>
+      <div class="weui-tab" style="height: 100%;">
+        <div class="weui-navbar">
+            <div class="weui-navbar__item weui-bar__item_on">
+                产品亮点
+            </div>
+            <div class="weui-navbar__item">
+                保障计划详情
+            </div>
+            <div class="weui-navbar__item">
+                理赔资料
+            </div>
+        </div>
+        <div class="weui-tab__panel">
+          <div class="weui-tab__content__1">
+            <!-- 产品亮点 -->
+            <img class="photo" src="./images/ehome-tab1-image1.png">
+            <img class="photo" src="./images/ehome-tab1-image2.png">
+            <p class='title'>常见问题</p>
+            <div class="product-question" id='questions'>
+            </div>
+          </div>
+          <div class="weui-tab__content__2 hidden">
+            <!-- 保障计划详情 -->
+            <table class="ehome-color" cellpadding="0" cellspacing="0">
+              <thead>
+                <tr>
+                  <th>保障内容</th>
+                  <th>保障额度</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>家庭累计年度保额</td>
+                  <td>500万元</td>
+                </tr>
+                <tr>
+                  <td>住院医疗保险金家庭累计年保额</td>
+                  <td>500万元</td>
+                </tr>
+                <tr>
+                  <td>住院前后门急诊医疗保险金家庭累计保额</td>
+                  <td>500万元</td>
+                </tr>
+                <tr>
+                  <td>特殊门诊医疗保险金家庭累计年保额</td>
+                  <td>500万元</td>
+                </tr>
+                <tr>
+                  <td>家庭累计免赔额</td>
+                  <td>2万元</td>
+                </tr>
+                <tr>
+                  <td>赔付比例</td>
+                  <td>100%</td>
+                </tr>
+                <tr>
+                  <td>健康管理服务</td>
+                  <td>在线咨询、在线体重数据解读，在线体检数据解读、健康问卷等</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="weui-tab__content__3 hidden">
+            <!-- 理赔材料 -->
+            <p class='title'>安心e家医疗保障计划理赔资料</p>
+            <p class="notice-content">① 被保人有效身份证明（正、反面）；被保人家庭成员关系证明。  </p>
+            <p class="notice-content">② 保险人指定或认可的医院出具的病历资料，包含但不限于门诊病历记录、出入院记录、手术记录、必要的病理检查或其他科学检查检验报告； </p>
+            <p class="notice-content">③ 医疗费用原始凭证、医疗费用结算清单、手术费用清单（若发生手术时需提供）； </p>
+            <p class="notice-content">④ 所能提供的与确认保险事故的性质、原因等有关的其他证明和资料；</p>
+            <p class="notice-content">⑤ 被保险人的银行账户信息。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-nav">
+      <div class="bottom-left">
+          <span id='bottomContent'></span><i></i>
+      </div>
+      <div class="bottom-right" id='nextstep'>
+          <span>立即投保</span><i></i>
+      </div>
+  </div>
+
+    <script src="./util.js"></script>
+    <script src="../js/zepto.min.js"></script>
+    <script src="../lib/weui-1.1.2/weui.min.js"></script>
+    <script type="text/javascript">
+    /* global $, weui, getParams  */
+    $(document).ready(function () {
+      var currentAgePremiums = null
+
+      var payUrl = window.localStorage.getItem('anxinEhomePayUrl')
+      if (payUrl && (typeof (payUrl) === 'string')) window.localStorage.removeItem('anxinEhomePayUrl')
+
+      $('#nextstep').on('click', function () {
+        var params = getParams()
+        if (params.fromWhere && params.token && params.userId) {
+          window.location.href = window.location.href.split('anxin-ehome')[0] + 'notice-ehome.html' + window.location.search
+        } else {
+          window.location.href = window.location.href.split('anxin-ehome')[0] + 'notice-ehome.html'
+        }
+      })
+
+      $('#switchCP').on('click', function () {
+        if (currentAgePremiums) {
+          $('#choose-age').text(currentAgePremiums.label)
+          if ($('#switchCP').is(':checked')) {
+            $('#calculatePremiums').text('¥ ' + currentAgePremiums.haveSi)
+            $('#bottomContent').text('¥ ' + currentAgePremiums.haveSi)
+          } else {
+            $('#calculatePremiums').text('¥ ' + currentAgePremiums.noSi)
+            $('#bottomContent').text('¥ ' + currentAgePremiums.noSi)
+          }
+        }
+      })
+
+      $('.weui-navbar__item').on('click', function () {
+        $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on')
+        if ($(this).text().trim() === '产品亮点') {
+          $('.weui-tab__content__2').addClass('hidden')
+          $('.weui-tab__content__1').removeClass('hidden')
+          $('.weui-tab__content__3').addClass('hidden')
+        } else if ($(this).text().trim() === '保障计划详情') {
+          $('.weui-tab__content__1').addClass('hidden')
+          $('.weui-tab__content__2').removeClass('hidden')
+          $('.weui-tab__content__3').addClass('hidden')
+        } else {
+          $('.weui-tab__content__3').removeClass('hidden')
+          $('.weui-tab__content__2').addClass('hidden')
+          $('.weui-tab__content__1').addClass('hidden')
+        }
+      })
+
+      $('#showChooseAgePicker').on('click', function () {
+        var agePickerArray = []
+        var noSi = ['1664', '784', '460', '567', '721', '907', '1081', '1282', '1604', '2118', '2847', '4368', '5556', '7064']
+        var haveSi = ['691', '346', '207', '254', '319', '401', '473', '558', '699', '917', '1226', '1880', '2384', '3026']
+        for (var i = 2; i < 16; i++) {
+          var label = ''
+          if (i === 2) {
+            label = '0-6岁'
+          } else if (i === 3) {
+            label = '7-20岁'
+          } else {
+            label = (i * 5 + 1) + '-' + ((i + 1) * 5) + '岁'
+          }
+          agePickerArray.push({
+            label: label,
+            value: i - 2,
+            noSi: noSi[i - 2],
+            haveSi: haveSi[i - 2]
+          })
+        }
+        weui.picker(agePickerArray, {
+          onConfirm: function (result) {
+            currentAgePremiums = result[0]
+            $('#choose-age').text(result[0].label)
+            if ($('#switchCP').is(':checked')) {
+              $('#calculatePremiums').text('¥ ' + result[0].haveSi)
+              $('#bottomContent').text('¥ ' + result[0].haveSi)
+            } else {
+              $('#calculatePremiums').text('¥ ' + result[0].noSi)
+              $('#bottomContent').text('¥ ' + result[0].noSi)
+            }
+          }
+        })
+      })
+
+      getProductQuestionAnswer()
+
+      function getProductQuestionAnswer () {
+        var questionAnswerString = 'Q安心e家医疗保障计划的保额是怎样的？A一个家庭计划一年内各被保险人可共享的保额总计为500万，分住院医疗保险金、住院前后门急诊医疗保险金和特殊门诊医疗保险金三部分。Q安心e家医疗保障计划每个保单投保家庭的累计年度免赔额是怎么样的？A一个家庭计划的年度免赔额合计为2万元。Q能只为自己买或为配偶买吗？A不能。该保险产品是面向家庭推出的医疗保障计划，被保险人必须为2人以上。Q本款家庭计划对投保人和被保人的年龄要求是怎样的？A投保年龄以周岁计算。a.投保人年龄要求：只要投保人年龄在18周岁至64周岁（含）都可投保。b.被保人年龄要求：只要被保人年龄在出生满28天至64周岁（含）都可参保。Q本款家庭计划对投保人数和投保关系的要求是怎样的？A投保家庭计划时投保人必须同时为主被保人。a.投保人数：最少为3人，最多为4人。b.投保关系：被保人与投保人关系必须为“父母”、“配偶”或“子女”。Q本款家庭计划有无投保份数要求？A每位被保人仅限投保1份。Q本款家庭计划有无投保地域限制？A限于中华人民共和国境内（不含港、澳、台）。Q如果我已经买了其他公司的同类产品，可以再次购买吗？A该产品在本公司限购1份。Q这个产品能自动续保吗？如何续保，费用会变化吗？续保保费会是多少？A根据条款中约定，保险期间届满前30日内，投保人可向保险人申请续保。经保险人审核同意并按续保时对应的费率收取保险费后本产品将持续有效。Q是不是买了这个产品后其他产品都不需要买了？A需要结合您自身风险需求来决定。通常一个完整的保险组合除了医疗产品，一般还包括意外险、重大疾病保险等。如有兴趣，请浏览“安心商城”的其它产品。Q挂号费是否属于理赔范围？A您发生的挂号费如果满足以下任一情形，即属于理赔范围：a.与本产品约定的特殊门诊医疗（在医院进行门诊肾透析、门诊恶性肿瘤电疗、化疗或放疗）相关。b.与本产品约定住院前后门急诊医疗保险金相关：与住院原因相同，而且发生时间是在相关住院前七日内（含住院当日）和出院后三十日内（含出院当日）。Q住院前后门急诊医疗费这个判断的标准是什么？什么样的门急诊才算住院前后门急诊？A住院前后门急诊医疗费发生的原因必须与住院原因相同，而且发生的时间须在该次住院前七日内（含住院当日）以及出院后三十日内（含出院当日）。Q这个产品保不保门诊？A本产品承担“住院前后门/急诊”以及“特殊门诊”责任。不承担除此以外的门诊责任。Q如果我是以有社保身份购买，但是实际就医我并没有使用社保，如何理赔？A若被保险人以社保身份购买，但是实际就医并没有使用社保结算，保险公司将在各项保障责任的限额、免赔额及给付比例范围内计算合理理赔金，再乘以60%给付保险金。Q普通门急诊可以报销吗？A您发生的普通门急诊费用如果满足以下任一情形，即属于报销范围：1）与本产品约定的特殊门诊医疗保险金（在医院进行门诊肾透析、门诊恶性肿瘤电疗、化疗或放疗）相关。2）与本产品约定住院前后门急诊医疗保险金相关：与住院原因相同，而且发生时间是在相关住院前七日内（含住院当日）和出院后三十日内（含出院当日）。Q家庭版的免赔额是多人累加的吗？A安心e家医疗保障计划的免赔额为家庭累计年免赔额，家庭累计年免赔额是指保险人根据保险的条件作出赔付之前，投保的所有家庭成员须自行承担的、保险合同约定的累计医疗费用额度。Q安心e家成员中，能给继母或者收养的子女购买吗？A《保险法》第十二条：人身保险的投保人在保险合同订立时，对被保险人应当具有保险利益。保险利益是指投保人或者被保险人对保险标的具有的法律上承认的利益。《保险法》第三十一条：投保人对下列人员具有保险利益：（一）本人；（二）配偶、子女、父母；（三）前项以外与投保人有抚养、赡养或者扶养关系的家庭其他成员、近亲属；（四）与投保人有劳动关系的劳动者。因此，投保人与符合我国法定要求的继母和养子女之间存在保险利益，可以为继母或收养的子女购买保险。收养需要具备合法有效的收养证明。'
+        var questionAnswerArray = []
+        var resultArray = questionAnswerString.split('Q')
+        for (var i = 0; i < resultArray.length; i++) {
+          var results = resultArray[i].split('A')
+          if (results.length === 2) {
+            var question = results[0]
+            var answer = results[1]
+            questionAnswerArray.push({
+              question: question,
+              answer: answer
+            })
+          }
+        }
+
+        for (var j = 0; j < questionAnswerArray.length; j++) {
+          var questionDiv = document.createElement('div')
+          questionDiv.className = 'product-question-title'
+          var questionImage = document.createElement('img')
+          questionImage.src = './images/question.png'
+          var questionContent = document.createElement('h2')
+          questionContent.innerHTML = questionAnswerArray[j].question
+          questionDiv.appendChild(questionImage)
+          questionDiv.appendChild(questionContent)
+          document.getElementById('questions').appendChild(questionDiv)
+          var answerDiv = document.createElement('div')
+          answerDiv.className = 'product-question-content'
+          var answerImage = document.createElement('img')
+          answerImage.src = './images/answer.png'
+          answerImage.className = 'product-answer-image'
+          var answerContent = document.createElement('span')
+          answerContent.innerHTML = questionAnswerArray[j].answer
+          answerDiv.appendChild(answerImage)
+          answerDiv.appendChild(answerContent)
+          document.getElementById('questions').appendChild(answerDiv)
+        }
+      }
+    })
+    </script>
+</body>
+</html>
