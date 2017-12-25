@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>光大保险代理出单神器，易销售高推广费</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="keywords" content="光大保险代理出单神器，易销售高推广费" />
+    <meta name="description" content="成为光大保险代理人，人人都可以创建自己的团队，轻松推广收入过万！" />
+    <script src="./js/zepto.min.js"></script>
+    <style type="text/css">
+        body{
+            margin: 0px;
+            text-align: center;
+        }
+
+        img{
+            width: 100%;
+            height: auto;
+            display: none;
+        }
+
+        p{
+            color: #666666;
+            margin: 20px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <img class="img" src="./images/invite-introduce-qr.png" width="100%">
+    <p class="content"></p>
+
+    <script type="text/javascript">
+    /* global $ */
+    $(document).ready(function () {
+      if (isWeiXin()) {
+        window.location.href = 'http://gd.witgo.cn/r/-share'
+      } else {
+        $('.img').css({
+          display: 'inline-block'
+        })
+        var name = window.location.href.split('?name=')[1]
+        if (name.split('&from=').length > 1) {
+          name = name.split('&from=')[0]
+        }
+        $('.content').text('您已将' + decodeURIComponent(name) + '登记为自己的介绍人。使用微信扫一扫二维码，按步骤成为光大保险代理，高额佣金拿不停。若已成为光大保险代理人，可忽略此页面')
+      }
+
+      function isWeiXin () {
+        var ua = window.navigator.userAgent.toLowerCase()
+        if (ua.match(/MicroMessenger/i) === 'micromessenger') {
+          return true
+        }
+        return false
+      }
+    })
+    </script>
+</body>
+</html>
