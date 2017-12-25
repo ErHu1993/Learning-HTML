@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="./css/anxin-comprehensiv.css">
+</head>
+<body>
+  <div class="main">
+    <img class="banner-photo" id='comprehensiv' src="./images/banner-comprehensiv.jpg">
+    <img class="banner-photo" id='ehome' src="./images/banner-ehome.jpg">
+    <img class="banner-photo" id='hospital' src="./images/banner-ehospital.jpg">
+    <img class="banner-photo" id='elife' src="./images/banner-elife.jpg">
+    <img class="banner-photo" id='lianlife' src="./images/banner-lianlife.jpg">
+  </div>
+
+    <script src="./util.js"></script>
+    <script src="../js/zepto.min.js"></script>
+    <script type="text/javascript">
+    /* global $, getParams  */
+    $(document).ready(function () {
+      $('#comprehensiv').on('click', function () {
+        var params = getParams()
+        if (params.fromWhere && params.token && params.userId) {
+          window.location.href = window.location.href.split('anxin-product-list')[0] + 'anxin-comprehensiv.html' + window.location.search
+        } else {
+          window.location.href = window.location.href.split('anxin-product-list')[0] + 'anxin-comprehensiv.html'
+        }
+      })
+
+      $('#ehome').on('click', function () {
+        var params = getParams()
+        if (params.fromWhere && params.token && params.userId) {
+          window.location.href = window.location.href.split('anxin-product-list')[0] + 'anxin-ehome.html' + window.location.search
+        } else {
+          window.location.href = window.location.href.split('anxin-product-list')[0] + 'anxin-ehome.html'
+        }
+      })
+
+      $('#hospital').on('click', function () {
+        var params = getParams()
+        if (params.fromWhere && params.token && params.userId) {
+          window.location.href = window.location.href.split('anxin-product-list')[0] + 'anxin-hospital.html' + window.location.search
+        } else {
+          window.location.href = window.location.href.split('anxin-product-list')[0] + 'anxin-hospital.html'
+        }
+      })
+
+      $('#elife').on('click', function () {
+        var params = getParams()
+        if (params.fromWhere && params.token && params.userId) {
+          window.location.href = window.location.href.split('anxin-product-list')[0] + 'anxin-elife.html' + window.location.search
+        } else {
+          window.location.href = window.location.href.split('anxin-product-list')[0] + 'anxin-elife.html'
+        }
+      })
+      $('#lianlife').on('click', function () {
+        var params = getParams()
+        if (params.fromWhere && params.token && params.userId) {
+          window.location.href = window.location.origin + '/wx/#/product/lian/display' + window.location.search
+        } else {
+          window.location.href = window.location.origin + '/wx/#/product/lian/display'
+        }
+      })
+    })
+
+    </script>
+</body>
+</html>
