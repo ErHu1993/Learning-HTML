@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>安心综合医疗保险健康告知</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="../lib/weui-1.1.2/weui.min.css">
+    <link rel="stylesheet" href="./css/anxin-comprehensiv.css">
+</head>
+<body>
+
+  <div class="top">
+    <div class="notice-content">
+      <h3 class="title">健康告知：被保险人是否符合以下任意一项描述?</h3>
+      <div>
+        <ol>
+          <li><p>被保险人过去是否被保险公司解除合同或在投保、复效时被延期、拒保、附加条件承保？或曾 经申请过重大疾病的理赔？  </p>
+          </li>
+          <li><p>被保险人是否一年内去医院进行过门诊的检查、服药、手术或其他治疗但不包括普通感冒、流 感或敏感症；或曾考虑短期内寻求诊疗、检查、测试、住院治疗或外科手术。过去三年内是否曾有医学检查（包括健康体检）结果异常。过去五年是否曾住院治疗检查或治疗（包括入住疗养院、康复医院等医疗机构）。  </p>
+          </li>
+          <li><p>被保险人是否目前或过去患有下列疾病、症候？脑、神经系统及精神方面疾病，心血管疾病，呼吸系统疾病，消化系统疾病，泌尿系统疾病，骨骼、肌肉、结缔组织的疾病，内分泌、血液系统疾病，五官科疾病，静脉曲张、血管瘤等疾病，以上未提及的肿瘤和癌症，原因不明的发热、消瘦（体重一年内下降超过 5 公斤）、肥胖等，有无职业病、酒精中毒、其他药品中毒。  </p>
+          </li>
+          <li><p>被保险人是否有智能障碍？是否有五官、脊柱、胸廓、四肢、手指、足趾缺损、畸形或功能障碍？  </p>
+          </li>
+          <li><p>若被保险人为年满 18 周岁女性： 被保险人目前是否怀孕？被保险人目前或既往怀孕及生产期间是否有合并症？例如：蛋白尿、血尿、高血压、糖尿病等。被保险人是否曾有阴道不规则流血、乳房肿块、溢乳、腋下淋巴结肿大、乳腺增生或纤维瘤、其他乳腺疾病？被保险人是否曾有子宫肌瘤、内膜异位症、子宫颈 上皮不典型增生、卵巢囊肿、畸胎瘤等？  </p>
+          </li>
+          <li><p>若被保险人年龄在 14 周岁以下：   </p>
+          <p>1). 被保险人出生时是否体重低于 2.5 公斤，是否有早产、难产、窒息和抢救史？  </p>
+          <p>2). 被保险人是否存在先天性或遗传性疾病或畸形?是否有生长发育异常？是否有心脏、血管、神经、 运动或智力方面异常？是否因病住院治疗或手术？   </p>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-nav">
+      <div class="bottom-left" id='not-through'>
+          <span>部分为是</span><i></i>
+      </div>
+      <div class="bottom-right" id='through'>
+          <span>以上全否</span><i></i>
+      </div>
+  </div>
+  <div id="toast" style="opacity: 0; display: none;">
+      <div class="weui-mask_transparent"></div>
+      <div class="weui-toast">
+          <i class="weui-icon-warn weui-icon_toast"></i>
+          <p class="weui-toast__content"></p>
+      </div>
+  </div>
+    <script src="../lib/weui-1.1.2/weui.min.js"></script>
+    <script src="../js/zepto.min.js"></script>
+    <script src="./util.js"></script>
+    <script type="text/javascript">
+    /* global $, getParams */
+    $(document).ready(function () {
+      var u = navigator.userAgent
+      var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
+      if (isiOS) {
+        window.addEventListener('pageshow', function (e) {
+          if (e.persisted) {
+            window.location.reload()
+          }
+        })
+      }
+
+      window.localStorage.removeItem('anxinComprehensivFlowData')
+      $('#not-through').on('click', function () {
+        reviewFaile('被保险人未能通过健康测试，暂无法购买此产品')
+      })
+
+      function reviewFaile (content) {
+        var $toast = $('#toast')
+        if ($toast.css('display') !== 'none') return
+        $('.weui-toast__content').text(content)
+        $toast.fadeIn(100)
+        setTimeout(function () {
+          $toast.fadeOut(100)
+        }, 2000)
+      }
+
+      $('#through').on('click', function () {
+        var params = getParams()
+        if (params.fromWhere && params.token && params.userId) {
+          window.location.href = window.location.origin + '/r/-AXZHYL' + window.location.search
+        } else {
+          window.location.href = window.location.origin + '/r/-AXZHYL'
+        }
+      })
+
+      var payUrl = window.localStorage.getItem('anxinComprehensivPayUrl')
+      if (payUrl && (typeof (payUrl) === 'string')) {
+        window.localStorage.removeItem('anxinComprehensivPayUrl')
+        window.location.href = payUrl.substr(1, payUrl.length - 2)
+      }
+    })
+    </script>
+</body>
+</html>
