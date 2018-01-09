@@ -66,7 +66,7 @@
     <section class="container">
         <scroller  class="list" lock-x scrollbar-y :style="{height: listHeight + 'px'}"  @on-pulldown-loading="onPulldown" ref="scrollerBottom" use-pulldown :pulldown-config="{content:'下拉刷新',downContent:'下拉刷新',upContent:'释放刷新',loadingContent:'加载中'}"  v-model="status">
             <div class="box2">
-                <div v-if="outCallData.length > 0">
+                <div v-if="!noData">
                     <div class="out-call-cell" v-for="(item ,index) in outCallData">
                         <div class="item">
                             <label class="label-left">车主：</label>
@@ -80,6 +80,8 @@
                             <br>
                             <label class="label-left">商业险：</label>
                             <label class="label-left-content">{{item.jobDetail.ctliPremiumAmount | filterAmount}}</label>
+                            <label class="label-right">发证日期：</label>
+                            <label class="label-right-content">{{item.jobDetail.issueDate | filterPlan}}</label>
                             <div class="more">
                               <label class="more-left">投保方案：</label>
                               <label class="more-content">{{item.jobDetail.ctliProfileDesc | filterPlan}}</label>
@@ -92,7 +94,7 @@
                               <x-button
                               type='primary'
                               mini
-                              @click.native='handleResultClick(item)'
+                              @click.native='handleResultClick(index)'
                               v-show='item.secretNo'>选择处理结果</x-button>
                               <x-button type='primary' mini @click.native='outCallHandle(item,index)'>外呼</x-button>
                               <x-button type='primary' mini @click.native='takePrice(item)'>报价</x-button>
@@ -100,7 +102,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="no_data_pd" v-if="noData">
+                <div class="no_data_pd" v-else>
                     <div class="no_data">
                         <i></i>
                         <p>暂时还没有任务, 请稍后再来~</p>
@@ -108,39 +110,44 @@
                 </div>
             </div>
         </scroller>
-        <actionsheet v-model="showHandleResult" :menus="handleResultTitle" @on-click-menu="handelResultClick"></actionsheet>
+        <callresultsheet
+          :category='category'
+          :produceId='produceId'
+          :vendorId='vendorId'
+          :showHandleResult='showHandleResult'
+          v-on:showHandleResultChange='showHandleResultChange'
+          v-on:completeHandle='completeHandle'
+          :dataItem='dataItem'>
+        </callresultsheet>
     </section>
 </template>
 
 <script>
 import $ from 'zepto'
+import callresultsheet from '@/views/out-call/call-result-handel.vue'
 import { formatDate } from '@/libs/format.js'
 import { Scroller, XButton, Actionsheet } from 'vux'
 export default {
   data () {
     return {
+      category: 0,  // 0:保骉车险外呼 1:保骉车险回访 2:畅想人生外呼 3:畅想人生回访
+      produceId: '',
+      vendorId: '',
       onFetching: false,
       showHandleResult: false,
       handelResultData: [],
       handleResultTitle: [],
-      handldId: '',
+      dataItem: Object,
       listHeight: 0,
       status: {
         pullupStatus: 'default'
       },
       outCallData: [],
-      pageNumber: 0,
-      pageCount: 1,
-      pageSize: 20,
-      dealType: 'recharge',
       noData: false
     }
   },
   components: {
-    Scroller, XButton, Actionsheet
-  },
-  computed: {
-
+    Scroller, XButton, Actionsheet, callresultsheet
   },
   filters: {
         // 时间格式化
@@ -159,12 +166,9 @@ export default {
   },
   created () {
     this.listHeight = $(window).height()
-    this.getHandelResultData()
-  },
-  mounted () {
-    this.$nextTick(() => {
-      this.getOutCallList()
-    })
+    this.produceId = this.$route.query.produceId
+    this.vendorId = this.$route.query.vendorId
+    this.getOutCallList()
   },
   updated () {
     this.$nextTick(() => {
@@ -186,14 +190,15 @@ export default {
     // 获取收支数据
     getOutCallList () {
       this.initData()
-      this.$http.get(this.host_bdd + '/ElectricitySales/v1/job/list')
+      this.$http.get(this.host_bdd + '/electricitySales/v1/job/list?produceId=' +
+      this.produceId + '&vendorId=' + this.vendorId)
       .then((rt) => {
         if (rt.data.code !== 200) {
           this.$vux.toast.text(rt.data.error, 'top')
           return
         }
         this.outCallData = rt.data.jobs
-        this.noData = this.outCallData.length === 0
+        this.noData = !this.outCallData || this.outCallData.length === 0
       })
     },
     // 下拉刷新
@@ -206,44 +211,6 @@ export default {
       this.onFetching = true
       $('.weui-loadmore__tips').text('loading').prev().show()
     },
-    getHandelResultData () {
-      var _this = this
-      this.$http.get(this.host_bdd + '/common/v1/code/electricitySales/result')
-      .then((rt) => {
-        if (rt.data.code !== 200) {
-          _this.$vux.toast.text(rt.data.error, 'top')
-          return
-        }
-        _this.handelResultData = rt.data.electricitySalesResults
-        if (_this.handelResultData) {
-          for (var i = 0; i < _this.handelResultData.length; i++) {
-            var item = _this.handelResultData[i]
-            _this.handleResultTitle.push({
-              label: item.result,
-              code: item.code,
-              sales: item.sales
-            })
-          }
-        }
-      })
-    },
-    handelResultClick (key, item) {
-      var _this = this
-      this.$vux.loading.show({
-        text: '正在上传请求'
-      })
-      this.$post(_this.host_bdd + '/ElectricitySales/v1/job/determine', {
-        id: _this.handldId,
-        result: item.code
-      }, function (rt) {
-        _this.$vux.loading.hide()
-        if (rt.data.code !== 200) {
-          _this.$vux.toast.text(rt.data.error, 'top')
-          return
-        }
-        _this.getOutCallList()
-      })
-    },
     outCallHandle (item, index) {
       if (item.secretNo) {
         window.location.href = 'tel:' + item.secretNo
@@ -252,7 +219,7 @@ export default {
         this.$vux.loading.show({
           text: '正在请求'
         })
-        this.$post(_this.host_bdd + '/ElectricitySales/v1/job/secretNo', {
+        this.$post(_this.host_bdd + '/electricitySales/v1/job/secretNo', {
           id: item.id
         }, function (rt) {
           _this.$vux.loading.hide()
@@ -261,7 +228,7 @@ export default {
             return
           }
           item.secretNo = rt.data.secretNo
-          _this.outCallData.splice(index, 1, item)
+          _this.outCallData.splice(index, 1, item) // 假装更改数组数据 强制更新dom
           if (item.secretNo) {
             window.location.href = 'tel:' + item.secretNo
           } else {
@@ -274,14 +241,31 @@ export default {
       this.$router.push({
         path: '/out-call-price',
         query: {
-          ElectricitySalesJob: item,
+          produceId: this.$route.query.produceId,
+          vendorId: this.$route.query.vendorId,
+          ElectricitySalesJob: JSON.stringify(item),
           handleResultTitle: this.handleResultTitle
         }
       })
     },
-    handleResultClick (item) {
+    showHandleResultChange (value) {
+      this.showHandleResult = value
+    },
+    handleResultClick (index) {
       this.showHandleResult = true
-      this.handldId = item.id
+      this.dataItem = this.outCallData[index]
+    },
+    completeHandle (id, notRemove) {
+      if (notRemove) return
+      for (var i = 0; i < this.outCallData.length; i++) {
+        if (this.outCallData[i].id === id) {
+          this.outCallData.splice(i, 1)
+          if (!this.outCallData.length) {
+            this.getOutCallList()
+          }
+          return
+        }
+      }
     }
   }
 }

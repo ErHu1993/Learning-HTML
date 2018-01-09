@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+</head>
+<body>
+    <script src="../js/zepto.min.js"></script>
+    <script type="text/javascript">
+    /* global $  */
+    $(document).ready(function () {
+      var url = window.location.href.split('?param=')
+      if (url.length === 2) {
+        var param = JSON.parse(decodeURIComponent(url[1]))
+        standardPost(param.payUrl, [
+          {'key': 'attach', 'value': param.attach},
+          {'key': 'bgRetUrl', 'value': param.bgRetUrl},
+          {'key': 'checkValue', 'value': param.checkValue},
+          {'key': 'isTrueName', 'value': param.isTrueName},
+          {'key': 'payCancelURL', 'value': param.payCancelURL},
+          {'key': 'payFinishURL', 'value': param.payFinishURL},
+          {'key': 'payName', 'value': param.payName},
+          {'key': 'payType', 'value': param.payType},
+          {'key': 'requestCode', 'value': param.requestCode},
+          {'key': 'transAmt', 'value': param.transAmt},
+          {'key': 'transNo', 'value': param.transNo}
+        ])
+      }
+
+      function standardPost (url, args) {
+        var form = $("<form method='post'></form>")
+        var input
+        form.attr({'action': url})
+        $.each(args, function (key, value) {
+          input = $("<input type='hidden'>")
+          input.attr({'name': value.key})
+          input.val(value.value)
+          form.append(input)
+        })
+        form.appendTo(document.body)
+        form.submit()
+        document.body.removeChild(form[0])
+      }
+    })
+    </script>
+</body>
+</html>

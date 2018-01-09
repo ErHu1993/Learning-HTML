@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>安心e生·无忧</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="../lib/weui-1.1.2/weui.min.css">
+    <link rel="stylesheet" href="./css/anxin-comprehensiv.css">
+</head>
+<body>
+
+    <div class="elife-notice-top title">
+      <span class="title elife-notice-title">安心e生·无忧</span><i></i>
+    </div>
+    <div class="elife-notice-content">
+      <p class="talbe-title">请如实填写本次投保的家庭成员的下列问题</p>
+      <div class="notice-item">
+        <p>a) 被保险人目前的身高和体重</p>
+        <div style="margin: 10px 0px;">
+          <div style="width: 50%; display: inline-block;">
+            <input type="number" name="base-height" value="" pattern="[0-9]*" placeholder="请输入身高" style="width: 70%; text-align: center;">厘米
+          </div><!--
+       --><div style="width: 50%; display: inline-block;">
+            <input type="number" name="base-weight" value="" pattern="[0-9]*" placeholder="请输入体重" style="width: 70%; text-align: center;">公斤
+          </div>
+        </div>
+      </div>
+      <div class="notice-item">
+          <p style="height: auto; margin-bottom: 15px;">b) 被保险人是否目前吸烟或者曾经吸烟?</p>
+          <div class="con-box">
+            <div class="scheme-cover-gaozhi gaozhi-sf">
+              <label class="active notice-smock">
+                <input type="radio" name="cover-1" value="0">
+                <span>否</span>
+              </label>
+              <label class="notice-smock">
+                <input type="radio" name="cover-1" value="1">
+                <span>是</span>
+              </label>
+            </div>
+          </div>
+          <div class="questionnaire-smock hidden">
+            <table width="100%" class="notice-table" cellpadding="0" cellspacing="0">
+              <thead>
+                <tr width="100%">
+                  <th colspan="2" class='center'>请告知每日吸烟量（支）和吸烟年限（年）</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="line-height: 20px;">
+                  <td>每日吸烟量（支）</td>
+                  <td>
+                    <input type="number" name="smock-day" value="" placeholder="每日吸烟量" pattern="[0-9]*" class='center'>
+                  </td>
+                </tr>
+                <tr>
+                  <td>吸烟年限（年）</td>
+                  <td>
+                    <input type="number" name="smock-year" value="" placeholder="吸烟年限" pattern="[0-9]*" class='center'>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      </div>
+      <div class="notice-item" style="border-bottom: 2px solid rgb(202, 202, 202);">
+        <p style="height: auto; margin-bottom: 15px;">c) 被保险人是否目前饮酒或者曾经饮酒?</p>
+        <div class="con-box">
+          <div class="scheme-cover-gaozhi gaozhi-sf">
+            <label class="active notice-wine">
+              <input type="radio" name="cover-1" value="0">
+              <span>否</span>
+            </label><label class="notice-wine">
+              <input type="radio" name="cover-1" value="1">
+              <span>是</span>
+            </label>
+        </div>
+      </div>
+      <div class="questionnaire-wine wineInputWidth hidden">
+        <table width="100%" class="notice-table" cellpadding="0" cellspacing="0">
+          <thead>
+            <tr width="100%">
+              <th colspan="5" class='center'>请告知每周饮酒量（两(50g)）和饮酒年限（年）</th>
+            </tr>
+          </thead>
+            <tbody>
+              <tr>
+                <td>种类</td>
+                <td>啤酒</td>
+                <td>葡萄酒</td>
+                <td>黄酒</td>
+                <td>白酒</td>
+              </tr>
+              <tr style="line-height: 20px;">
+                <td>每周饮酒量（两）</td>
+                <td><input type="number" name="wine-weak-bear" value="0" pattern="[0-9]*" placeholder="0">
+                </td>
+                <td>
+                  <input type="number" name="wine-weak-rwine" value="0" pattern="[0-9]*" placeholder="0">
+                </td>
+                <td>
+                  <input type="number" name="wine-weak-ywine" value="0" pattern="[0-9]*" placeholder="0">
+                </td>
+                <td>
+                  <input type="number" name="wine-weak-wwine" value="0" pattern="[0-9]*" placeholder="0">
+                </td>
+              </tr>
+              <tr>
+                <td>饮酒年限（年）</td>
+                <td>
+                  <input type="number" name="wine-year-bear" value="0" pattern="[0-9]*" placeholder="0">
+                </td>
+                <td>
+                  <input type="number" name="wine-year-rwine" value="0" pattern="[0-9]*" placeholder="0">
+                </td>
+                <td>
+                  <input type="number" name="wine-year-ywine" value="0" pattern="[0-9]*" placeholder="0">
+                </td>
+                <td>
+                  <input type="number" name="wine-year-wwine" value="0" pattern="[0-9]*" placeholder="0">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="notice-item">
+        <p>d) 被保险人是否曾有药物滥用或服用毒品？</p>
+        <div class="con-box">
+          <div class="scheme-cover-gaozhi gaozhi-sf">
+            <label class="active notice-d">
+              <input type="radio" name="cover-1" value="0">
+              <span>否</span>
+            </label>
+            <label class="notice-d">
+              <input type="radio" name="cover-1" value="1">
+              <span>是</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="notice-item">
+        <p>e) 被保险人目前或过去进行过以下检查或治疗？
+        考虑短期内寻求诊疗、检测、测试、住院治疗或外科手术。一年内去医院进行过门诊的检查、服药、手术或其他治疗但不包括普通感冒、流感或敏感症。过去三年内曾有医学检查（包括健康体检）结果异常。过去五年曾住院治疗检查或治疗（包括入住疗养院、康复医院等医疗机构）。
+        </p>
+        <div class="con-box">
+          <div class="scheme-cover-gaozhi gaozhi-sf">
+            <label class="active notice-e">
+              <input type="radio" name="cover-1" value="0">
+              <span>否</span>
+            </label>
+            <label class="notice-e">
+              <input type="radio" name="cover-1" value="1">
+              <span>是</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="notice-item">
+        <p>f) 被保险人是否目前或过去患有下列疾病、症候？
+脑、神经系统及精神方面疾病(脑膜炎、脑性麻痹等)，心血管疾病，呼吸系统疾病(慢性肺炎、慢性支气管炎、气胸等)，消化系统疾病(慢性胆囊炎、慢性胃炎等)，泌尿系统疾病(尿道结石, 蛋白尿、血尿等)，骨骼、肌肉、结缔组织的疾病(骨盆腔发炎、肋膜炎、非意外性骨折、淋巴腺肿大、椎间盘突出、关节炎、良性肿瘤等)，内分泌、血液系统疾病(甲状腺肥大或发炎、甲状腺肿、肾上腺疾病等)，耳、鼻、喉科疾病(膜疾病，乳突炎、慢性中耳炎、梅尼尔氏症等)，等疾病，以上未提及的肿瘤和癌症，原因不明的发热、消瘦（体重一年内下降超过5公斤）、肥胖等，有无职业病、酒精中毒、其他药品中毒。
+        </p>
+        <div class="con-box">
+          <div class="scheme-cover-gaozhi gaozhi-sf">
+            <label class="active notice-f">
+              <input type="radio" name="cover-1" value="0">
+              <span>否</span>
+            </label>
+            <label class="notice-f">
+              <input type="radio" name="cover-1" value="1">
+              <span>是</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="notice-item">
+        <p>g) 身体残障：被保险人是否有智能障碍？是否有五官、脊柱、胸廓、四肢、手指、足趾缺损、畸形或功能障碍？</p>
+        <div class="con-box">
+          <div class="scheme-cover-gaozhi gaozhi-sf">
+            <label class="active notice-g">
+              <input type="radio" name="cover-1" value="0">
+              <span>否</span>
+            </label>
+            <label class="notice-g">
+              <input type="radio" name="cover-1" value="1">
+              <span>是</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="notice-item">
+        <p>h) 女性告知项（未满18周岁免告知）被保险人目前是否怀孕？
+被保险人目前或既往怀孕及生产期间是否有合并症？例如：蛋白尿、血尿、高血压、糖尿病等。被保险人是否曾有阴道不规则流血、乳房肿块、溢乳、腋下淋巴结肿大、乳腺增生或纤维瘤、其他乳腺疾病？被保险人是否曾有子宫肌瘤、内膜异位症、子宫颈上皮不典型增生、卵巢囊肿、畸胎瘤等？
+        </p>
+        <div class="con-box">
+          <div class="scheme-cover-gaozhi gaozhi-sf">
+            <label class="active notice-h">
+              <input type="radio" name="cover-1" value="0">
+              <span>否</span>
+            </label>
+            <label class="notice-h">
+              <input type="radio" name="cover-1" value="1">
+              <span>是</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="notice-item">
+        <p>i) 被保险人是否有参加赛车、赛马、搏击类运动、蹦极、滑雪、攀岩、潜水、探险或特技活动及其他高风险活动的爱好？</p>
+        <div class="con-box">
+          <div class="scheme-cover-gaozhi gaozhi-sf">
+            <label class="active notice-i">
+              <input type="radio" name="cover-1" value="0">
+              <span>否</span>
+            </label>
+            <label class="notice-i">
+              <input type="radio" name="cover-1" value="1">
+              <span>是</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="notice-item">
+        <p>j) 被保险人的父母、子女、兄弟姐妹是否患有血友病、多囊肝肾、其他遗传性疾病等？</p>
+        <div class="con-box">
+          <div class="scheme-cover-gaozhi gaozhi-sf">
+            <label class="active notice-j">
+              <input type="radio" name="cover-1" value="0">
+              <span>否</span>
+            </label>
+            <label class="notice-j">
+              <input type="radio" name="cover-1" value="1">
+              <span>是</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="notice-item">
+        <p>k) 被保险人过去是否被保险公司解除合同或在投保、复效时被延期、拒保、附加条件承保？或曾经申请过重大疾病的理赔？</p>
+        <div class="con-box">
+          <div class="scheme-cover-gaozhi gaozhi-sf">
+            <label class="active notice-k">
+              <input type="radio" name="cover-1" value="0">
+              <span>否</span>
+            </label>
+            <label class="notice-k">
+              <input type="radio" name="cover-1" value="1">
+              <span>是</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="con-box" id='notice-submit'>
+        <div class="scheme-cover-gaozhi queding">
+          <label class="active">
+            <span>提交审核</span>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div id="toast" style="opacity: 0; display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-warn weui-icon_toast"></i>
+            <p class="weui-toast__content"></p>
+        </div>
+    </div>
+    <script src="../lib/weui-1.1.2/weui.min.js"></script>
+    <script src="../js/zepto.min.js"></script>
+    <script src="./util.js"></script>
+    <script type="text/javascript">
+    /* global $, getParams */
+    $(document).ready(function () {
+      $('.notice-smock').on('click', function () {
+        $(this).addClass('active').siblings('.active').removeClass('active')
+        if ($(this).text().trim() === '否') {
+          $('.questionnaire-smock').addClass('hidden')
+        } else {
+          $('.questionnaire-smock').removeClass('hidden')
+        }
+      })
+      $('.notice-wine').on('click', function () {
+        $(this).addClass('active').siblings('.active').removeClass('active')
+        if ($(this).text().trim() === '否') {
+          $('.questionnaire-wine').addClass('hidden')
+        } else {
+          $('.questionnaire-wine').removeClass('hidden')
+        }
+      })
+      $('.notice-d').on('click', function () {
+        $(this).addClass('active').siblings('.active').removeClass('active')
+      })
+      $('.notice-e').on('click', function () {
+        $(this).addClass('active').siblings('.active').removeClass('active')
+      })
+      $('.notice-f').on('click', function () {
+        $(this).addClass('active').siblings('.active').removeClass('active')
+      })
+      $('.notice-g').on('click', function () {
+        $(this).addClass('active').siblings('.active').removeClass('active')
+      })
+      $('.notice-h').on('click', function () {
+        $(this).addClass('active').siblings('.active').removeClass('active')
+      })
+      $('.notice-i').on('click', function () {
+        $(this).addClass('active').siblings('.active').removeClass('active')
+      })
+      $('.notice-j').on('click', function () {
+        $(this).addClass('active').siblings('.active').removeClass('active')
+      })
+      $('.notice-k').on('click', function () {
+        $(this).addClass('active').siblings('.active').removeClass('active')
+      })
+      $('#notice-submit').click(function () {
+        var BIM = getBMI()
+        var data = []
+        if (BIM.through) {
+          data.push({
+            infoCode: '148',
+            infoFile1: BIM.data.height,
+            infoFile2: BIM.data.weight
+          })
+          var Smock = getSmock()
+          if (Smock.through) {
+            if (Smock.choose) {
+              data.push({
+                infoCode: '149',
+                infoFile1: 'Y',
+                infoFile2: Smock.data.smockDay,
+                infoFile3: Smock.data.smockYear
+              })
+            } else {
+              data.push({
+                infoCode: '149',
+                infoFile1: 'N'
+              })
+            }
+            var Wine = getWine()
+            if (Wine.through) {
+              if (Wine.choose) {
+                data.push({
+                  infoCode: '150',
+                  infoFile1: 'Y',
+                  infoFile2: JSON.stringify([
+                    {
+                      alcoholType: '1',
+                      alcoholWeight: Wine.data.wineWeakBear / 7,
+                      alcoholYear: Wine.data.wineYearBear
+                    },
+                    {
+                      alcoholType: '2',
+                      alcoholWeight: Wine.data.wineWeakRwine / 7,
+                      alcoholYear: Wine.data.wineYearRwine
+                    },
+                    {
+                      alcoholType: '3',
+                      alcoholWeight: Wine.data.wineWeakYwine / 7,
+                      alcoholYear: Wine.data.wineYearYwine
+                    },
+                    {
+                      alcoholType: '4',
+                      alcoholWeight: Wine.data.wineWeakWwine / 7,
+                      alcoholYear: Wine.data.wineYearWwine
+                    }
+                  ])
+                })
+              } else {
+                data.push({
+                  infoCode: '150',
+                  infoFile1: 'N'
+                })
+              }
+              var Other = getOther()
+              if (Other.through) {
+                for (var i = 0; i < Other.data.length; i++) {
+                  data.push({
+                    infoCode: Other.data[i],
+                    infoFile1: 'N'
+                  })
+                }
+                submitData(data)
+              }
+            }
+          }
+        }
+      })
+      function getBMI () {
+        var height = $(" input[ name='base-height' ]").val()
+        var weight = $(" input[ name='base-weight' ]").val()
+        if (height > 0 && weight > 0) {
+          var BMI = weight / Math.pow(height / 100, 2)
+          if (BMI > 31) {
+            reviewFaile('身高体重不符合要求')
+            return {
+              through: false
+            }
+          } else {
+            return {
+              through: true,
+              data: {
+                height: height,
+                weight: weight
+              }
+            }
+          }
+        } else {
+          reviewFaile('请填写正确的身高体重')
+          return {
+            through: false
+          }
+        }
+      }
+
+      function getSmock () {
+        var haveSmock = $('.notice-smock').siblings('.active').text().trim() === '是'
+        if (haveSmock) {
+          var smockDay = $(" input[ name='smock-day' ]").val()
+          var smockYear = $(" input[ name='smock-year' ]").val()
+          if (smockDay > 0 && smockYear > 0) {
+            if (smockDay > 40 || (smockDay / 20) * smockYear > 40) {
+              reviewFaile('吸烟量不符合要求')
+              return {
+                choose: true,
+                through: false
+              }
+            } else {
+              return {
+                choose: true,
+                through: true,
+                data: {
+                  smockDay: smockDay,
+                  smockYear: smockYear
+                }
+              }
+            }
+          } else {
+            reviewFaile('请填写烟龄和每日吸烟数量')
+            return {
+              choose: true,
+              through: false
+            }
+          }
+        } else {
+          return {
+            choose: false,
+            through: true
+          }
+        }
+      }
+
+      function getWine () {
+        var haveWine = $('.notice-wine').siblings('.active').text().trim() === '是'
+        if (haveWine) {
+          var wineWeakBear = Number($(" input[ name='wine-weak-bear' ]").val())
+          var wineWeakRwine = Number($(" input[ name='wine-weak-rwine' ]").val())
+          var wineWeakYwine = Number($(" input[ name='wine-weak-ywine' ]").val())
+          var wineWeakWwine = Number($(" input[ name='wine-weak-wwine' ]").val())
+          var wineYearBear = Number($(" input[ name='wine-year-bear' ]").val())
+          var wineYearRwine = Number($(" input[ name='wine-year-rwine' ]").val())
+          var wineYearYwine = Number($(" input[ name='wine-year-ywine' ]").val())
+          var wineYearWwine = Number($(" input[ name='wine-year-wwine' ]").val())
+          if (wineWeakBear >= 0 && wineWeakRwine >= 0 && wineWeakYwine >= 0 && wineWeakWwine >= 0 && wineYearBear >= 0 && wineYearRwine >= 0 && wineYearYwine >= 0 && wineYearWwine >= 0) {
+            var avgBear = wineWeakBear * 50 * 0.035 * 0.8 / 7
+            var avgRwine = wineWeakRwine * 50 * 0.12 * 0.8 / 7
+            var avgYwine = wineWeakYwine * 50 * 0.12 * 0.8 / 7
+            var avgWwine = wineWeakWwine * 50 * 0.4 * 0.8 / 7
+
+            if ((avgBear + avgRwine + avgYwine + avgWwine) > 40) {
+              reviewFaile('饮酒量不符合要求')
+              return {
+                choose: true,
+                through: false
+              }
+            } else {
+              return {
+                choose: true,
+                through: true,
+                data: {
+                  wineWeakBear: wineWeakBear,
+                  wineWeakRwine: wineWeakRwine,
+                  wineWeakYwine: wineWeakYwine,
+                  wineWeakWwine: wineWeakWwine,
+                  wineYearBear: wineYearBear,
+                  wineYearRwine: wineYearRwine,
+                  wineYearYwine: wineYearYwine,
+                  wineYearWwine: wineYearWwine
+                }
+              }
+            }
+          } else {
+            reviewFaile('请填写正确的饮酒量')
+            return {
+              choose: true,
+              through: false
+            }
+          }
+        } else {
+          return {
+            choose: false,
+            through: true
+          }
+        }
+      }
+      function getOther () {
+        var otherTitle = ['.notice-d', '.notice-e', '.notice-f', '.notice-g', '.notice-h', '.notice-i', '.notice-j', '.notice-k']
+        for (var i = 0; i < otherTitle.length; i++) {
+          if ($(otherTitle[i]).siblings('.active').text().trim() === '是') {
+            reviewFaile('不符合投保要求')
+            return {
+              through: false
+            }
+          }
+        }
+        return {
+          through: true,
+          data: ['151', '152', '153', '154', '155', '156', '157', '158']
+        }
+      }
+
+      function reviewFaile (content) {
+        var $toast = $('#toast')
+        if ($toast.css('display') !== 'none') return
+        $('.weui-toast__content').text(content)
+        $toast.fadeIn(100)
+        setTimeout(function () {
+          $toast.fadeOut(100)
+        }, 2000)
+      }
+
+      var u = navigator.userAgent
+      var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
+      if (isiOS) {
+        window.addEventListener('pageshow', function (e) {
+          if (e.persisted) {
+            window.location.reload()
+          }
+        })
+      }
+
+      window.localStorage.removeItem('anxinElifeFlowData')
+
+      function submitData (data) {
+        var params = getParams()
+        if (params.fromWhere && params.token && params.userId) {
+          window.location.href = window.location.origin + '/r/-AXESWY' + window.location.search + '&extraInfo=' + encodeURIComponent(JSON.stringify(data))
+        } else {
+          window.location.href = window.location.origin + '/r/-AXESWY?extraInfo=' + encodeURIComponent(JSON.stringify(data))
+        }
+      }
+
+      var payUrl = window.localStorage.getItem('anxinElifePayUrl')
+      if (payUrl && (typeof (payUrl) === 'string')) {
+        window.localStorage.removeItem('anxinElifePayUrl')
+        window.location.href = payUrl.substr(1, payUrl.length - 2)
+      }
+    })
+    </script>
+</body>
+</html>
